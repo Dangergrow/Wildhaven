@@ -1,187 +1,145 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
-/// Camera controller for Wildhaven.
-/// WASD/arrows = move, Q/E = rotate (45 deg), Scroll = zoom, MMB drag = free rotate, Home = reset.
+/// Wildhaven camera: WASD/arrows move, Q/E rotate 45, scroll zoom, MMB free rotate, Home reset.
 /// </summary>
 public class CameraController : MonoBehaviour
 {
+    #region Public Fields
+
     [Header("Movement")]
-    [Tooltip("Camera movement speed (units per second)")]
-    public float moveSpeed = 20f;
+    [Tooltip("Speed in units/second")]
+    public float moveSpeed = 30f;
 
     [Tooltip("Speed multiplier when holding Shift")]
-    public float fastMoveMultiplier = 3f;
+    public float fastMultiplier = 3f;
 
     [Header("Rotation")]
-    [Tooltip("Rotation angle per Q/E press (degrees)")]
+    [Tooltip("Degrees per Q/E press")]
     public float rotationStep = 45f;
 
-    [Tooltip("Free rotation speed with MMB drag")]
-    public float freeRotateSpeed = 2f;
+    [Tooltip("MMB drag sensitivity")]
+    public float freeRotateSpeed = 3f;
 
     [Header("Zoom")]
-    [Tooltip("Minimum zoom distance from ground")]
-    public float minZoom = 5f;
-
-    [Tooltip("Maximum zoom distance from ground")]
-    public float maxZoom = 50f;
-
-    [Tooltip("Zoom speed (scroll wheel)")]
-    public float zoomSpeed = 10f;
-
-    [Header("Position Limits")]
-    [Tooltip("Minimum X position")]
-    public float minX = -50f;
-
-    [Tooltip("Maximum X position")]
-    public float maxX = 150f;
-
-    [Tooltip("Minimum Z position")]
-    public float minZ = -50f;
-
-    [Tooltip("Maximum Z position")]
-    public float maxZ = 150f;
-
-    [Tooltip("Minimum camera height")]
+    [Tooltip("Min camera height")]
     public float minY = 5f;
 
-    [Tooltip("Maximum camera height")]
-    public float maxY = 60f;
+    [Tooltip("Max camera height")]
+    public float maxY = 80f;
 
-    // Rotation state
-    private float _currentRotationY = 45f; // default isometric-ish angle
-    private float _currentRotationX = 45f; // pitch
+    [Tooltip("Scroll speed")]
+    public float zoomSpeed = 15f;
 
-    // MMB state
+    #endregion
+
+    #region Private Fields
+
+    private float _rotY = 45f;
+    private float _rotX = 65f;
     private bool _isRotating;
-    private Vector3 _lastMousePos;
+    private Vector2 _lastMouse;
+
+    #endregion
+
+    #region Unity Lifecycle
 
     private void Start()
     {
+        if (Keyboard.current == null || Mouse.current == null) return;
         ApplyRotation();
     }
 
     private void Update()
     {
+        if (Keyboard.current == null || Mouse.current == null) return;
+
         HandleMovement();
-        HandleRotation();
+        HandleQERotation();
         HandleZoom();
         HandleFreeRotate();
         HandleReset();
     }
 
-    /// <summary>
-    /// WASD / arrow key movement.
-    /// </summary>
+    #endregion
+
+    #region Input Handlers
+
     private void HandleMovement()
     {
+        float h = 0, v = 0;
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) h = 1;
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) h = -1;
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) v = 1;
+        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) v = -1;
+
         float speed = moveSpeed;
-        if (Input.GetKey(KeyCode.LeftShift)) speed *= fastMoveMultiplier;
+        if (Keyboard.current.leftShiftKey.isPressed) speed *= fastMultiplier;
 
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        Vector3 fwd = transform.forward; fwd.y = 0; fwd.Normalize();
+        Vector3 rgt = transform.right; rgt.y = 0; rgt.Normalize();
 
-        Vector3 forward = transform.forward;
-        forward.y = 0f;
-        forward.Normalize();
-
-        Vector3 right = transform.right;
-        right.y = 0f;
-        right.Normalize();
-
-        Vector3 move = (forward * v + right * h) * speed * Time.deltaTime;
-        Vector3 newPos = transform.position + move;
-
-        // Clamp position
-        newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
-        newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
-        newPos.z = Mathf.Clamp(newPos.z, minZ, maxZ);
-
-        transform.position = newPos;
+        transform.position += (fwd * v + rgt * h) * (speed * Time.deltaTime);
     }
 
-    /// <summary>
-    /// Q/E — step rotation.
-    /// </summary>
-    private void HandleRotation()
+    private void HandleQERotation()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            _currentRotationY -= rotationStep;
+        if (Keyboard.current.qKey.wasPressedThisFrame) _rotY -= rotationStep;
+        if (Keyboard.current.eKey.wasPressedThisFrame) _rotY += rotationStep;
+
+        if (Keyboard.current.qKey.wasPressedThisFrame || Keyboard.current.eKey.wasPressedThisFrame)
             ApplyRotation();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _currentRotationY += rotationStep;
-            ApplyRotation();
-        }
     }
 
-    /// <summary>
-    /// Mouse wheel zoom.
-    /// </summary>
     private void HandleZoom()
     {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        float scroll = Mouse.current.scroll.ReadValue().y;
         if (Mathf.Approximately(scroll, 0f)) return;
 
-        Vector3 forward = transform.forward;
-        Vector3 newPos = transform.position + forward * scroll * zoomSpeed;
-        newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
-        transform.position = newPos;
+        scroll /= 120f; // normalize to ~1 per notch
+        Vector3 pos = transform.position + transform.forward * (scroll * zoomSpeed);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        transform.position = pos;
     }
 
-    /// <summary>
-    /// Hold MMB for free rotation.
-    /// </summary>
     private void HandleFreeRotate()
     {
-        if (Input.GetMouseButtonDown(2))
+        if (Mouse.current.middleButton.wasPressedThisFrame)
         {
             _isRotating = true;
-            _lastMousePos = Input.mousePosition;
+            _lastMouse = Mouse.current.position.ReadValue();
         }
-        if (Input.GetMouseButtonUp(2))
-        {
+        if (Mouse.current.middleButton.wasReleasedThisFrame)
             _isRotating = false;
-        }
 
-        if (_isRotating)
-        {
-            Vector3 delta = Input.mousePosition - _lastMousePos;
-            _lastMousePos = Input.mousePosition;
+        if (!_isRotating) return;
 
-            _currentRotationY += delta.x * freeRotateSpeed * 0.1f;
-            _currentRotationX -= delta.y * freeRotateSpeed * 0.1f;
-            _currentRotationX = Mathf.Clamp(_currentRotationX, 10f, 80f);
-            ApplyRotation();
-        }
+        Vector2 delta = Mouse.current.position.ReadValue() - _lastMouse;
+        _lastMouse = Mouse.current.position.ReadValue();
+        _rotY += delta.x * freeRotateSpeed * 0.05f;
+        _rotX -= delta.y * freeRotateSpeed * 0.05f;
+        _rotX = Mathf.Clamp(_rotX, 10f, 85f);
+        ApplyRotation();
     }
 
-    /// <summary>
-    /// Home key resets camera to default position.
-    /// </summary>
     private void HandleReset()
     {
-        if (Input.GetKeyDown(KeyCode.Home))
-        {
-            _currentRotationY = 45f;
-            _currentRotationX = 45f;
-            ApplyRotation();
-            transform.position = new Vector3(worldCenterX, 30f, worldCenterZ);
-        }
+        if (!Keyboard.current.homeKey.wasPressedThisFrame) return;
+        _rotY = 45f;
+        _rotX = 65f;
+        ApplyRotation();
+        transform.position = new Vector3(50f, 50f, 50f);
     }
 
-    /// <summary>
-    /// Applies current rotation angles to camera transform.
-    /// </summary>
+    #endregion
+
+    #region Helpers
+
     private void ApplyRotation()
     {
-        transform.rotation = Quaternion.Euler(_currentRotationX, _currentRotationY, 0f);
+        transform.rotation = Quaternion.Euler(_rotX, _rotY, 0f);
     }
 
-    // World center offsets — set these to match your GridManager world size
-    private float worldCenterX => 50f;
-    private float worldCenterZ => 50f;
+    #endregion
 }

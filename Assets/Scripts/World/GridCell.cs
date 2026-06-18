@@ -1,11 +1,8 @@
-/// <summary>
-/// Represents a single cell in the voxel grid.
-/// BlockType determines rendering, Collision, etc.
-/// </summary>
+/// <summary>Represents a single cell in the voxel grid.</summary>
 public struct GridCell
 {
     public BlockType blockType;
-    public byte health; // remaining health after damage (0 = destroyed)
+    public byte health;
 
     public bool IsEmpty => blockType == BlockType.Air;
 
