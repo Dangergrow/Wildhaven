@@ -1,147 +1,45 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Handles block placement and removal via mouse raycast.
-/// LMB = place, RMB = remove, 1-9 = select block type.
-/// </summary>
 public class BuildManager : MonoBehaviour
 {
-    #region Public Fields
-
-    [Header("References")]
-    [Tooltip("GridManager reference")]
     [SerializeField] private GridManager _gridManager;
-
-    [Header("Settings")]
-    [Tooltip("Default block type for placement")]
+    [SerializeField] private Camera _cam;
     [SerializeField] private BlockType _selectedType = BlockType.Dirt;
 
-    #endregion
-
-    #region Private Fields
-
-    private GameObject _highlight;
     private Vector3Int _placementPos;
     private bool _canPlace;
 
-    #endregion
-
-    #region Unity Lifecycle
-
-    private void Awake()
+    void Update()
     {
-        if (_gridManager != null && _gridManager.GetComponent<MeshCollider>() == null)
-            _gridManager.gameObject.AddComponent<MeshCollider>();
+        if (Keyboard.current == null || Mouse.current == null || _gridManager == null || _cam == null) return;
 
-        _highlight = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        _highlight.name = "BuildHighlight";
-        Destroy(_highlight.GetComponent<Collider>());
+        if (Keyboard.current.digit1Key.wasPressedThisFrame) _selectedType = BlockType.Dirt;
+        if (Keyboard.current.digit2Key.wasPressedThisFrame) _selectedType = BlockType.Grass;
+        if (Keyboard.current.digit3Key.wasPressedThisFrame) _selectedType = BlockType.Stone;
 
-        Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
-        if (shader == null) shader = Shader.Find("Sprites/Default");
-        var mat = new Material(shader);
-        mat.color = new Color(1, 1, 1, 0.3f);
-        _highlight.GetComponent<MeshRenderer>().material = mat;
-        _highlight.SetActive(false);
+        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        var hit = _gridManager.RaycastGrid(ray);
+        if (hit == null) return;
+
+        Vector3 hw = _gridManager.GridToWorld(hit.Value.x, hit.Value.y, hit.Value.z);
+        Vector3 dir = (_cam.transform.position - hw).normalized;
+        Vector3Int[] offs = { new(0,1,0), new(0,-1,0), new(1,0,0), new(-1,0,0), new(0,0,1), new(0,0,-1) };
+        int best = 0; float bestDot = -1;
+        for (int i = 0; i < 6; i++) { float d = Vector3.Dot(offs[i], dir); if (d > bestDot) { bestDot = d; best = i; } }
+        Vector3Int ap = new(hit.Value.x + offs[best].x, hit.Value.y + offs[best].y, hit.Value.z + offs[best].z);
+
+        if (Mouse.current.leftButton.wasPressedThisFrame
+            && _gridManager.InBounds(ap.x, ap.y, ap.z)
+            && _gridManager.GetBlock(ap.x, ap.y, ap.z) == BlockType.Air)
+            _gridManager.SetBlock(ap.x, ap.y, ap.z, _selectedType);
+
+        if (Mouse.current.rightButton.wasPressedThisFrame)
+            _gridManager.RemoveBlock(hit.Value.x, hit.Value.y, hit.Value.z);
     }
 
-    private void Update()
+    void OnGUI()
     {
-        if (Keyboard.current == null || Mouse.current == null) return;
-
-        HandleBlockSelection();
-        HandleRaycast();
-        HandleInput();
+        GUI.Label(new Rect(10, 10, 300, 30), $"Block: {_selectedType} [1-3]  LMB/RMB");
     }
-
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 300, 30), $"Block: {_selectedType} [1-9]");
-    }
-
-    #endregion
-
-    #region Input
-
-    private void HandleBlockSelection()
-    {
-        BlockType? sel = null;
-        if (Keyboard.current.digit1Key.wasPressedThisFrame) sel = BlockType.Dirt;
-        else if (Keyboard.current.digit2Key.wasPressedThisFrame) sel = BlockType.Grass;
-        else if (Keyboard.current.digit3Key.wasPressedThisFrame) sel = BlockType.Stone;
-        else if (Keyboard.current.digit4Key.wasPressedThisFrame) sel = BlockType.Wood;
-        else if (Keyboard.current.digit5Key.wasPressedThisFrame) sel = BlockType.Glass;
-        else if (Keyboard.current.digit6Key.wasPressedThisFrame) sel = BlockType.StoneBrick;
-        else if (Keyboard.current.digit7Key.wasPressedThisFrame) sel = BlockType.WoodPlanks;
-        else if (Keyboard.current.digit8Key.wasPressedThisFrame) sel = BlockType.Sand;
-        else if (Keyboard.current.digit9Key.wasPressedThisFrame) sel = BlockType.Snow;
-        if (sel.HasValue) _selectedType = sel.Value;
-    }
-
-    private void HandleInput()
-    {
-        if (Mouse.current.leftButton.wasPressedThisFrame) TryPlace();
-        if (Mouse.current.rightButton.wasPressedThisFrame) TryRemove();
-    }
-
-    #endregion
-
-    #region Raycast & Highlight
-
-    private void HandleRaycast()
-    {
-        _canPlace = false;
-        _highlight.SetActive(false);
-
-        if (_gridManager == null || Camera.main == null) return;
-
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-
-        if (!Physics.Raycast(ray, out RaycastHit hit, 500f)) return;
-
-        float half = _gridManager.BlockSize * 0.5f;
-        Vector3 placePos = hit.point + hit.normal * half;
-        _placementPos = _gridManager.WorldToGrid(placePos);
-
-        if (!_gridManager.InBounds(_placementPos.x, _placementPos.y, _placementPos.z)) return;
-        if (_gridManager.GetBlock(_placementPos.x, _placementPos.y, _placementPos.z) != BlockType.Air) return;
-
-        _canPlace = true;
-        _highlight.transform.position = _gridManager.GridToWorld(
-            _placementPos.x, _placementPos.y, _placementPos.z);
-        _highlight.transform.localScale = Vector3.one * _gridManager.BlockSize;
-        _highlight.SetActive(true);
-    }
-
-    #endregion
-
-    #region Build Actions
-
-    private void TryPlace()
-    {
-        if (!_canPlace) return;
-        _gridManager.SetBlock(_placementPos.x, _placementPos.y, _placementPos.z, _selectedType);
-    }
-
-    private void TryRemove()
-    {
-        if (_gridManager == null || Camera.main == null) return;
-
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-
-        if (!Physics.Raycast(ray, out RaycastHit hit, 500f)) return;
-
-        float half = _gridManager.BlockSize * 0.5f;
-        Vector3Int pos = _gridManager.WorldToGrid(hit.point - hit.normal * half);
-
-        if (!_gridManager.InBounds(pos.x, pos.y, pos.z)) return;
-        if (_gridManager.GetBlock(pos.x, pos.y, pos.z) == BlockType.Air) return;
-
-        _gridManager.RemoveBlock(pos.x, pos.y, pos.z);
-    }
-
-    #endregion
 }

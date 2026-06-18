@@ -152,7 +152,7 @@ MonoBehaviour:
   worldHeight: 32
   worldDepth: 100
   blockSize: 1
-  baseMaterial: {fileID: 2100000, guid: 2e042d48beaef11429724af16ce915a9, type: 2}
+  blockMaterial: {fileID: 2100000, guid: 2e042d48beaef11429724af16ce915a9, type: 2}
   seed: 0
 --- !u!4 &85651710
 Transform:

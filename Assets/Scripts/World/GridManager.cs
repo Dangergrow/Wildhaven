@@ -24,12 +24,12 @@ public class GridManager : MonoBehaviour
     MeshRenderer _mr;
 
     static readonly Vector3[,] FV = {
-        { new(0,1,0), new(1,1,0), new(1,1,1), new(0,1,1) },
-        { new(0,0,1), new(1,0,1), new(1,0,0), new(0,0,0) },
-        { new(1,0,1), new(1,1,1), new(1,1,0), new(1,0,0) },
-        { new(0,0,0), new(0,1,0), new(0,1,1), new(0,0,1) },
-        { new(0,0,1), new(1,0,1), new(1,1,1), new(0,1,1) },
-        { new(1,0,0), new(0,0,0), new(0,1,0), new(1,1,0) },
+        { new(0,1,0), new(1,1,0), new(1,1,1), new(0,1,1) }, // UP
+        { new(0,0,1), new(1,0,1), new(1,0,0), new(0,0,0) }, // DOWN
+        { new(1,0,1), new(1,1,1), new(1,1,0), new(1,0,0) }, // RIGHT
+        { new(0,0,0), new(0,1,0), new(0,1,1), new(0,0,1) }, // LEFT
+        { new(0,0,1), new(1,0,1), new(1,1,1), new(0,1,1) }, // FWD
+        { new(1,0,0), new(0,0,0), new(0,1,0), new(1,1,0) }, // BACK
     };
     static readonly Vector3Int[] FO = {
         new(0,1,0), new(0,-1,0), new(1,0,0), new(-1,0,0), new(0,0,1), new(0,0,-1)
@@ -48,6 +48,10 @@ public class GridManager : MonoBehaviour
         _mesh = new Mesh { name = "WorldMesh", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
         _mf = GetComponent<MeshFilter>(); if (!_mf) _mf = gameObject.AddComponent<MeshFilter>();
         _mr = GetComponent<MeshRenderer>(); if (!_mr) _mr = gameObject.AddComponent<MeshRenderer>();
+
+        // Ensure collider exists before BuildMesh
+        if (!GetComponent<MeshCollider>()) gameObject.AddComponent<MeshCollider>();
+
         GenerateTerrain();
         BuildMesh();
     }
@@ -65,6 +69,25 @@ public class GridManager : MonoBehaviour
         => new((int)(p.x / blockSize), (int)(p.y / blockSize), (int)(p.z / blockSize));
     public Vector3 GridToWorld(int x, int y, int z)
         { float h = blockSize * .5f; return new(x * blockSize + h, y * blockSize + h, z * blockSize + h); }
+
+    /// <summary>Voxel traversal raycast. Returns grid pos of first solid block, or null.</summary>
+    public Vector3Int? RaycastGrid(Ray ray, float maxDist = 200f)
+    {
+        Vector3 ro = ray.origin;
+        Vector3 rd = ray.direction.normalized;
+        float step = blockSize * 0.25f;
+        for (float t = 0f; t < maxDist; t += step)
+        {
+            Vector3 p = ro + rd * t;
+            int x = Mathf.FloorToInt(p.x / blockSize);
+            int y = Mathf.FloorToInt(p.y / blockSize);
+            int z = Mathf.FloorToInt(p.z / blockSize);
+            if (x >= 0 && x < worldWidth && y >= 0 && y < worldHeight && z >= 0 && z < worldDepth)
+                if (_grid[x, y, z].blockType != BlockType.Air)
+                    return new Vector3Int(x, y, z);
+        }
+        return null;
+    }
 
     #endregion
 
@@ -104,6 +127,7 @@ public class GridManager : MonoBehaviour
         _mesh.Clear();
         var V = new Dictionary<BlockType, List<Vector3>>();
         var T = new Dictionary<BlockType, List<int>>();
+        var N = new Dictionary<BlockType, List<Vector3>>();
 
         for (int x = 0; x < worldWidth; x++)
         for (int y = 0; y < worldHeight; y++)
@@ -118,9 +142,10 @@ public class GridManager : MonoBehaviour
                 int nx = x + FO[d].x, ny = y + FO[d].y, nz = z + FO[d].z;
                 if (InBounds(nx, ny, nz) && !_grid[nx, ny, nz].IsEmpty) continue;
 
-                if (!V.ContainsKey(t)) { V[t] = new(); T[t] = new(); }
-                var vv = V[t]; var tt = T[t]; int s = vv.Count;
-                for (int i = 0; i < 4; i++) vv.Add(bp + FV[d, i] * blockSize);
+                if (!V.ContainsKey(t)) { V[t] = new(); T[t] = new(); N[t] = new(); }
+                var vv = V[t]; var tt = T[t]; var nn = N[t]; int s = vv.Count;
+                Vector3 nrm = d switch { 0=>Vector3.up, 1=>Vector3.down, 2=>Vector3.right, 3=>Vector3.left, 4=>Vector3.forward, _=>Vector3.back };
+                for (int i = 0; i < 4; i++) { vv.Add(bp + FV[d, i] * blockSize); nn.Add(nrm); }
                 tt.Add(s); tt.Add(s + 1); tt.Add(s + 2);
                 tt.Add(s); tt.Add(s + 2); tt.Add(s + 3);
             }
@@ -129,6 +154,7 @@ public class GridManager : MonoBehaviour
         if (V.Count == 0) return;
 
         var allV = new List<Vector3>();
+        var allN = new List<Vector3>();
         var types = new List<BlockType>();
         var subT = new List<int[]>();
         foreach (var kv in V)
@@ -137,15 +163,21 @@ public class GridManager : MonoBehaviour
             var tList = T[kv.Key];
             for (int i = 0; i < tList.Count; i++) tList[i] += off;
             allV.AddRange(kv.Value);
+            allN.AddRange(N[kv.Key]);
             types.Add(kv.Key);
             subT.Add(tList.ToArray());
         }
 
         _mesh.subMeshCount = subT.Count;
         _mesh.SetVertices(allV);
+        _mesh.SetNormals(allN);
         for (int i = 0; i < subT.Count; i++) _mesh.SetTriangles(subT[i], i);
         _mesh.RecalculateBounds();
         _mf.sharedMesh = _mesh;
+
+        // Update collider for raycasts
+        var mc = GetComponent<MeshCollider>();
+        if (mc) mc.sharedMesh = _mesh;
 
         // Per-type colored materials using URP/Unlit
         if (blockMaterial != null)
