@@ -17,6 +17,12 @@ public class BuildManager : MonoBehaviour
         if (Keyboard.current.digit1Key.wasPressedThisFrame) _selectedType = BlockType.Dirt;
         if (Keyboard.current.digit2Key.wasPressedThisFrame) _selectedType = BlockType.Grass;
         if (Keyboard.current.digit3Key.wasPressedThisFrame) _selectedType = BlockType.Stone;
+        if (Keyboard.current.digit4Key.wasPressedThisFrame) _selectedType = BlockType.Wood;
+        if (Keyboard.current.digit5Key.wasPressedThisFrame) _selectedType = BlockType.Glass;
+        if (Keyboard.current.digit6Key.wasPressedThisFrame) _selectedType = BlockType.StoneBrick;
+        if (Keyboard.current.digit7Key.wasPressedThisFrame) _selectedType = BlockType.WoodPlanks;
+        if (Keyboard.current.digit8Key.wasPressedThisFrame) _selectedType = BlockType.Sand;
+        if (Keyboard.current.digit9Key.wasPressedThisFrame) _selectedType = BlockType.Snow;
 
         if (Keyboard.current.f5Key.wasPressedThisFrame) _gridManager.SaveWorld();
         if (Keyboard.current.f9Key.wasPressedThisFrame) _gridManager.LoadWorld();
@@ -43,6 +49,6 @@ public class BuildManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 400, 30), $"Block: {_selectedType} [1-3]  LMB/RMB  F5=Save F9=Load");
+        GUI.Label(new Rect(10, 10, 500, 30), $"Block: {_selectedType} [1-9]  LMB/RMB  F5=Save F9=Load");
     }
 }
