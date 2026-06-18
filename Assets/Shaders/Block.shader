@@ -8,6 +8,7 @@ Shader "Wildhaven/Block"
     SubShader
     {
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" }
+        Cull Off
         Pass
         {
             HLSLPROGRAM
