@@ -18,6 +18,9 @@ public class BuildManager : MonoBehaviour
         if (Keyboard.current.digit2Key.wasPressedThisFrame) _selectedType = BlockType.Grass;
         if (Keyboard.current.digit3Key.wasPressedThisFrame) _selectedType = BlockType.Stone;
 
+        if (Keyboard.current.f5Key.wasPressedThisFrame) _gridManager.SaveWorld();
+        if (Keyboard.current.f9Key.wasPressedThisFrame) _gridManager.LoadWorld();
+
         Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         var hit = _gridManager.RaycastGrid(ray);
         if (hit == null) return;
@@ -40,6 +43,6 @@ public class BuildManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 300, 30), $"Block: {_selectedType} [1-3]  LMB/RMB");
+        GUI.Label(new Rect(10, 10, 400, 30), $"Block: {_selectedType} [1-3]  LMB/RMB  F5=Save F9=Load");
     }
 }

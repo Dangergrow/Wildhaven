@@ -41,6 +41,7 @@ public class GridManager : MonoBehaviour
         if (!GetComponent<MeshCollider>()) gameObject.AddComponent<MeshCollider>();
 
         GenerateTerrain();
+        if (HasSave) LoadWorld(false);
         BuildMesh();
     }
 
@@ -90,22 +91,19 @@ public class GridManager : MonoBehaviour
         for (int z = 0; z < worldDepth; z++)
         {
             float nx = (float)x / worldWidth, nz = (float)z / worldDepth;
-            // Continental + mountain noise
-            float continent = Mathf.PerlinNoise(nx * 2.5f + seed * .001f, nz * 2.5f + seed * .001f);
-            float hills = Mathf.PerlinNoise(nx * 6f + seed * .002f, nz * 6f + seed * .002f) * .4f;
-            float detail = Mathf.PerlinNoise(nx * 12f + seed * .003f, nz * 12f + seed * .003f) * .15f;
-            float h = continent + hills + detail;
-            // Map to 4..worldHeight-1 range for more dramatic terrain
-            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .85f), 4, worldHeight - 1);
+            float h = Mathf.PerlinNoise(nx * 2.2f + seed * .001f, nz * 2.2f + seed * .001f)
+                    + Mathf.PerlinNoise(nx * 5f + seed * .002f, nz * 5f + seed * .002f) * .5f
+                    + Mathf.PerlinNoise(nx * 11f + seed * .003f, nz * 11f + seed * .003f) * .25f;
+            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .9f), 2, worldHeight - 1);
 
             for (int y = 0; y < worldHeight; y++)
             {
                 if (y == 0) _grid[x, y, z] = new(BlockType.Bedrock);
-                else if (y <= 2 && y < th) _grid[x, y, z] = new(BlockType.Water); // water level
-                else if (y < th - 4) _grid[x, y, z] = new(BlockType.Stone);
-                else if (y < th - 1)
-                { int rn = r.Next(100); _grid[x, y, z] = new(rn < 3 ? BlockType.Coal : rn < 4 ? BlockType.IronOre : BlockType.Stone); }
-                else if (y == th - 1) _grid[x, y, z] = new(BlockType.Dirt);
+                else if (y < th - 5) _grid[x, y, z] = new(BlockType.Stone);
+                else if (y < th - 2)
+                { int rn = r.Next(100); _grid[x, y, z] = new(rn < 2 ? BlockType.Coal : rn < 1 ? BlockType.IronOre : BlockType.Stone); }
+                else if (y < th - 1) _grid[x, y, z] = new(BlockType.Dirt);
+                else if (y == th && th >= worldHeight - 5) _grid[x, y, z] = new(BlockType.Snow); // snow on high peaks
                 else if (y == th) _grid[x, y, z] = new(BlockType.Grass);
                 else _grid[x, y, z] = GridCell.Empty;
             }
@@ -330,6 +328,44 @@ public class GridManager : MonoBehaviour
         BlockType.Snow => new(.95f, .95f, .97f),
         _ => Color.gray,
     };
+
+    #endregion
+
+    #region Save/Load
+
+    string SavePath => System.IO.Path.Combine(Application.persistentDataPath, "world.sav");
+    public bool HasSave => System.IO.File.Exists(SavePath);
+
+    public void SaveWorld()
+    {
+        using (var w = new System.IO.BinaryWriter(System.IO.File.Open(SavePath, System.IO.FileMode.Create)))
+        {
+            w.Write(new byte[] { (byte)'W', (byte)'H', (byte)'V', (byte)'N' });
+            w.Write(worldWidth); w.Write(worldHeight); w.Write(worldDepth); w.Write(seed);
+            for (int x = 0; x < worldWidth; x++)
+            for (int y = 0; y < worldHeight; y++)
+            for (int z = 0; z < worldDepth; z++)
+                w.Write((byte)_grid[x, y, z].blockType);
+        }
+        Debug.Log($"[Save] Saved to {SavePath}");
+    }
+
+    public void LoadWorld(bool rebuild = true)
+    {
+        if (!System.IO.File.Exists(SavePath)) return;
+        using (var r = new System.IO.BinaryReader(System.IO.File.OpenRead(SavePath)))
+        {
+            if (r.ReadByte() != 'W' || r.ReadByte() != 'H' || r.ReadByte() != 'V' || r.ReadByte() != 'N') return;
+            int w = r.ReadInt32(), h = r.ReadInt32(), d = r.ReadInt32();
+            seed = r.ReadInt32();
+            if (w != worldWidth || h != worldHeight || d != worldDepth) { Debug.LogWarning("[Load] Dimension mismatch"); return; }
+            for (int x = 0; x < worldWidth; x++)
+            for (int y = 0; y < worldHeight; y++)
+            for (int z = 0; z < worldDepth; z++)
+                _grid[x, y, z] = new GridCell((BlockType)r.ReadByte());
+        }
+        if (rebuild) BuildMesh();
+    }
 
     #endregion
 }
