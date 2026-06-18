@@ -481,6 +481,7 @@
 ```powershell
 ollama pull gemma2:9b
 ollama run hf.co/DavidAU/Qwen3.6-27B-Heretic-Uncensored-FINETUNE-NEO-CODE-Di-IMatrix-MAX-GGUF:Q4_K_M
+ollama cp hf.co/DavidAU/Qwen3.6-27B-Heretic-Uncensored-FINETUNE-NEO-CODE-Di-IMatrix-MAX-GGUF:Q4_K_M neo-code:27b
 ```
 
 ### Unity

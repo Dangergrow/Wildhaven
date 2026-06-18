@@ -1,7 +1,7 @@
 ---
 description: General-purpose agent for complex, multi-step research and execution tasks. Use when a task requires multiple steps across different files or systems. This agent CAN read, write, search, and execute — use it for end-to-end work that needs completion, not just discovery.
 mode: subagent
-model: ollama/hf.co/DavidAU/Qwen3.6-27B-Heretic-Uncensored-FINETUNE-NEO-CODE-Di-IMatrix-MAX-GGUF:Q4_K_M
+model: ollama/neo-code:27b
 temperature: 0.1
 ---
 

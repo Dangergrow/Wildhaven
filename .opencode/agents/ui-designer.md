@@ -1,7 +1,7 @@
 ---
 description: UI/UX design agent. Use for creating React components, Tailwind CSS layouts, Unity UI (UGUI/UIToolkit), 3D interfaces, animations (Framer Motion, Three.js, WebGPU), and game UI/HUD design. Use ONLY when the task involves visual design, layout, styling, or interface creation.
 mode: subagent
-model: ollama/hf.co/DavidAU/Qwen3.6-27B-Heretic-Uncensored-FINETUNE-NEO-CODE-Di-IMatrix-MAX-GGUF:Q4_K_M
+model: ollama/neo-code:27b
 temperature: 0.1
 ---
 
