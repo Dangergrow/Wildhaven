@@ -23,18 +23,6 @@ public class GridManager : MonoBehaviour
     MeshFilter _mf;
     MeshRenderer _mr;
 
-    static readonly Vector3[,] FV = {
-        { new(0,1,0), new(1,1,0), new(1,1,1), new(0,1,1) }, // UP
-        { new(0,0,1), new(1,0,1), new(1,0,0), new(0,0,0) }, // DOWN
-        { new(1,0,1), new(1,1,1), new(1,1,0), new(1,0,0) }, // RIGHT
-        { new(0,0,0), new(0,1,0), new(0,1,1), new(0,0,1) }, // LEFT
-        { new(0,0,1), new(1,0,1), new(1,1,1), new(0,1,1) }, // FWD
-        { new(1,0,0), new(0,0,0), new(0,1,0), new(1,1,0) }, // BACK
-    };
-    static readonly Vector3Int[] FO = {
-        new(0,1,0), new(0,-1,0), new(1,0,0), new(-1,0,0), new(0,0,1), new(0,0,-1)
-    };
-
     #endregion
 
     public int Width => worldWidth;
@@ -97,18 +85,24 @@ public class GridManager : MonoBehaviour
     {
         if (seed == 0) seed = Random.Range(1, 1000000);
         var r = new System.Random(seed);
+
         for (int x = 0; x < worldWidth; x++)
         for (int z = 0; z < worldDepth; z++)
         {
             float nx = (float)x / worldWidth, nz = (float)z / worldDepth;
-            float h = Mathf.PerlinNoise(nx * 4 + seed * .001f, nz * 4 + seed * .001f)
-                    + Mathf.PerlinNoise(nx * 8 + seed * .002f, nz * 8 + seed * .002f) * .5f
-                    + Mathf.PerlinNoise(nx * 16 + seed * .003f, nz * 16 + seed * .003f) * .3f;
-            int th = Mathf.Clamp((int)(h * worldHeight * .6f), 2, worldHeight - 1);
+            // Continental + mountain noise
+            float continent = Mathf.PerlinNoise(nx * 2.5f + seed * .001f, nz * 2.5f + seed * .001f);
+            float hills = Mathf.PerlinNoise(nx * 6f + seed * .002f, nz * 6f + seed * .002f) * .4f;
+            float detail = Mathf.PerlinNoise(nx * 12f + seed * .003f, nz * 12f + seed * .003f) * .15f;
+            float h = continent + hills + detail;
+            // Map to 4..worldHeight-1 range for more dramatic terrain
+            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .85f), 4, worldHeight - 1);
+
             for (int y = 0; y < worldHeight; y++)
             {
                 if (y == 0) _grid[x, y, z] = new(BlockType.Bedrock);
-                else if (y < th - 3) _grid[x, y, z] = new(BlockType.Stone);
+                else if (y <= 2 && y < th) _grid[x, y, z] = new(BlockType.Water); // water level
+                else if (y < th - 4) _grid[x, y, z] = new(BlockType.Stone);
                 else if (y < th - 1)
                 { int rn = r.Next(100); _grid[x, y, z] = new(rn < 3 ? BlockType.Coal : rn < 4 ? BlockType.IronOre : BlockType.Stone); }
                 else if (y == th - 1) _grid[x, y, z] = new(BlockType.Dirt);
@@ -120,7 +114,7 @@ public class GridManager : MonoBehaviour
 
     #endregion
 
-    #region Mesh
+    #region Mesh (Greedy)
 
     void BuildMesh()
     {
@@ -128,33 +122,75 @@ public class GridManager : MonoBehaviour
         var V = new Dictionary<BlockType, List<Vector3>>();
         var T = new Dictionary<BlockType, List<int>>();
         var N = new Dictionary<BlockType, List<Vector3>>();
+        var UV = new Dictionary<BlockType, List<Vector2>>();
 
-        for (int x = 0; x < worldWidth; x++)
-        for (int y = 0; y < worldHeight; y++)
-        for (int z = 0; z < worldDepth; z++)
+        // Direction metadata: axis, sign, uAxis, vAxis, normal
+        int[] ax = { 1, 1, 0, 0, 2, 2 };   // normal axis
+        int[] sn = { 1, -1, 1, -1, 1, -1 }; // sign
+        int[] ua = { 2, 0, 1, 2, 0, 1 };   // u axis
+        int[] va = { 0, 2, 2, 1, 1, 0 };   // v axis
+        Vector3[] nrms = { Vector3.up, Vector3.down, Vector3.right, Vector3.left, Vector3.forward, Vector3.back };
+
+        for (int d = 0; d < 6; d++)
         {
-            BlockType t = _grid[x, y, z].blockType;
-            if (t == BlockType.Air) continue;
-            Vector3 bp = new Vector3(x, y, z) * blockSize;
+            int axis = ax[d], sign = sn[d], uAx = ua[d], vAx = va[d];
+            Vector3 normal = nrms[d];
+            int layers = Dim(axis), uSize = Dim(uAx), vSize = Dim(vAx);
 
-            for (int d = 0; d < 6; d++)
+            for (int layer = 0; layer < layers; layer++)
             {
-                int nx = x + FO[d].x, ny = y + FO[d].y, nz = z + FO[d].z;
-                if (InBounds(nx, ny, nz) && !_grid[nx, ny, nz].IsEmpty) continue;
+                // Build 2D mask of visible faces on this layer
+                BlockType?[,] mask = new BlockType?[uSize, vSize];
+                for (int u = 0; u < uSize; u++)
+                for (int v = 0; v < vSize; v++)
+                {
+                    int cx = Coord(0, layer, u, v, axis, uAx, vAx);
+                    int cy = Coord(1, layer, u, v, axis, uAx, vAx);
+                    int cz = Coord(2, layer, u, v, axis, uAx, vAx);
+                    if (!InBounds(cx, cy, cz)) continue;
+                    BlockType t = _grid[cx, cy, cz].blockType;
+                    if (t == BlockType.Air) continue;
+                    int nx = cx + (axis == 0 ? sign : 0);
+                    int ny = cy + (axis == 1 ? sign : 0);
+                    int nz = cz + (axis == 2 ? sign : 0);
+                    if (!InBounds(nx, ny, nz) || _grid[nx, ny, nz].IsEmpty)
+                        mask[u, v] = t;
+                }
 
-                if (!V.ContainsKey(t)) { V[t] = new(); T[t] = new(); N[t] = new(); }
-                var vv = V[t]; var tt = T[t]; var nn = N[t]; int s = vv.Count;
-                Vector3 nrm = d switch { 0=>Vector3.up, 1=>Vector3.down, 2=>Vector3.right, 3=>Vector3.left, 4=>Vector3.forward, _=>Vector3.back };
-                for (int i = 0; i < 4; i++) { vv.Add(bp + FV[d, i] * blockSize); nn.Add(nrm); }
-                tt.Add(s); tt.Add(s + 1); tt.Add(s + 2);
-                tt.Add(s); tt.Add(s + 2); tt.Add(s + 3);
+                // Greedy merge
+                bool[,] visited = new bool[uSize, vSize];
+                for (int u = 0; u < uSize; u++)
+                for (int v = 0; v < vSize; v++)
+                {
+                    if (!mask[u, v].HasValue || visited[u, v]) continue;
+                    BlockType t = mask[u, v].Value;
+                    int w = 1;
+                    while (u + w < uSize && mask[u + w, v].HasValue && mask[u + w, v].Value == t && !visited[u + w, v]) w++;
+                    int h = 1;
+                    bool ok = true;
+                    while (v + h < vSize && ok)
+                    {
+                        for (int k = 0; k < w; k++)
+                            if (!mask[u + k, v + h].HasValue || mask[u + k, v + h].Value != t || visited[u + k, v + h])
+                            { ok = false; break; }
+                        if (ok) h++;
+                    }
+                    for (int i = 0; i < w; i++)
+                    for (int j = 0; j < h; j++)
+                        visited[u + i, v + j] = true;
+
+                    // Generate quad
+                    AddQuad(t, d, layer, u, v, w, h, axis, uAx, vAx, sign, normal, V, T, N, UV);
+                }
             }
         }
 
         if (V.Count == 0) return;
 
+        // Combine submeshes (same as before)
         var allV = new List<Vector3>();
         var allN = new List<Vector3>();
+        var allUV = new List<Vector2>();
         var types = new List<BlockType>();
         var subT = new List<int[]>();
         foreach (var kv in V)
@@ -164,6 +200,7 @@ public class GridManager : MonoBehaviour
             for (int i = 0; i < tList.Count; i++) tList[i] += off;
             allV.AddRange(kv.Value);
             allN.AddRange(N[kv.Key]);
+            allUV.AddRange(UV[kv.Key]);
             types.Add(kv.Key);
             subT.Add(tList.ToArray());
         }
@@ -171,15 +208,13 @@ public class GridManager : MonoBehaviour
         _mesh.subMeshCount = subT.Count;
         _mesh.SetVertices(allV);
         _mesh.SetNormals(allN);
+        _mesh.SetUVs(0, allUV);
         for (int i = 0; i < subT.Count; i++) _mesh.SetTriangles(subT[i], i);
         _mesh.RecalculateBounds();
         _mf.sharedMesh = _mesh;
-
-        // Update collider for raycasts
         var mc = GetComponent<MeshCollider>();
         if (mc) mc.sharedMesh = _mesh;
 
-        // Per-type colored materials using URP/Unlit
         if (blockMaterial != null)
         {
             var mats = new List<Material>();
@@ -190,9 +225,87 @@ public class GridManager : MonoBehaviour
                 mats.Add(m);
             }
             _mr.materials = mats.ToArray();
-        }
 
-        Debug.Log($"[Grid] {allV.Count} verts, {types.Count} types");
+            // Assign shared texture atlas to all materials
+            if (_atlas == null) _atlas = CreateAtlas();
+            foreach (var m in mats) m.SetTexture("_BaseMap", _atlas);
+        }
+    }
+
+    Texture2D _atlas;
+
+    Texture2D CreateAtlas()
+    {
+        int cols = 8, rows = 4, cell = 32;
+        var tex = new Texture2D(cols * cell, rows * cell, TextureFormat.RGBA32, false);
+        tex.filterMode = FilterMode.Point;
+        var colors = new Color[cols * cell * rows * cell];
+
+        for (int bt = 0; bt < 24; bt++)
+        {
+            int cx = bt % cols, cy = bt / cols;
+            Color bc = BlockColor((BlockType)bt);
+            var rng = new System.Random(bt + 42);
+            for (int dy = 0; dy < cell; dy++)
+            for (int dx = 0; dx < cell; dx++)
+            {
+                float n = (float)rng.NextDouble() * 0.15f;
+                // Darken edges slightly
+                float edge = 1f;
+                if (dx == 0 || dy == 0 || dx == cell - 1 || dy == cell - 1) edge = 0.7f;
+                int px = cx * cell + dx, py = cy * cell + dy;
+                colors[py * cols * cell + px] = new Color(
+                    Mathf.Clamp01(bc.r + n - 0.075f) * edge,
+                    Mathf.Clamp01(bc.g + n - 0.075f) * edge,
+                    Mathf.Clamp01(bc.b + n - 0.075f) * edge, 1);
+            }
+        }
+        tex.SetPixels(colors);
+        tex.Apply();
+        return tex;
+    }
+
+    int Dim(int a) => a == 0 ? worldWidth : a == 1 ? worldHeight : worldDepth;
+
+    int Coord(int outAxis, int layer, int u, int v, int axis, int uAx, int vAx)
+    {
+        int[] c = new int[3];
+        c[axis] = layer; c[uAx] = u; c[vAx] = v;
+        return c[outAxis];
+    }
+
+    void AddQuad(BlockType t, int d, int layer, int u, int v, int w, int h,
+        int axis, int uAx, int vAx, int sign, Vector3 normal,
+        Dictionary<BlockType, List<Vector3>> V, Dictionary<BlockType, List<int>> T,
+        Dictionary<BlockType, List<Vector3>> N, Dictionary<BlockType, List<Vector2>> UV)
+    {
+        if (!V.ContainsKey(t)) { V[t] = new(); T[t] = new(); N[t] = new(); UV[t] = new(); }
+        var vv = V[t]; var tt = T[t]; var nn = N[t]; var uv = UV[t]; int s = vv.Count;
+
+        int fc = sign > 0 ? layer + 1 : layer;
+        int[] c0 = new int[3], c1 = new int[3], c2 = new int[3], c3 = new int[3];
+        c0[axis] = fc; c0[uAx] = u;     c0[vAx] = v;
+        c1[axis] = fc; c1[uAx] = u + w; c1[vAx] = v;
+        c2[axis] = fc; c2[uAx] = u + w; c2[vAx] = v + h;
+        c3[axis] = fc; c3[uAx] = u;     c3[vAx] = v + h;
+
+        vv.Add(new Vector3(c0[0], c0[1], c0[2]) * blockSize);
+        vv.Add(new Vector3(c1[0], c1[1], c1[2]) * blockSize);
+        vv.Add(new Vector3(c2[0], c2[1], c2[2]) * blockSize);
+        vv.Add(new Vector3(c3[0], c3[1], c3[2]) * blockSize);
+        for (int i = 0; i < 4; i++) nn.Add(normal);
+
+        // UV atlas: 8 cols × 4 rows
+        int idx = (int)t;
+        float u0 = (idx % 8) / 8f, v0 = (idx / 8) / 4f;
+        float u1 = u0 + 1f / 8f, v1 = v0 + 1f / 4f;
+        uv.Add(new Vector2(u0, v0));
+        uv.Add(new Vector2(u1, v0));
+        uv.Add(new Vector2(u1, v1));
+        uv.Add(new Vector2(u0, v1));
+
+        tt.Add(s); tt.Add(s + 1); tt.Add(s + 2);
+        tt.Add(s); tt.Add(s + 2); tt.Add(s + 3);
     }
 
     #endregion
