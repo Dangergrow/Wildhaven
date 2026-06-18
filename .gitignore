@@ -1,0 +1,32 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Ll]ogs/
+*.csproj
+*.sln
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Ollama
+.ollama/
+
+# opencode
+.opencode/sessions/

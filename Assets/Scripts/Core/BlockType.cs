@@ -1,0 +1,30 @@
+/// <summary>
+/// All available block types in Wildhaven.
+/// </summary>
+public enum BlockType
+{
+    Air = 0,
+    Dirt = 1,
+    Grass = 2,
+    Stone = 3,
+    IronOre = 4,
+    CopperOre = 5,
+    Coal = 6,
+    Sand = 7,
+    Wood = 8,
+    WoodPlanks = 9,
+    StoneBrick = 10,
+    Glass = 11,
+    Water = 12,
+    Bedrock = 13,
+    Clay = 14,
+    Gravel = 15,
+    Snow = 16,
+    Ice = 17,
+    DeepSlate = 18,
+    GoldOre = 19,
+    DiamondOre = 20,
+    CrystalOre = 21,
+    Obsidian = 22,
+    Marble = 23,
+}
