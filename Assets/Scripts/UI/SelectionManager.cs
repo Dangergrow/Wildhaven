@@ -1,24 +1,19 @@
 using UnityEngine;
 
 /// <summary>
-/// LMB on colonist = select (green ring). LMB on empty space = deselect.
+/// LMB selects colonist under cursor via Physics.Raycast.
+/// B toggles build/select mode.
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
     public Colonist selectedColonist;
     public GameObject ring;
-
-    private Camera _cam;
-    private ColonistSpawner _spawner;
     private BuildManager _build;
     private bool _buildMode = true;
 
     void Start()
     {
-        _cam = Camera.main;
-        _spawner = FindObjectOfType<ColonistSpawner>();
         _build = FindObjectOfType<BuildManager>();
-
         if (ring == null)
         {
             ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -32,57 +27,47 @@ public class SelectionManager : MonoBehaviour
 
     void Update()
     {
-        // B = toggle build/select
         if (Input.GetKeyDown(KeyCode.B))
         {
             _buildMode = !_buildMode;
             if (_build != null) _build.enabled = _buildMode;
         }
-
-        if (_buildMode) return; // building mode — don't select
+        if (_buildMode) return;
         if (!Input.GetMouseButtonDown(0)) return;
-        if (_cam == null || _spawner == null) return;
 
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, 200f)) { Deselect(); return; }
 
-        // Find colonist nearest to ray
-        Colonist best = null;
-        float bestDist = 3f;
+        Colonist c = hit.collider.GetComponentInParent<Colonist>();
+        if (c != null) Select(c); else Deselect();
+    }
 
-        foreach (Colonist c in _spawner.Colonists)
-        {
-            if (c == null) continue;
-            Vector3 to = c.transform.position - ray.origin;
-            float t = Vector3.Dot(to, ray.direction);
-            if (t < 0) continue;
-            Vector3 closest = ray.origin + ray.direction * t;
-            float d = Vector3.Distance(c.transform.position, closest);
-            if (d < bestDist) { bestDist = d; best = c; }
-        }
+    void Select(Colonist c)
+    {
+        selectedColonist = c;
+        ring.SetActive(true);
+        ring.transform.position = c.transform.position + Vector3.up * 0.9f;
+        ring.transform.SetParent(c.transform);
+        Debug.Log($"[Select] {c.colonistName}");
+    }
 
-        selectedColonist = best;
-        ring.SetActive(best != null);
-        if (best != null)
-        {
-            ring.transform.position = best.transform.position + Vector3.up * 0.9f;
-            ring.transform.SetParent(best.transform);
-            Debug.Log($"[Select] {best.colonistName}");
-        }
-        else
-        {
-            ring.transform.SetParent(null);
-        }
+    void Deselect()
+    {
+        selectedColonist = null;
+        ring.SetActive(false);
+        ring.transform.SetParent(null);
     }
 
     void OnGUI()
     {
+        GUIStyle s = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold };
+        s.normal.textColor = _buildMode ? Color.green : Color.cyan;
+        GUI.Label(new Rect(Screen.width - 130, 5, 125, 24), _buildMode ? "BUILD [B]" : "SELECT [B]", s);
+        GUI.Label(new Rect(10, Screen.height - 40, 400, 30), "B = build/select  |  LMB = select colonist", s);
+
         if (selectedColonist == null) return;
         Colonist c = selectedColonist;
-        GUI.Box(new Rect(Screen.width - 230, Screen.height / 2f - 50, 220, 85),
-            $"� {c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
-        GUI.Label(new Rect(10, Screen.height - 40, 400, 30), "B = toggle build/select | LMB = select colonist");
-        GUIStyle ms = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold };
-        ms.normal.textColor = _buildMode ? Color.green : Color.cyan;
-        GUI.Label(new Rect(Screen.width - 130, 5, 125, 24), _buildMode ? "BUILD" : "SELECT", ms);
+        GUI.Box(new Rect(Screen.width - 230, Screen.height / 2f - 45, 220, 80),
+            $"{c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
     }
 }

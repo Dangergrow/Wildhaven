@@ -66,6 +66,12 @@ public class ColonistSpawner : MonoBehaviour
         if (colonistPrefab == null) { Debug.LogError("No prefab!"); return null; }
         GameObject go = Instantiate(colonistPrefab, pos, Quaternion.identity);
         go.transform.localScale = Vector3.one * 0.8f;
+        // Ensure collider for selection raycasts
+        if (go.GetComponent<Collider>() == null)
+        {
+            CapsuleCollider cc = go.AddComponent<CapsuleCollider>();
+            cc.height = 2f; cc.radius = 0.5f; cc.center = Vector3.up;
+        }
         Renderer r = go.GetComponent<Renderer>();
         if (r != null) r.material.color = Color.red;
         Colonist c = go.GetComponent<Colonist>();
