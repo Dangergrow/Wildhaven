@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["Wildhaven/SETUP.md", "Wildhaven/HANDSHAKE.md"],
+  "instructions": ["SETUP.md", "HANDSHAKE.md", ".docs/MonoBehaviour.md", ".docs/GameObject.md", ".docs/Camera.md", ".docs/Transform.md", ".docs/Mesh.md", ".docs/Physics.md", ".docs/InputSystem.md", ".docs/ScriptableObject.md", ".docs/Prefabs.md"],
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
