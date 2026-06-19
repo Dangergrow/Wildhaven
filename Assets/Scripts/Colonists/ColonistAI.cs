@@ -36,6 +36,7 @@ public class ColonistAI : MonoBehaviour
             return false;
         currentOrder = type;
         orderTarget = target;
+        Debug.Log($"[Order] {_colonist.colonistName} -> {type} at {target}  (dist={Vector3.Distance(transform.position, target):F1})");
         return true;
     }
 
