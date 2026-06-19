@@ -15,12 +15,17 @@ public class ColonistSpawner : MonoBehaviour
 
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
-    void Start() => Invoke(nameof(DoSpawn), 1f);
+    void Start()
+    {
+        Debug.Log("[ColonistSpawner] Starting spawn in 0.5s...");
+        Invoke(nameof(DoSpawn), 0.5f);
+    }
 
     void DoSpawn()
     {
+        Debug.Log("[ColonistSpawner] DoSpawn called");
         GridManager grid = FindObjectOfType<GridManager>();
-        if (grid == null) { Debug.LogError("No GridManager!"); return; }
+        if (grid == null) { Debug.LogError("[ColonistSpawner] No GridManager!"); return; }
 
         // Find safe spawn positions
         int[] xs = { 50, 48, 52 };
@@ -47,7 +52,8 @@ public class ColonistSpawner : MonoBehaviour
                 }
             }
 
-            if (topY < 0) topY = 15; // fallback
+            if (topY < 0) topY = 15;
+            Debug.Log($"[ColonistSpawner] Spawn #{i} at grid({gx},{topY},{gz})"); // fallback
 
             Vector3 worldPos = grid.GridToWorld(gx, topY, gz);
             worldPos.y += 0.8f; // above surface
