@@ -42,14 +42,14 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping || _colonist.currentState == ColonistState.Fighting) return;
         if (_colonist.currentState != ColonistState.Idle && _colonist.currentState != ColonistState.Moving) return;
 
-        _wanderTimer -= Time.deltaTime;
+        _wanderTimer -= Time.deltaTime * (day != null ? day.gameSpeed : 1f);
         if (_wanderTimer <= 0f) { PickWanderTarget(); _wanderTimer = Random.Range(1.5f, 4f); }
 
         float dist = Vector3.Distance(transform.position, _wanderTarget);
         if (dist > 0.3f)
         {
             Vector3 dir = (_wanderTarget - transform.position).normalized;
-            Vector3 nextPos = transform.position + dir * _speed * 0.4f * Time.deltaTime;
+            Vector3 nextPos = transform.position + dir * _speed * 0.4f * Time.deltaTime * (day != null ? day.gameSpeed : 1f);
             // Only move if next position is air
             GridManager grid = FindObjectOfType<GridManager>();
             bool canMove = true;
