@@ -54,8 +54,22 @@ public class ColonistSpawner : MonoBehaviour
             return null;
         }
 
+        // Disable NavMeshAgent during spawn to avoid "not close to NavMesh" error
         GameObject go = Instantiate(colonistPrefab, position, Quaternion.identity);
+        UnityEngine.AI.NavMeshAgent agent = go.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (agent != null) agent.enabled = false;
+
         Colonist colonist = go.GetComponent<Colonist>();
+
+        // Re-enable agent and warp to nearest NavMesh
+        if (agent != null)
+        {
+            agent.enabled = true;
+            if (UnityEngine.AI.NavMesh.SamplePosition(position, out UnityEngine.AI.NavMeshHit hit, 50f, UnityEngine.AI.NavMesh.AllAreas))
+            {
+                agent.Warp(hit.position);
+            }
+        }
         if (colonist == null)
         {
             Debug.LogError("[ColonistSpawner] Prefab has no Colonist component!");
@@ -106,28 +120,12 @@ public class ColonistSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a random position on ground near spawn center.
-    /// Uses NavMesh.SamplePosition to find valid spot.
+    /// Returns a random position near spawn center (any height — Warp will fix).
     /// </summary>
     private Vector3 GetRandomSpawnPosition()
     {
         Vector2 circle = Random.insideUnitCircle * spawnRadius;
-        Vector3 origin = spawnCenter + new Vector3(circle.x, 0f, circle.y);
-
-        // Find nearest valid NavMesh position
-        if (UnityEngine.AI.NavMesh.SamplePosition(origin, out UnityEngine.AI.NavMeshHit hit, 30f, UnityEngine.AI.NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-
-        // Fallback: try center
-        if (UnityEngine.AI.NavMesh.SamplePosition(spawnCenter, out hit, 50f, UnityEngine.AI.NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-
-        Debug.LogError("[ColonistSpawner] No NavMesh found at spawn area. Did you Bake?");
-        return spawnCenter;
+        return spawnCenter + new Vector3(circle.x, 0f, circle.y);
     }
 
     /// <summary>
