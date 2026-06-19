@@ -44,6 +44,13 @@ public class EventManager : MonoBehaviour
                 new GameEventDef { type = EventType.ManhunterPack, title = "Стая хищников", description = "Агрессивные животные атакуют!", minDay = 6, weight = 1f },
                 new GameEventDef { type = EventType.HeatWave, title = "Жара", description = "Температура повышена несколько дней.", minDay = 3, weight = 1.5f },
                 new GameEventDef { type = EventType.ColdSnap, title = "Похолодание", description = "Температура понижена несколько дней.", minDay = 3, weight = 1.5f },
+                new GameEventDef { type = EventType.Infestation, title = "Нашествие насекомых", description = "Гигантские насекомые вылезли из-под земли!", minDay = 7, weight = 0.8f },
+                new GameEventDef { type = EventType.MeteoriteLoot, title = "Метеорит", description = "Метеорит упал неподалёку с редкими ресурсами.", minDay = 5, weight = 0.5f },
+                new GameEventDef { type = EventType.VolcanicWinter, title = "Вулканическая зима", description = "Пепел закрыл небо. Холод и тьма.", minDay = 15, weight = 0.3f },
+                new GameEventDef { type = EventType.AnimalMigration, title = "Миграция животных", description = "Стада животных проходят через регион.", minDay = 4, weight = 1f },
+                new GameEventDef { type = EventType.Aurora, title = "Полярное сияние", description = "Красивое небесное явление. +настроение.", minDay = 6, weight = 0.5f },
+                new GameEventDef { type = EventType.BumperHarvest, title = "Рекордный урожай", description = "Все растения созрели мгновенно!", minDay = 10, weight = 0.5f },
+                new GameEventDef { type = EventType.Flashstorm, title = "Шторм", description = "Молнии, ветер. Опасно находиться на улице.", minDay = 8, weight = 0.6f },
             };
         }
     }

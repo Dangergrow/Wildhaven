@@ -10,6 +10,8 @@ public enum EventType
     AncientCache,
     Inspiration,
     Pilgrims,
+    MeteoriteLoot,
+    BumperHarvest,
 
     // Negative
     Raid,
@@ -20,13 +22,19 @@ public enum EventType
     ToxicFallout,
     PsychicWave,
     ManhunterPack,
+    Infestation,
+    Flashstorm,
+    VolcanicWinter,
+    Eclipse,
+    RaiderSiege,
 
     // Neutral
     Refugees,
-    Eclipse,
     Thunderstorm,
     HeatWave,
     ColdSnap,
+    Aurora,
+    AnimalMigration,
 }
 
 /// <summary>
