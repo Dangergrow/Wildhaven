@@ -128,6 +128,17 @@ public class VoxelMeshBuilder : MonoBehaviour
         _mesh.SetColors(_colors);
         _mesh.RecalculateNormals();
         _mesh.RecalculateBounds();
+
+        // Refresh MeshCollider if present
+        MeshCollider collider = GetComponent<MeshCollider>();
+        if (collider != null) collider.sharedMesh = _mesh;
+
+        // Bake NavMesh at runtime for AI pathfinding
+        Unity.AI.Navigation.NavMeshSurface surface = GetComponent<Unity.AI.Navigation.NavMeshSurface>();
+        if (surface != null)
+        {
+            surface.BuildNavMesh();
+        }
     }
 
     /// <summary>
