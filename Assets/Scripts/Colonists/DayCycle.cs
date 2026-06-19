@@ -9,7 +9,7 @@ public class DayCycle : MonoBehaviour
     [Header("Time Settings")]
     [Tooltip("Current game hour (0-23)")]
     [Range(0, 23)]
-    public int hour = 6;
+    public int hour = 12;
 
     [Tooltip("Current game minute (0-59)")]
     [Range(0, 59)]
@@ -128,8 +128,9 @@ public class DayCycle : MonoBehaviour
     {
         if (sunLight == null) return;
 
-        float sunAngle = Mathf.Lerp(-90f, 90f, (hour * 60f + minute - sunriseHour * 60f) / ((sunsetHour - sunriseHour) * 60f));
-        sunLight.transform.rotation = Quaternion.Euler(sunAngle, 130f, 0f);
+        float t = (hour * 60f + minute - sunriseHour * 60f) / ((sunsetHour - sunriseHour) * 60f);
+        float sunAngle = Mathf.Lerp(5f, 175f, Mathf.Clamp01(t));
+        sunLight.transform.rotation = Quaternion.Euler(sunAngle, 30f, 0f);
 
         // Intensity peaks at noon
         float noonProgress = Mathf.Sin(DayProgress * Mathf.PI);

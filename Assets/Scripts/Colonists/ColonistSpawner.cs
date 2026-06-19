@@ -76,19 +76,29 @@ public class ColonistSpawner : MonoBehaviour
 
     private Vector3 GetRandomSpawnPosition()
     {
-        for (int attempt = 0; attempt < 20; attempt++)
+        GridManager grid = FindObjectOfType<GridManager>();
+        for (int attempt = 0; attempt < 50; attempt++)
         {
             Vector2 circle = Random.insideUnitCircle * spawnRadius;
             Vector3 origin = spawnCenter + new Vector3(circle.x, 60f, circle.y);
 
-            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 80f))
+            if (!Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 80f))
+                continue;
+
+            // Check what block is at the hit point — avoid water
+            if (grid != null)
             {
-                // Spawn on top of hit
-                return hit.point + Vector3.up * 1.5f;
+                Vector3Int blockPos = grid.WorldToGrid(hit.point);
+                BlockType block = grid.GetBlock(blockPos.x, blockPos.y, blockPos.z);
+                // Only spawn on solid ground, not water
+                if (block == BlockType.Water || block == BlockType.Air)
+                    continue;
             }
+
+            return hit.point + Vector3.up * 1.5f;
         }
-        // Fallback — above center
-        return spawnCenter + Vector3.up * 5f;
+        Debug.LogError("[ColonistSpawner] Could not find valid spawn position");
+        return spawnCenter + Vector3.up * 3f;
     }
 
     private string GenerateName(bool male)
