@@ -10,7 +10,7 @@ public class ColonistSpawner : MonoBehaviour
     public int startingColonists = 3;
     public GameObject colonistPrefab;
     public Vector3Int spawnOrigin = new Vector3Int(50, 0, 50); // grid coords
-    public int searchRadius = 25;
+    public int searchRadius = 40; // huge — will find land somewhere
 
     public string[] maleNames = { "Ivan", "Boris", "Dmitri", "Alexei", "Sergei" };
     public string[] femaleNames = { "Anna", "Maria", "Elena", "Olga", "Natasha" };
@@ -69,6 +69,12 @@ public class ColonistSpawner : MonoBehaviour
         GameObject go = Instantiate(colonistPrefab, pos, Quaternion.identity);
         // scale 0.8 to fit inside 1-block space without clipping
         go.transform.localScale = Vector3.one * 0.8f;
+        // Add collider for selection + physics
+        if (go.GetComponent<Collider>() == null)
+        {
+            var cc = go.AddComponent<CapsuleCollider>();
+            cc.height = 2f; cc.radius = 0.5f; cc.center = Vector3.up;
+        }
         // Make visible
         Renderer r = go.GetComponent<Renderer>();
         if (r != null) { r.material = new Material(r.material) { color = Color.red }; }
