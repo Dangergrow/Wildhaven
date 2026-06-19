@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 /// <summary>Voxel world with chunked mesh building for fast block updates.</summary>
 public class GridManager : MonoBehaviour
 {
     /// <summary>Fired when a block is destroyed. Args: x, y, z, oldBlockType.</summary>
-    public event Action<int, int, int, BlockType> OnBlockRemoved;
+    public System.Action<int, int, int, BlockType> OnBlockRemoved;
     #region Public
 
     [Header("World")] public int worldWidth = 100, worldHeight = 32, worldDepth = 100;
