@@ -106,22 +106,28 @@ public class ColonistSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a random position on the terrain surface near the spawn center.
-    /// Casts a ray downward to find ground level.
+    /// Returns a random position on ground near spawn center.
+    /// Uses NavMesh.SamplePosition to find valid spot.
     /// </summary>
     private Vector3 GetRandomSpawnPosition()
     {
         Vector2 circle = Random.insideUnitCircle * spawnRadius;
-        Vector3 origin = new Vector3(spawnCenter.x + circle.x, 60f, spawnCenter.z + circle.y);
+        Vector3 origin = spawnCenter + new Vector3(circle.x, 0f, circle.y);
 
-        // Raycast down to find terrain
-        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 100f))
+        // Find nearest valid NavMesh position
+        if (UnityEngine.AI.NavMesh.SamplePosition(origin, out UnityEngine.AI.NavMeshHit hit, 30f, UnityEngine.AI.NavMesh.AllAreas))
         {
-            return hit.point + Vector3.up * 0.5f; // just above ground
+            return hit.position;
         }
 
-        // Fallback
-        return spawnCenter + Vector3.up * 2f;
+        // Fallback: try center
+        if (UnityEngine.AI.NavMesh.SamplePosition(spawnCenter, out hit, 50f, UnityEngine.AI.NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        Debug.LogError("[ColonistSpawner] No NavMesh found at spawn area. Did you Bake?");
+        return spawnCenter;
     }
 
     /// <summary>
