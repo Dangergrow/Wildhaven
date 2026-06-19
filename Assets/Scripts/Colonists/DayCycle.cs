@@ -80,14 +80,12 @@ public class DayCycle : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gameSpeed = Mathf.Approximately(gameSpeed, 0f) ? 1f : 0f;
+            Time.timeScale = Mathf.Approximately(gameSpeed, 0f) ? 0f : gameSpeed;
         }
-        // Only NumPad for speed (Alpha 1-3 used by BuildManager)
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-            gameSpeed = 1f;
-        if (Input.GetKeyDown(KeyCode.Keypad2))
-            gameSpeed = 2f;
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-            gameSpeed = 4f;
+        // NumPad speed
+        if (Input.GetKeyDown(KeyCode.Keypad1)) { gameSpeed = 1f; Time.timeScale = 1f; }
+        if (Input.GetKeyDown(KeyCode.Keypad2)) { gameSpeed = 2f; Time.timeScale = 2f; }
+        if (Input.GetKeyDown(KeyCode.Keypad3)) { gameSpeed = 4f; Time.timeScale = 4f; }
     }
 
     /// <summary>

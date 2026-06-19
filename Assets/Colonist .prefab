@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 7327179678463401954}
   - component: {fileID: -5056173664091930940}
   - component: {fileID: -7322278092646299517}
+  - component: {fileID: 5829676215179870898}
+  - component: {fileID: -1605943289329865873}
   m_Layer: 0
   m_Name: 'Colonist '
   m_TagString: Untagged
@@ -267,3 +269,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColonistGravity
   gravity: 9.8
   fallSpeed: 0
+--- !u!114 &5829676215179870898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2729042192664582530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 546b9b505cd859b42ab0a50f2ac7066c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitPhysics
+  waterSlowMultiplier: 0.3
+  waterPushForce: 2
+  deathFadeTime: 1.5
+--- !u!114 &-1605943289329865873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2729042192664582530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5bf6d21be57254bb5d16722e450244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MentalState
+  extremeBreakThreshold: 2
+  majorBreakThreshold: 10
+  minorBreakThreshold: 20
+  inspirationThreshold: 85
+  breakCooldown: 120
+  inspirationCooldown: 300
+  breakTypes: []

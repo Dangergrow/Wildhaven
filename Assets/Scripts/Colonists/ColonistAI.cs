@@ -54,7 +54,21 @@ public class ColonistAI : MonoBehaviour
 
     void PickWanderTarget()
     {
-        _wanderTarget = transform.position + new Vector3(Random.Range(-2.5f, 2.5f), 0f, Random.Range(-2.5f, 2.5f));
+        GridManager grid = FindObjectOfType<GridManager>();
+        for (int i = 0; i < 10; i++) // try valid positions
+        {
+            Vector3 candidate = transform.position + new Vector3(Random.Range(-2.5f, 2.5f), 0f, Random.Range(-2.5f, 2.5f));
+            if (grid != null)
+            {
+                Vector3Int gp = grid.WorldToGrid(candidate);
+                if (grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air ||
+                    grid.GetBlock(gp.x, gp.y - 1, gp.z) == BlockType.Air) // need solid ground
+                    continue;
+            }
+            _wanderTarget = candidate;
+            return;
+        }
+        _wanderTarget = transform.position; // stay put
     }
 
     public bool IsMoving => _isMoving;
