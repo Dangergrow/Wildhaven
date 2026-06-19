@@ -1,9 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 /// <summary>Voxel world with chunked mesh building for fast block updates.</summary>
 public class GridManager : MonoBehaviour
 {
+    /// <summary>Fired when a block is destroyed. Args: x, y, z, oldBlockType.</summary>
+    public event Action<int, int, int, BlockType> OnBlockRemoved;
     #region Public
 
     [Header("World")] public int worldWidth = 100, worldHeight = 32, worldDepth = 100;
@@ -96,7 +99,13 @@ public class GridManager : MonoBehaviour
         RebuildDirtyChunks();
     }
 
-    public void RemoveBlock(int x, int y, int z) => SetBlock(x, y, z, BlockType.Air);
+    public void RemoveBlock(int x, int y, int z)
+    {
+        BlockType old = GetBlock(x, y, z);
+        SetBlock(x, y, z, BlockType.Air);
+        if (old != BlockType.Air)
+            OnBlockRemoved?.Invoke(x, y, z, old);
+    }
 
     /// <summary>Grid-based raycast.</summary>
     public Vector3Int? RaycastGrid(Ray ray, float maxDist = 200f)
