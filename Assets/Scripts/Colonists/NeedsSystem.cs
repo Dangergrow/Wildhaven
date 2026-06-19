@@ -63,8 +63,10 @@ public class NeedsSystem : MonoBehaviour
     private void Update()
     {
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
+        DayCycle day = FindObjectOfType<DayCycle>();
+        if (day != null && day.IsPaused) return;
 
-        float dt = Time.deltaTime;
+        float dt = Time.deltaTime * (day != null ? day.gameSpeed : 1f);
         ProcessNeeds(dt);
     }
 

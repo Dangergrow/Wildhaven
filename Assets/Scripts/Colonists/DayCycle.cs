@@ -43,7 +43,9 @@ public class DayCycle : MonoBehaviour
     // Public accessors
     public bool IsPaused => Mathf.Approximately(gameSpeed, 0f);
     public bool IsNight => hour < sunriseHour || hour >= sunsetHour;
-    public float DayProgress => (hour * 60f + minute) / 1440f; // 0-1
+    public float DayProgress => (hour * 60f + minute) / 1440f;
+    /// <summary>Time.deltaTime adjusted for game speed. Zero when paused.</summary>
+    public float DeltaTime => IsPaused ? 0f : Time.deltaTime * gameSpeed; // 0-1
 
     private float _timeAccumulator;
 
@@ -80,12 +82,10 @@ public class DayCycle : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gameSpeed = Mathf.Approximately(gameSpeed, 0f) ? 1f : 0f;
-            Time.timeScale = Mathf.Approximately(gameSpeed, 0f) ? 0f : gameSpeed;
         }
-        // NumPad speed
-        if (Input.GetKeyDown(KeyCode.Keypad1)) { gameSpeed = 1f; Time.timeScale = 1f; }
-        if (Input.GetKeyDown(KeyCode.Keypad2)) { gameSpeed = 2f; Time.timeScale = 2f; }
-        if (Input.GetKeyDown(KeyCode.Keypad3)) { gameSpeed = 4f; Time.timeScale = 4f; }
+        if (Input.GetKeyDown(KeyCode.Keypad1)) gameSpeed = 1f;
+        if (Input.GetKeyDown(KeyCode.Keypad2)) gameSpeed = 2f;
+        if (Input.GetKeyDown(KeyCode.Keypad3)) gameSpeed = 4f;
     }
 
     /// <summary>

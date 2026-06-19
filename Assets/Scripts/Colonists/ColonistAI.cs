@@ -30,6 +30,8 @@ public class ColonistAI : MonoBehaviour
     private void Update()
     {
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
+        DayCycle day = FindObjectOfType<DayCycle>();
+        if (day != null && day.IsPaused) return;
         EvaluateState();
         HandleWandering();
         HandleCombat();
