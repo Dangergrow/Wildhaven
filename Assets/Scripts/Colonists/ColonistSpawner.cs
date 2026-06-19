@@ -10,7 +10,7 @@ public class ColonistSpawner : MonoBehaviour
     public int startingColonists = 3;
     public GameObject colonistPrefab;
     public Vector3Int spawnOrigin = new Vector3Int(50, 0, 50); // grid coords
-    public int searchRadius = 12;
+    public int searchRadius = 25;
 
     public string[] maleNames = { "Ivan", "Boris", "Dmitri", "Alexei", "Sergei" };
     public string[] femaleNames = { "Anna", "Maria", "Elena", "Olga", "Natasha" };
@@ -41,7 +41,6 @@ public class ColonistSpawner : MonoBehaviour
             {
                 BlockType below = grid.GetBlock(gx, gy - 1, gz);
                 BlockType here = grid.GetBlock(gx, gy, gz);
-                BlockType above = grid.GetBlock(gx, gy + 1, gz);
 
                 bool solidBelow = below == BlockType.Grass || below == BlockType.Dirt ||
                                   below == BlockType.Stone || below == BlockType.Snow ||
@@ -49,10 +48,9 @@ public class ColonistSpawner : MonoBehaviour
                                   below == BlockType.WoodPlanks || below == BlockType.StoneBrick;
 
                 bool isAirHere = here == BlockType.Air;
-                bool isAirAbove = above == BlockType.Air;
 
-                // Found: two air blocks above a solid block — spawn at the lower air block
-                if (solidBelow && isAirHere && isAirAbove)
+                // Found: air above solid — spawn here
+                if (solidBelow && isAirHere)
                 {
                     Vector3 pos = grid.GridToWorld(gx, gy, gz);
                     pos.y += 0.5f; // nudge up so capsule sits ON surface, not in it
@@ -61,8 +59,8 @@ public class ColonistSpawner : MonoBehaviour
             }
         }
 
-        Debug.LogError("[ColonistSpawner] No surface found");
-        return new Vector3(50, 20, 50);
+        Debug.LogError("[ColonistSpawner] No surface found — using fallback");
+        return new Vector3(50, 30, 50);
     }
 
     public Colonist SpawnColonist(Vector3 pos)
