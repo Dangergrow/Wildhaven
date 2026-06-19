@@ -130,18 +130,79 @@ public class ResearchManager : MonoBehaviour
     {
         allResearch = new ResearchNode[]
         {
-            // Era 1
-            new ResearchNode { id = "basic_building", name = "Базовое строительство", description = "Стены (дерево), пол, крыша", era = 1, scienceCost = 100 },
-            new ResearchNode { id = "furniture", name = "Мебель", description = "Кровать, стол, стул", era = 1, scienceCost = 100, prerequisiteIds = new[]{"basic_building"} },
-            new ResearchNode { id = "stoneworking", name = "Обработка камня", description = "Каменные стены, каменотёс", era = 1, scienceCost = 150 },
-            new ResearchNode { id = "cooking1", name = "Кулинария I", description = "Костёр, простая еда", era = 1, scienceCost = 80 },
-            new ResearchNode { id = "farming1", name = "Фермерство I", description = "Посадка базовых культур", era = 1, scienceCost = 120 },
-            new ResearchNode { id = "defense1", name = "Оборона I", description = "Частокол, ловушки", era = 1, scienceCost = 120 },
-            // Era 2
-            new ResearchNode { id = "masonry", name = "Каменная кладка", description = "Укреплённые стены, колонны", era = 2, scienceCost = 200, prerequisiteIds = new[]{"stoneworking"} },
-            new ResearchNode { id = "brewing", name = "Пивоварение", description = "Пивоварня, эль, вино", era = 2, scienceCost = 180, prerequisiteIds = new[]{"farming1"} },
-            new ResearchNode { id = "metal1", name = "Металлы I", description = "Плавильня, медь", era = 2, scienceCost = 250, prerequisiteIds = new[]{"stoneworking"} },
-            new ResearchNode { id = "medicine1", name = "Медицина I", description = "Травы, перевязка, госпиталь", era = 2, scienceCost = 200 },
+            // === ERA 1 — Survival ===
+            new ResearchNode { id = "basic_building", name = "Базовое строительство", description = "Стены (дерево), пол, крыша, лестницы, двери", era = 1, scienceCost = 100 },
+            new ResearchNode { id = "furniture", name = "Мебель", description = "Кровать, стол, стул, факел", era = 1, scienceCost = 100, prerequisiteIds = new[]{"basic_building"} },
+            new ResearchNode { id = "stoneworking", name = "Обработка камня", description = "Стены (камень), каменные блоки, каменотёс", era = 1, scienceCost = 150 },
+            new ResearchNode { id = "cooking1", name = "Кулинария I", description = "Костёр, простая еда, разделка туш", era = 1, scienceCost = 80 },
+            new ResearchNode { id = "farming1", name = "Фермерство I", description = "Посадка базовых культур (пшеница, картофель)", era = 1, scienceCost = 120 },
+            new ResearchNode { id = "hunting", name = "Охота и разделка", description = "Лук (примитивный), разделка на мясо/шкуры", era = 1, scienceCost = 100 },
+            new ResearchNode { id = "storage", name = "Складирование", description = "Зоны склада, полки", era = 1, scienceCost = 80 },
+            new ResearchNode { id = "gathering1", name = "Собирательство I", description = "Ягоды, грибы лесные, травы базовые", era = 1, scienceCost = 90 },
+            new ResearchNode { id = "defense1", name = "Оборона I", description = "Частокол, ловушки-шипы", era = 1, scienceCost = 120 },
+            new ResearchNode { id = "tailoring1", name = "Портняжное дело I", description = "Кожаная одежда, спальный мешок", era = 1, scienceCost = 120, prerequisiteIds = new[]{"hunting"} },
+
+            // === ERA 2 — Settlement ===
+            new ResearchNode { id = "masonry", name = "Каменная кладка", description = "Укреплённые стены, колонны, своды", era = 2, scienceCost = 200, prerequisiteIds = new[]{"stoneworking"} },
+            new ResearchNode { id = "cooking2", name = "Кулинария II", description = "Печь, хлеб, пироги, пекарня", era = 2, scienceCost = 180, prerequisiteIds = new[]{"cooking1"} },
+            new ResearchNode { id = "farming2", name = "Фермерство II", description = "Овощи, ягоды, лекарственные травы, конопля (базовое)", era = 2, scienceCost = 180, prerequisiteIds = new[]{"farming1"} },
+            new ResearchNode { id = "animals1", name = "Животноводство I", description = "Приручение кур, коз, загонов", era = 2, scienceCost = 200 },
+            new ResearchNode { id = "brewing", name = "Пивоварение", description = "Пивоварня, эль, вино (из ягод)", era = 2, scienceCost = 180, prerequisiteIds = new[]{"farming1"} },
+            new ResearchNode { id = "medicine1", name = "Медицина I", description = "Травяные лекарства, перевязка, госпиталь", era = 2, scienceCost = 200 },
+            new ResearchNode { id = "gathering2", name = "Собирательство II", description = "Грибы (все виды), мёд, коренья", era = 2, scienceCost = 200, prerequisiteIds = new[]{"gathering1"} },
+            new ResearchNode { id = "metal1", name = "Обработка металлов I", description = "Плавильня, медь/олово, медные слитки", era = 2, scienceCost = 250, prerequisiteIds = new[]{"stoneworking"} },
+            new ResearchNode { id = "smithing1", name = "Кузнечное дело I", description = "Медные мечи, топоры, инструменты", era = 2, scienceCost = 250, prerequisiteIds = new[]{"metal1"} },
+            new ResearchNode { id = "carpentry", name = "Столярное дело", description = "Столярная, доски, деревянная мебель (качественная)", era = 2, scienceCost = 200, prerequisiteIds = new[]{"basic_building"} },
+            new ResearchNode { id = "tailoring2", name = "Портняжное дело II", description = "Ткацкий станок, ткань, летняя/зимняя одежда", era = 2, scienceCost = 220, prerequisiteIds = new[]{"tailoring1"} },
+            new ResearchNode { id = "defense2", name = "Оборона II", description = "Ямы-ловушки, ворота, башни (камень)", era = 2, scienceCost = 250, prerequisiteIds = new[]{"defense1"} },
+
+            // === ERA 3 — Development ===
+            new ResearchNode { id = "metal2", name = "Обработка металлов II", description = "Бронза, бронзовые слитки", era = 3, scienceCost = 400, prerequisiteIds = new[]{"metal1"} },
+            new ResearchNode { id = "smithing2", name = "Кузнечное дело II", description = "Бронзовое оружие/броня/инструменты", era = 3, scienceCost = 400, prerequisiteIds = new[]{"metal2","smithing1"} },
+            new ResearchNode { id = "adv_building", name = "Продвинутое строительство", description = "Кирпичные стены, стекло (окна), черепичная крыша", era = 3, scienceCost = 350, prerequisiteIds = new[]{"masonry"} },
+            new ResearchNode { id = "cooking3", name = "Кулинария III", description = "Изысканные блюда, приправы, маринование", era = 3, scienceCost = 300, prerequisiteIds = new[]{"cooking2"} },
+            new ResearchNode { id = "farming3", name = "Фермерство III", description = "Экзотические культуры (зависят от биома)", era = 3, scienceCost = 350, prerequisiteIds = new[]{"farming2"} },
+            new ResearchNode { id = "animals2", name = "Животноводство II", description = "Коровы, овцы, свиньи, доение, стрижка", era = 3, scienceCost = 350, prerequisiteIds = new[]{"animals1"} },
+            new ResearchNode { id = "medicine2", name = "Медицина II", description = "Стандартные лекарства, хирургия", era = 3, scienceCost = 350, prerequisiteIds = new[]{"medicine1"} },
+            new ResearchNode { id = "lighting", name = "Освещение", description = "Жаровня, фонарь, люстра, масляная лампа", era = 3, scienceCost = 300 },
+            new ResearchNode { id = "defense3", name = "Оборона III", description = "Подъёмный мост, каменные ловушки", era = 3, scienceCost = 350, prerequisiteIds = new[]{"defense2"} },
+            new ResearchNode { id = "trade1", name = "Торговля I", description = "Сигнальный костёр, базовая дипломатия", era = 3, scienceCost = 300 },
+            new ResearchNode { id = "fishing1", name = "Рыболовство", description = "Удочка, сеть, вяленая рыба", era = 3, scienceCost = 250 },
+            new ResearchNode { id = "pharma1", name = "Фармацевтика I", description = "Пилюли, мази, обезболивающее (опиум)", era = 3, scienceCost = 400, prerequisiteIds = new[]{"medicine1"} },
+            new ResearchNode { id = "greenhouse", name = "Теплицы", description = "Стеклянная крыша, контроль температуры, лампы", era = 3, scienceCost = 400, prerequisiteIds = new[]{"adv_building","farming2"} },
+
+            // === ERA 4 — Industry ===
+            new ResearchNode { id = "metal3", name = "Обработка металлов III", description = "Железо, сталь, стальные слитки", era = 4, scienceCost = 600, prerequisiteIds = new[]{"metal2"} },
+            new ResearchNode { id = "smithing3", name = "Кузнечное дело III", description = "Стальное оружие/броня/инструменты", era = 4, scienceCost = 600, prerequisiteIds = new[]{"metal3","smithing2"} },
+            new ResearchNode { id = "mechanics", name = "Механика", description = "Механизмы (для ловушек и осадных орудий), шестерни", era = 4, scienceCost = 550 },
+            new ResearchNode { id = "siege", name = "Осадные орудия", description = "Требушет, катапульта, баллиста", era = 4, scienceCost = 600, prerequisiteIds = new[]{"mechanics"} },
+            new ResearchNode { id = "explosives", name = "Взрывчатка", description = "Порох, бочки с порохом, мины", era = 4, scienceCost = 650, prerequisiteIds = new[]{"mechanics"} },
+            new ResearchNode { id = "adv_medicine", name = "Продвинутая медицина", description = "Антибиотики, ампутация, трепанация", era = 4, scienceCost = 600, prerequisiteIds = new[]{"medicine2"} },
+            new ResearchNode { id = "pharma2", name = "Фармацевтика II", description = "Экспериментальные лекарства, яды, мутагены", era = 4, scienceCost = 650, prerequisiteIds = new[]{"pharma1"} },
+            new ResearchNode { id = "drugtrade", name = "Наркоторговля", description = "Контрабанда, подпольные связи, двойное дно каравана", era = 4, scienceCost = 550, prerequisiteIds = new[]{"trade1"} },
+            new ResearchNode { id = "surgery", name = "Хирургия", description = "Пересадка органов, протезы, холодильная камера для органов", era = 4, scienceCost = 700, prerequisiteIds = new[]{"adv_medicine"} },
+            new ResearchNode { id = "arch1", name = "Архитектура I", description = "Впечатляющие здания, витражи, статуи", era = 4, scienceCost = 500, prerequisiteIds = new[]{"adv_building"} },
+            new ResearchNode { id = "animals3", name = "Животноводство III", description = "Лошади (верховая езда, караваны), страусы", era = 4, scienceCost = 550, prerequisiteIds = new[]{"animals2"} },
+            new ResearchNode { id = "trade2", name = "Торговля II", description = "Контракты с фракциями, торговые маршруты, своя лавка", era = 4, scienceCost = 550, prerequisiteIds = new[]{"trade1"} },
+            new ResearchNode { id = "fortifications", name = "Укрепления", description = "Бастионы, равелины, крепостные стены", era = 4, scienceCost = 600, prerequisiteIds = new[]{"defense3","masonry"} },
+            new ResearchNode { id = "alchemy1", name = "Алхимия I", description = "Зелья лечения, яды, огненные бомбы", era = 4, scienceCost = 600, prerequisiteIds = new[]{"pharma1"} },
+            new ResearchNode { id = "underground", name = "Подземное строительство", description = "Укреплённые своды, подземные фермы с лампами, шахтные подъёмники", era = 4, scienceCost = 600, prerequisiteIds = new[]{"adv_building"} },
+            new ResearchNode { id = "caravans1", name = "Караваны I", description = "Телеги, вьючные животные, походные палатки", era = 4, scienceCost = 500 },
+
+            // === ERA 5 — Progress ===
+            new ResearchNode { id = "plates", name = "Пластины и механизмы", description = "Продвинутые механизмы, броня (латная)", era = 5, scienceCost = 900, prerequisiteIds = new[]{"mechanics","smithing3"} },
+            new ResearchNode { id = "firearms1", name = "Огнестрельное оружие I", description = "Аркебуза, мушкет, пули", era = 5, scienceCost = 900, prerequisiteIds = new[]{"explosives"} },
+            new ResearchNode { id = "alchemy2", name = "Алхимия II", description = "Эликсиры (баффы), мутагены, кислотные бомбы", era = 5, scienceCost = 950, prerequisiteIds = new[]{"alchemy1"} },
+            new ResearchNode { id = "arch2", name = "Архитектура II", description = "Монументы, роскошные помещения, фонтаны", era = 5, scienceCost = 800, prerequisiteIds = new[]{"arch1"} },
+            new ResearchNode { id = "diplomacy", name = "Дипломатия", description = "Союзы, вассалы, совместные рейды", era = 5, scienceCost = 850, prerequisiteIds = new[]{"trade2"} },
+            new ResearchNode { id = "caravans2", name = "Караваны II", description = "Быстрые маршруты, торговые посты", era = 5, scienceCost = 800, prerequisiteIds = new[]{"caravans1"} },
+            new ResearchNode { id = "medicine3", name = "Медицина III", description = "Протезы, импланты, продвинутая хирургия", era = 5, scienceCost = 1000, prerequisiteIds = new[]{"surgery"} },
+            new ResearchNode { id = "energy", name = "Энергия", description = "Ветряк, водяное колесо, механические верстаки", era = 5, scienceCost = 900 },
+            new ResearchNode { id = "electricity", name = "Электричество", description = "Генератор (угольный), провода, лампочки, электропечь, электро-кузница", era = 5, scienceCost = 1000, prerequisiteIds = new[]{"energy"} },
+            new ResearchNode { id = "adv_electricity", name = "Продвинутое электричество", description = "Солнечная панель, аккумуляторы, холодильник, электролаборатория", era = 5, scienceCost = 1100, prerequisiteIds = new[]{"electricity"} },
+            new ResearchNode { id = "firearms2", name = "Огнестрельное оружие II", description = "Винтовка, дробовик, патроны", era = 5, scienceCost = 1000, prerequisiteIds = new[]{"firearms1"} },
+            new ResearchNode { id = "automation", name = "Автоматизация", description = "Конвейеры, автопечь, автокузница, автосборщик урожая, робот-уборщик", era = 5, scienceCost = 1200, prerequisiteIds = new[]{"adv_electricity"} },
+            new ResearchNode { id = "terraforming", name = "Терраформинг", description = "Взрывная добыча, осушение болот, орошение пустынь", era = 5, scienceCost = 1200, prerequisiteIds = new[]{"explosives","energy"} },
         };
 
         // Make Era 1 available
@@ -149,6 +210,8 @@ public class ResearchManager : MonoBehaviour
         {
             if (node.era == 1) node.isAvailable = true;
             if (node.prerequisiteIds == null) node.prerequisiteIds = new string[0];
+            if (node.resourceCosts == null) node.resourceCosts = new ItemType[0];
+            if (node.resourceAmounts == null) node.resourceAmounts = new int[0];
         }
     }
 }
