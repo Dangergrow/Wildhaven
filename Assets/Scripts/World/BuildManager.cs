@@ -48,8 +48,5 @@ public class BuildManager : MonoBehaviour
             _gridManager.RemoveBlock(hit.Value.x, hit.Value.y, hit.Value.z);
     }
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 500, 30), $"Block: {_selectedType} [1-9]  LMB/RMB  F5=Save F9=Load");
-    }
+    // OnGUI removed — use CanvasHUD instead
 }
