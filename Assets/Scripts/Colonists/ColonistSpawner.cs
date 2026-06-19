@@ -54,7 +54,9 @@ public class ColonistSpawner : MonoBehaviour
                 // Found: two air blocks above a solid block — spawn at the lower air block
                 if (solidBelow && isAirHere && isAirAbove)
                 {
-                    return grid.GridToWorld(gx, gy, gz); // center of air block = above surface
+                    Vector3 pos = grid.GridToWorld(gx, gy, gz);
+                    pos.y += 0.5f; // nudge up so capsule sits ON surface, not in it
+                    return pos;
                 }
             }
         }
@@ -67,7 +69,8 @@ public class ColonistSpawner : MonoBehaviour
     {
         if (colonistPrefab == null) { Debug.LogError("[ColonistSpawner] No prefab!"); return null; }
         GameObject go = Instantiate(colonistPrefab, pos, Quaternion.identity);
-        go.transform.localScale = Vector3.one * 1.2f; // bigger
+        // scale 0.8 to fit inside 1-block space without clipping
+        go.transform.localScale = Vector3.one * 0.8f;
         // Make visible
         Renderer r = go.GetComponent<Renderer>();
         if (r != null) { r.material = new Material(r.material) { color = Color.red }; }
