@@ -48,10 +48,9 @@ public class SelectionManager : MonoBehaviour
         if (_buildMode) return;
         if (_cam == null) return;
 
-        // LMB — select colonist
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        // LMB — select colonist (skip if context menu is open)
+        if (Mouse.current.leftButton.wasPressedThisFrame && !_showContextMenu)
         {
-            _showContextMenu = false;
             Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) { Deselect(); return; }
             Colonist c = hit.collider.GetComponentInParent<Colonist>();

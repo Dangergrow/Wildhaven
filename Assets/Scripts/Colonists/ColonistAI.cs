@@ -95,15 +95,18 @@ public class ColonistAI : MonoBehaviour
         if (currentOrder == OrderType.None) return false;
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
 
+        // Override state — orders take priority
+        _colonist.currentState = ColonistState.Moving;
+
         float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
         float dist = Vector3.Distance(transform.position, orderTarget);
 
-        // Move toward target
         if (dist > 0.5f)
         {
             Vector3 dir = (orderTarget - transform.position).normalized;
             Vector3 next = transform.position + dir * _speed * dt;
             if (CanMoveTo(next)) transform.position = next;
+            else { CancelOrder(); return false; } // blocked, give up
             return true;
         }
 
@@ -114,10 +117,7 @@ public class ColonistAI : MonoBehaviour
         {
             Vector3Int gp = _grid.WorldToGrid(orderTarget);
             if (_grid.InBounds(gp.x, gp.y, gp.z) && _grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
-            {
                 _grid.RemoveBlock(gp.x, gp.y, gp.z);
-                CancelOrder(); return false;
-            }
             CancelOrder(); return false;
         }
 
