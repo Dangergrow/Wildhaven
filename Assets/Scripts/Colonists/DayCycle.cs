@@ -146,22 +146,5 @@ public class DayCycle : MonoBehaviour
         Winter,
     }
 
-    /* OnGUI moved to GameHUD
-    private void OnGUI()
-    {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 18;
-        style.normal.textColor = Color.white;
-
-        string speedText = IsPaused ? "PAUSED" : $"Speed: {gameSpeed}x";
-        string timeText = $"Day {day}  {hour:D2}:{minute:D2}  {speedText}";
-        string seasonText = $"Season: {(Season)season}";
-
-        GUI.Label(new Rect(10, 10, 300, 30), timeText, style);
-        GUI.Label(new Rect(10, 35, 300, 30), seasonText, style);
-        GUI.Label(new Rect(10, 60, 300, 30), $"Num1/Num2/Num3 = speed, Space = pause", new GUIStyle() { fontSize = 12, normal = new GUIStyleState() { textColor = Color.gray } });
-    }
-    */
-    */
 
 }
