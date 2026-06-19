@@ -100,15 +100,17 @@ public class ColonistAI : MonoBehaviour
         _colonist.currentState = ColonistState.Moving;
 
         float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
-        if (Mathf.Approximately(dt, 0f)) dt = Time.unscaledDeltaTime;
+        if (Mathf.Approximately(dt, 0f) || dt < 0.001f) dt = Time.unscaledDeltaTime;
 
         float dist = Vector3.Distance(transform.position, orderTarget);
-        Debug.Log($"[OrderTick] {_colonist.colonistName} {currentOrder} dist={dist:F1} dt={dt:F4}");
+        if (Time.frameCount % 30 == 0)
+            Debug.Log($"[OrderTick] {_colonist.colonistName} {currentOrder} dist={dist:F1} dt={dt:F4}");
 
         if (dist > 0.5f)
         {
             Vector3 dir = (orderTarget - transform.position).normalized;
-            Vector3 next = transform.position + dir * _speed * dt;
+            float spd = _speed > 0 ? _speed : walkSpeed;
+        Vector3 next = transform.position + dir * spd * dt;
             if (CanMoveTo(next)) transform.position = next;
             else { CancelOrder(); return false; } // blocked, give up
             return true;
