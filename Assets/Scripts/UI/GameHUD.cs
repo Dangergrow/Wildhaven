@@ -22,8 +22,8 @@ public class GameHUD : MonoBehaviour
         if (_label == null)
         {
             _label = new GUIStyle(GUI.skin.label) { fontSize = 13, normal = { textColor = Color.white } };
-            _small = new GUIStyle(GUI.skin.label) { fontSize = 10, normal = { textColor = Color.gray } };
-            _bold = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold, normal = { textColor = Color.white } };
+            _small = new GUIStyle(GUI.skin.label) { fontSize = 11, normal = { textColor = Color.gray } };
+            _bold = new GUIStyle(GUI.skin.label) { fontSize = 13, fontStyle = FontStyle.Bold, normal = { textColor = Color.white } };
         }
 
         DrawTimeBar();
@@ -46,20 +46,20 @@ public class GameHUD : MonoBehaviour
     {
         if (_sp.Colonists.Count == 0) return;
         int count = _sp.Colonists.Count;
-        int panelH = 20 + count * 70;
-        Rect panel = new Rect(6, 45, 200, panelH);
+        int panelH = 20 + count * 85;
+        Rect panel = new Rect(6, 45, 210, panelH);
         GUI.Box(panel, "COLONISTS");
 
         float y = panel.y + 20;
         foreach (Colonist c in _sp.Colonists)
         {
             if (c == null) continue;
-            GUI.Label(new Rect(panel.x + 5, y, 190, 15), $"{c.colonistName} ({c.age})", _bold); y += 16;
-            GUI.Label(new Rect(panel.x + 8, y, 184, 13), $"HP:{c.health:F0}  Hung:{c.hunger:F0}  Fat:{c.fatigue:F0}", _small); y += 14;
-            DrawBarG(new Rect(panel.x + 5, y, 190, 8), c.health / c.maxHealth, Color.red); y += 10;
-            DrawBarG(new Rect(panel.x + 5, y, 190, 8), c.mood / 100f, new Color(0.2f, 0.7f, 0.2f)); y += 12;
-            GUI.Label(new Rect(panel.x + 8, y, 184, 12), $"Skills B:{c.constructionSkill} M:{c.miningSkill} C:{c.cookingSkill}", _small); y += 12;
-            GUI.Label(new Rect(panel.x + 8, y, 184, 12), $"       R:{c.rangedSkill} F:{c.farmingSkill} S:{c.socialSkill}", _small); y += 16;
+            GUI.Label(new Rect(panel.x + 5, y, 200, 18), $"{c.colonistName} ({c.age})", _bold); y += 18;
+            GUI.Label(new Rect(panel.x + 8, y, 194, 16), $"HP:{c.health:F0}  Hung:{c.hunger:F0}  Fat:{c.fatigue:F0}", _small); y += 17;
+            DrawBarG(new Rect(panel.x + 5, y, 200, 10), c.health / c.maxHealth, Color.red); y += 12;
+            DrawBarG(new Rect(panel.x + 5, y, 200, 10), c.mood / 100f, new Color(0.2f, 0.7f, 0.2f)); y += 14;
+            GUI.Label(new Rect(panel.x + 8, y, 194, 14), $"B:{c.constructionSkill} M:{c.miningSkill} C:{c.cookingSkill}", _small); y += 12;
+            GUI.Label(new Rect(panel.x + 8, y, 194, 14), $"R:{c.rangedSkill} F:{c.farmingSkill} S:{c.socialSkill}", _small); y += 14;
         }
     }
 

@@ -146,9 +146,7 @@ public class DayCycle : MonoBehaviour
         Winter,
     }
 
-    /// <summary>
-    /// Draws game time and speed on screen.
-    /// </summary>
+    /* OnGUI moved to GameHUD
     private void OnGUI()
     {
         GUIStyle style = new GUIStyle();
@@ -163,4 +161,7 @@ public class DayCycle : MonoBehaviour
         GUI.Label(new Rect(10, 35, 300, 30), seasonText, style);
         GUI.Label(new Rect(10, 60, 300, 30), $"Num1/Num2/Num3 = speed, Space = pause", new GUIStyle() { fontSize = 12, normal = new GUIStyleState() { textColor = Color.gray } });
     }
+    */
+    */
+
 }
