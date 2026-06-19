@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Movement")]
     [Tooltip("Speed in units/second")]
-    public float moveSpeed = 30f;
+    public float moveSpeed = 60f;
 
     [Tooltip("Speed multiplier when holding Shift")]
     public float fastMultiplier = 3f;
@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
     public float maxY = 80f;
 
     [Tooltip("Scroll speed")]
-    public float zoomSpeed = 15f;
+    public float zoomSpeed = 40f;
 
     #endregion
 
