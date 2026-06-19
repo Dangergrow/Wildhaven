@@ -539,6 +539,10 @@ GameObject:
   - component: {fileID: 1183656583}
   - component: {fileID: 1183656582}
   - component: {fileID: 1183656581}
+  - component: {fileID: 1183656588}
+  - component: {fileID: 1183656587}
+  - component: {fileID: 1183656586}
+  - component: {fileID: 1183656585}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -652,6 +656,86 @@ MonoBehaviour:
   sunLight: {fileID: 663085798}
   sunriseHour: 6
   sunsetHour: 20
+--- !u!114 &1183656585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183656579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceeee54b1a5827444bca27c5a4bd2c45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResearchManager
+  sciencePoints: 0
+  sciencePerSecond: 0.5
+  allResearch: []
+  currentResearch:
+    id: 
+    name: 
+    description: 
+    era: 0
+    scienceCost: 0
+    prerequisiteIds: []
+    resourceCosts: 
+    resourceAmounts: 
+    isCompleted: 0
+    isAvailable: 0
+    progress: 0
+  progress: 0
+  completedIds: []
+--- !u!114 &1183656586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183656579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ca1f25f2d12da4db07231b7c02338f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaidManager
+  minRaidInterval: 120
+  maxRaidInterval: 300
+  timeSinceLastRaid: 0
+  raidInterval: 0
+  currentRaidWave: 0
+  wealthMultiplier: 0.01
+  spawnDistance: 30
+  enemyPrefab: {fileID: 0}
+  banditPrefab: {fileID: 0}
+--- !u!114 &1183656587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183656579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b59bccc91868e3f43a7bbd6ae037393e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventManager
+  checkInterval: 60
+  eventChance: 0.3
+  eventDefs: []
+  currentDay: 0
+  activeEvents: []
+  pastEvents: 
+--- !u!114 &1183656588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183656579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7623a09fa452b5d42b2549b92bd0363f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameHUD
 --- !u!1 &1465607625
 GameObject:
   m_ObjectHideFlags: 0

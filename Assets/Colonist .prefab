@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2941387769510504399}
   - component: {fileID: 7327179678463401954}
   - component: {fileID: -5056173664091930940}
+  - component: {fileID: -7322278092646299517}
   m_Layer: 0
   m_Name: 'Colonist '
   m_TagString: Untagged
@@ -252,3 +253,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   maxSlots: 20
   maxWeight: 100
+--- !u!114 &-7322278092646299517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2729042192664582530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00166099a41ac024da83d7993957591c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColonistGravity
+  gravity: 9.8
+  fallSpeed: 0
