@@ -120,7 +120,9 @@ public class SelectionManager : MonoBehaviour
                 ai.GiveOrder(ColonistAI.OrderType.Mine, _contextWorldPos);
                 _showContextMenu = false;
             }
-            if (Event.current.type == EventType.MouseDown) _showContextMenu = false;
+            // Auto-close after issuing order; also close if RMB pressed again
+            if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
+                _showContextMenu = false;
         }
     }
 
