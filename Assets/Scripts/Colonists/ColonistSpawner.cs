@@ -65,7 +65,7 @@ public class ColonistSpawner : MonoBehaviour
         return new Vector3(50, 20, 50);
     }
 
-    Colonist SpawnColonist(Vector3 pos)
+    public Colonist SpawnColonist(Vector3 pos)
     {
         if (colonistPrefab == null) { Debug.LogError("[ColonistSpawner] No prefab!"); return null; }
         GameObject go = Instantiate(colonistPrefab, pos, Quaternion.identity);
