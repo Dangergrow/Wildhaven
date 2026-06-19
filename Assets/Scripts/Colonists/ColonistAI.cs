@@ -65,6 +65,8 @@ public class ColonistAI : MonoBehaviour
             if (Time.frameCount % 60 == 0) Debug.Log($"[AI] {name} — paused, no order");
             return;
         } // allow orders during pause
+        if (currentOrder != OrderType.None && Time.frameCount % 10 == 0)
+            Debug.Log($"[AI] {name} order={currentOrder} state={_colonist.currentState} paused={_day?.IsPaused}");
         EvaluateState();
         if (HandleOrder()) return; // Player orders take priority
         HandleWandering();
