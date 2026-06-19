@@ -55,8 +55,16 @@ public class ColonistAI : MonoBehaviour
 
     private void Update()
     {
-        if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
-        if (_day != null && _day.IsPaused && currentOrder == OrderType.None) return; // allow orders during pause
+        if (_colonist == null || _colonist.currentState == ColonistState.Dead)
+        {
+            if (Time.frameCount % 60 == 0) Debug.Log($"[AI] {name} — dead or null (state={_colonist?.currentState})");
+            return;
+        }
+        if (_day != null && _day.IsPaused && currentOrder == OrderType.None)
+        {
+            if (Time.frameCount % 60 == 0) Debug.Log($"[AI] {name} — paused, no order");
+            return;
+        } // allow orders during pause
         EvaluateState();
         if (HandleOrder()) return; // Player orders take priority
         HandleWandering();
