@@ -46,8 +46,23 @@ public class ColonistAI : MonoBehaviour
         float dist = Vector3.Distance(transform.position, _wanderTarget);
         if (dist > 0.3f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _wanderTarget, _speed * 0.4f * Time.deltaTime);
-            _isMoving = true;
+            Vector3 dir = (_wanderTarget - transform.position).normalized;
+            Vector3 nextPos = transform.position + dir * _speed * 0.4f * Time.deltaTime;
+            // Only move if next position is air
+            GridManager grid = FindObjectOfType<GridManager>();
+            bool canMove = true;
+            if (grid != null)
+            {
+                Vector3Int gp = grid.WorldToGrid(nextPos);
+                if (grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
+                    canMove = false;
+            }
+            if (canMove)
+            {
+                transform.position = nextPos;
+                _isMoving = true;
+            }
+            else PickWanderTarget(); // blocked — find new target
         }
         else _isMoving = false;
     }
