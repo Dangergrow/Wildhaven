@@ -4,6 +4,30 @@
 
 ---
 
+## ▶ Сессия: 19.06.2026 | ПК: РАБОЧИЙ
+
+### Что сделано (Этап 2 — колонисты)
+- Colonist.cs: идентичность, 7 потребностей, 14 навыков, 12 перков, 11 недостатков
+- NeedsSystem.cs: голод/жажда/усталость/настроение/комфорт/общение/вера — расчёт по dt
+- ColonistAI.cs: state machine (Idle→Working→Eating→Sleeping→Recreation), NavMeshAgent
+- DayCycle.cs: 24ч цикл, 4 сезона, солнце, пауза (Space), скорость (1/2/3)
+- ColonistSpawner.cs: спавн 3 колонистов, случайные имена/навыки
+- JobManager.cs: очередь задач, назначение по навыкам
+- RecreationManager.cs: 10 активностей, 6 типов, штраф за однообразие
+
+### Что сделать для Play
+1. World: добавить NavMeshSurface → Bake
+2. Создать Empty "GameManager" → DayCycle + JobManager + RecreationManager + ColonistSpawner
+3. Создать префаб Colonist (Capsule + Colonist + ColonistAI + NeedsSystem + NavMeshAgent)
+4. Назначить префаб в ColonistSpawner.colonistPrefab
+5. DayCycle.sunLight = Directional Light
+
+### Следующий шаг
+- Доделать Stage 2: NavMesh на вокселях, тест спавна
+- Этап 3: Ресурсы, инвентарь, крафт
+
+---
+
 ## ▶ Сессия: 18.06.2026 | ПК: ДОМАШНИЙ → ПК: РАБОЧИЙ
 
 ### Что сделано (полный список)
