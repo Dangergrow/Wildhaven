@@ -91,7 +91,7 @@ public class WorldMapGenerator : MonoBehaviour
 
     MapBiome DetermineBiome(float temp, float rain, float elevation)
     {
-        if (elevation > 0.85f) return MapBiome.Mountains;
+        if (elevation > 0.85f) return MapBiome.IceWastes; // mountain peaks
         if (temp < 0.2f) return MapBiome.Tundra;
         if (temp < 0.35f) return MapBiome.Taiga;
         if (rain < 0.3f) return MapBiome.Desert;

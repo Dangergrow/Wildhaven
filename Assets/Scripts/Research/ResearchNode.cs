@@ -1,3 +1,5 @@
+using UnityEngine;
+
 /// <summary>
 /// Defines a research node in the tech tree.
 /// </summary>

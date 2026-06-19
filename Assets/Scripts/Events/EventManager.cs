@@ -103,7 +103,10 @@ public class EventManager : MonoBehaviour
         {
             case EventType.WandererJoins:
                 if (_colonistSpawner != null)
-                    _colonistSpawner.SpawnColonist(_colonistSpawner.SpawnColonist(Vector3.zero)?.transform.position ?? new Vector3(50, 15, 50));
+                {
+                    Vector3 pos = _colonistSpawner.transform.position + Random.insideUnitSphere * 3f;
+                    _colonistSpawner.SpawnColonist(pos + Vector3.up * 15f);
+                }
                 break;
 
             case EventType.TradeCaravan:
