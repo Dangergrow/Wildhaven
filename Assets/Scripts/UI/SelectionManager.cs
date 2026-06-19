@@ -85,7 +85,10 @@ public class SelectionManager : MonoBehaviour
         if (_cam == null) return;
 
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 50f, Color.yellow, 1f);
         if (!Physics.Raycast(ray, out RaycastHit hit, 100f) || hit.collider == null) return;
+
+        Debug.Log($"[Selection] Clicked: {hit.collider.gameObject.name}");
 
         Colonist c = hit.collider.GetComponentInParent<Colonist>();
         if (c != null) { SelectColonist(c); return; }
