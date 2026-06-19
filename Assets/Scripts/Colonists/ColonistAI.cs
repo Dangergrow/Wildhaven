@@ -56,7 +56,7 @@ public class ColonistAI : MonoBehaviour
     private void Update()
     {
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
-        if (_day != null && _day.IsPaused) return;
+        if (_day != null && _day.IsPaused && currentOrder == OrderType.None) return; // allow orders during pause
         EvaluateState();
         if (HandleOrder()) return; // Player orders take priority
         HandleWandering();
@@ -100,6 +100,7 @@ public class ColonistAI : MonoBehaviour
         _colonist.currentState = ColonistState.Moving;
 
         float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
+        if (Mathf.Approximately(dt, 0f)) dt = Time.unscaledDeltaTime; // move during pause too
         float dist = Vector3.Distance(transform.position, orderTarget);
 
         if (dist > 0.5f)
