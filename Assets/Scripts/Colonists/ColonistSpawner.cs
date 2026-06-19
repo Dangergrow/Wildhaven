@@ -77,29 +77,37 @@ public class ColonistSpawner : MonoBehaviour
     private Vector3 GetRandomSpawnPosition()
     {
         GridManager grid = FindObjectOfType<GridManager>();
-        for (int attempt = 0; attempt < 50; attempt++)
+        if (grid == null) return spawnCenter;
+
+        for (int attempt = 0; attempt < 100; attempt++)
         {
-            Vector2 circle = Random.insideUnitCircle * spawnRadius;
-            Vector3 origin = spawnCenter + new Vector3(circle.x, 60f, circle.y);
+            int gx = Random.Range(spawnCenterX - 8, spawnCenterX + 8);
+            int gz = Random.Range(spawnCenterZ - 8, spawnCenterZ + 8);
 
-            if (!Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 80f))
-                continue;
-
-            // Check what block is at the hit point — avoid water
-            if (grid != null)
+            // Scan from top of world down to find surface
+            for (int gy = grid.Height - 1; gy >= 1; gy--)
             {
-                Vector3Int blockPos = grid.WorldToGrid(hit.point);
-                BlockType block = grid.GetBlock(blockPos.x, blockPos.y, blockPos.z);
-                // Only spawn on solid ground, not water
-                if (block == BlockType.Water || block == BlockType.Air)
-                    continue;
-            }
+                BlockType block = grid.GetBlock(gx, gy, gz);
+                BlockType below = grid.GetBlock(gx, gy - 1, gz);
 
-            return hit.point + Vector3.up * 1.5f;
+                // Found surface: grass/dirt/stone/snow with solid block below
+                bool isSurface = (block == BlockType.Grass || block == BlockType.Dirt ||
+                                  block == BlockType.Stone || block == BlockType.Snow ||
+                                  block == BlockType.Sand);
+                bool isSolidBelow = below != BlockType.Air && below != BlockType.Water;
+
+                if (isSurface && isSolidBelow)
+                {
+                    return grid.GridToWorld(gx, gy + 1, gz); // one block above surface
+                }
+            }
         }
-        Debug.LogError("[ColonistSpawner] Could not find valid spawn position");
-        return spawnCenter + Vector3.up * 3f;
+        Debug.LogError("[ColonistSpawner] No valid spawn position in grid");
+        return spawnCenter;
     }
+
+    private int spawnCenterX => Mathf.RoundToInt(spawnCenter.x);
+    private int spawnCenterZ => Mathf.RoundToInt(spawnCenter.z);
 
     private string GenerateName(bool male)
     {
