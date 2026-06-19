@@ -82,31 +82,33 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
+    [Header("Build Mode")]
+    public bool buildMode = true; // B to toggle
+
     void HandleClick()
     {
+        // Toggle build mode
+        if (Input.GetKeyDown(KeyCode.B)) { buildMode = !buildMode; Debug.Log($"[Selection] Build mode: {buildMode}"); }
+        if (buildMode) return; // let BuildManager handle clicks in build mode
+
         if (!Input.GetMouseButtonDown(0)) return;
+        if (_cam == null) return;
 
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 100f) || hit.collider == null) return;
-
-        // Check if clicked on colonist
-        Colonist colonist = hit.collider.GetComponentInParent<Colonist>();
-        if (colonist != null)
+        try
         {
-            SelectColonist(colonist);
-            return;
-        }
+            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+            if (!Physics.Raycast(ray, out RaycastHit hit, 100f)) return;
+            if (hit.collider == null || hit.collider.gameObject == null) return;
 
-        // Check enemy
-        Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-        if (enemy != null)
-        {
-            SelectEnemy(enemy);
-            return;
-        }
+            Colonist colonist = hit.collider.GetComponentInParent<Colonist>();
+            if (colonist != null) { SelectColonist(colonist); return; }
 
-        // Clicked on ground — deselect
-        DeselectAll();
+            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+            if (enemy != null) { SelectEnemy(enemy); return; }
+
+            DeselectAll();
+        }
+        catch (System.Exception) { /* ignore raycast errors */ }
     }
 
     void SelectColonist(Colonist c)
@@ -140,6 +142,11 @@ public class SelectionManager : MonoBehaviour
     /// <summary>Draws basic info for selected unit.</summary>
     void OnGUI()
     {
+        // Build mode indicator
+        GUIStyle modeStyle = new GUIStyle(GUI.skin.label) { fontSize = 12, fontStyle = FontStyle.Bold };
+        modeStyle.normal.textColor = buildMode ? Color.green : Color.yellow;
+        GUI.Label(new Rect(Screen.width - 110, 28, 105, 20), buildMode ? "BUILD [B]" : "SELECT [B]", modeStyle);
+
         if (selectedColonist == null) return;
         Colonist c = selectedColonist;
         GUIStyle s = new GUIStyle(GUI.skin.box) { fontSize = 12, alignment = TextAnchor.UpperLeft };
