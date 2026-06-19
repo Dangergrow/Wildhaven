@@ -50,7 +50,7 @@ public class GameHUD : MonoBehaviour
         Rect panel = new Rect(6, 45, 200, panelH);
         GUI.Box(panel, "COLONISTS");
 
-        int y = panel.y + 20;
+        float y = panel.y + 20;
         foreach (Colonist c in _sp.Colonists)
         {
             if (c == null) continue;
