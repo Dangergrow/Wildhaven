@@ -14,11 +14,13 @@ public class BlockDropManager : MonoBehaviour
     public float flySpeed = 5f;
 
     private GridManager _grid;
+    private ColonistSpawner _spawner;
     private List<WorldItem> _worldItems = new List<WorldItem>();
 
     void Awake()
     {
         _grid = GetComponent<GridManager>();
+        _spawner = FindObjectOfType<ColonistSpawner>();
         if (dropTable == null || dropTable.Length == 0)
         {
             dropTable = new DropEntry[]
@@ -55,7 +57,8 @@ public class BlockDropManager : MonoBehaviour
     void Update()
     {
         // Fly items toward nearest colonist
-        ColonistSpawner spawner = FindObjectOfType<ColonistSpawner>();
+            ColonistSpawner spawner = _spawner;
+            if (spawner == null) spawner = FindObjectOfType<ColonistSpawner>();
         if (spawner == null || spawner.Colonists.Count == 0) return;
 
         for (int i = _worldItems.Count - 1; i >= 0; i--)
@@ -171,7 +174,8 @@ public class WorldItem : MonoBehaviour
             transform.position += spawnVelocity * Time.deltaTime;
 
             // Check ground
-            GridManager grid = FindObjectOfType<GridManager>();
+            GridManager grid = _grid;
+            if (grid == null) grid = FindObjectOfType<GridManager>();
             if (grid != null)
             {
                 Vector3Int below = grid.WorldToGrid(transform.position + Vector3.down * 0.2f);

@@ -20,6 +20,8 @@ public class MentalState : MonoBehaviour
     public MentalBreakType[] breakTypes;
 
     private Colonist _colonist;
+    private DayCycle _day;
+    private ColonistSpawner _spawner;
     private float _lastBreakTime = -999f;
     private float _lastInspirationTime = -999f;
     private bool _inBreak;
@@ -45,7 +47,7 @@ public class MentalState : MonoBehaviour
     {
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
 
-        DayCycle day = FindObjectOfType<DayCycle>();
+        DayCycle day = _day;
         if (day != null && day.IsPaused) return;
 
         float gameTime = Time.time * (day != null ? day.gameSpeed : 1f);
@@ -114,7 +116,7 @@ public class MentalState : MonoBehaviour
 
             case BreakEffect.Berserk:
                 // Damage nearest colonist
-                ColonistSpawner sp = FindObjectOfType<ColonistSpawner>();
+                ColonistSpawner sp = _spawner;
                 if (sp != null)
                 {
                     foreach (Colonist c in sp.Colonists)

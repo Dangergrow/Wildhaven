@@ -54,16 +54,18 @@ public class NeedsSystem : MonoBehaviour
     public float inspirationThreshold = 85f;
 
     private Colonist _colonist;
+    private DayCycle _day;
 
     private void Awake()
     {
         _colonist = GetComponent<Colonist>();
+        _day = FindObjectOfType<DayCycle>();
     }
 
     private void Update()
     {
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
-        DayCycle day = FindObjectOfType<DayCycle>();
+        DayCycle day = _day;
         if (day != null && day.IsPaused) return;
 
         float dt = Time.deltaTime * (day != null ? day.gameSpeed : 1f);

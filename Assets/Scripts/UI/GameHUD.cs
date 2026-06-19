@@ -7,12 +7,14 @@ public class GameHUD : MonoBehaviour
 {
     private DayCycle _day;
     private ColonistSpawner _sp;
+    private BuildManager _bm;
     private GUIStyle _label, _small, _bold;
 
     void Start()
     {
         _day = FindObjectOfType<DayCycle>();
         _sp = FindObjectOfType<ColonistSpawner>();
+        _bm = FindObjectOfType<BuildManager>();
     }
 
     void OnGUI()
@@ -77,7 +79,7 @@ public class GameHUD : MonoBehaviour
 
     void DrawBlockIndicator()
     {
-        BuildManager bm = FindObjectOfType<BuildManager>();
+        BuildManager bm = _bm;
         if (bm == null) return;
         Rect r = new Rect(Screen.width - 100, 4, 95, 22);
         GUI.Box(r, "");
