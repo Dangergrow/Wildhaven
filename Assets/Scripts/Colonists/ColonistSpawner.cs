@@ -36,22 +36,25 @@ public class ColonistSpawner : MonoBehaviour
             int gx = spawnOrigin.x + Random.Range(-searchRadius, searchRadius + 1);
             int gz = spawnOrigin.z + Random.Range(-searchRadius, searchRadius + 1);
 
-            for (int gy = grid.Height - 1; gy >= 1; gy--)
+            // Scan from top down to find the FIRST air block above solid surface
+            for (int gy = grid.Height - 2; gy >= 1; gy--)
             {
-                BlockType block = grid.GetBlock(gx, gy, gz);
+                BlockType below = grid.GetBlock(gx, gy - 1, gz);
+                BlockType here = grid.GetBlock(gx, gy, gz);
                 BlockType above = grid.GetBlock(gx, gy + 1, gz);
 
-                bool isSolid = block == BlockType.Grass || block == BlockType.Dirt ||
-                               block == BlockType.Stone || block == BlockType.Snow ||
-                               block == BlockType.Sand || block == BlockType.Gravel ||
-                               block == BlockType.WoodPlanks || block == BlockType.StoneBrick;
-                bool hasAirAbove = above == BlockType.Air;
+                bool solidBelow = below == BlockType.Grass || below == BlockType.Dirt ||
+                                  below == BlockType.Stone || below == BlockType.Snow ||
+                                  below == BlockType.Sand || below == BlockType.Gravel ||
+                                  below == BlockType.WoodPlanks || below == BlockType.StoneBrick;
 
-                if (isSolid && hasAirAbove)
+                bool isAirHere = here == BlockType.Air;
+                bool isAirAbove = above == BlockType.Air;
+
+                // Found: two air blocks above a solid block — spawn at the lower air block
+                if (solidBelow && isAirHere && isAirAbove)
                 {
-                    Vector3 pos = grid.GridToWorld(gx, gy, gz);
-                    pos.y += grid.BlockSize * 0.7f; // well above block surface
-                    return pos;
+                    return grid.GridToWorld(gx, gy, gz); // center of air block = above surface
                 }
             }
         }
