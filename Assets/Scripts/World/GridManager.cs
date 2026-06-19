@@ -299,6 +299,11 @@ public class GridManager : MonoBehaviour
                 else if (y == th) _grid[x, y, z] = new(BlockType.Grass);
                 else _grid[x, y, z] = GridCell.Empty;
             }
+            // Water fills depressions: if terrain below sea level, fill above terrain with water
+            int seaLevel = 7;
+            if (th < seaLevel)
+                for (int y = th + 1; y <= seaLevel; y++)
+                    _grid[x, y, z] = new(BlockType.Water);
         }
     }
 
