@@ -217,7 +217,7 @@ public class ColonistAI : MonoBehaviour
                 for (int dy = -1; dy <= 1; dy++)
                 {
                     int gx = myPos.x + dx, gy = myPos.y + dy, gz = myPos.z + dz;
-                    if (!_grid.IsInBounds(gx, gy, gz)) continue;
+                    if (!_grid.InBounds(gx, gy, gz)) continue;
                     BlockType b = _grid.GetBlock(gx, gy, gz);
                     if (b != BlockType.Air && b != BlockType.Water && b != BlockType.Bedrock)
                     {
