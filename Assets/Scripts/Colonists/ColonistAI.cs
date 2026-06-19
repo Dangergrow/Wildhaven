@@ -106,8 +106,7 @@ public class ColonistAI : MonoBehaviour
         // Override state — orders take priority
         _colonist.currentState = ColonistState.Moving;
 
-        float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
-        if (Mathf.Approximately(dt, 0f) || dt < 0.001f) dt = Time.unscaledDeltaTime;
+        float dt = Time.unscaledDeltaTime;
 
         float dist = Vector3.Distance(transform.position, orderTarget);
         if (Time.frameCount % 30 == 0)
