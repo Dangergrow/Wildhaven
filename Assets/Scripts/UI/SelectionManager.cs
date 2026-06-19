@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
-/// LMB selects colonist under cursor via Physics.Raycast.
-/// B toggles build/select mode.
+/// B = toggle build/select mode.
+/// In select mode: LMB = select colonist under cursor via Physics.Raycast.
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class SelectionManager : MonoBehaviour
         _build = FindObjectOfType<BuildManager>();
         _cam = Camera.main;
         if (_cam == null) _cam = FindObjectOfType<Camera>();
-        if (_cam == null) { Debug.LogError("[SelectionManager] No camera!"); return; }
         if (ring == null)
         {
             ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -31,17 +31,23 @@ public class SelectionManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Keyboard.current == null || Mouse.current == null) return;
+
+        // Toggle mode
+        if (Keyboard.current.bKey.wasPressedThisFrame)
         {
             _buildMode = !_buildMode;
             if (_build != null) _build.enabled = _buildMode;
+            if (!_buildMode) Deselect();
         }
+
         if (_buildMode) return;
         if (_cam == null) return;
-        if (!Input.GetMouseButtonDown(0)) return;
+        if (!Mouse.current.leftButton.wasPressedThisFrame) return;
 
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 200f)) { Deselect(); return; }
+        // Raycast from mouse to find colonist
+        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) { Deselect(); return; }
 
         Colonist c = hit.collider.GetComponentInParent<Colonist>();
         if (c != null) Select(c); else Deselect();
@@ -49,11 +55,11 @@ public class SelectionManager : MonoBehaviour
 
     void Select(Colonist c)
     {
+        if (selectedColonist == c) return;
         selectedColonist = c;
         ring.SetActive(true);
         ring.transform.position = c.transform.position + Vector3.up * 0.9f;
         ring.transform.SetParent(c.transform);
-        Debug.Log($"[Select] {c.colonistName}");
     }
 
     void Deselect()
@@ -65,14 +71,15 @@ public class SelectionManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUIStyle s = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold };
+        var s = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold };
         s.normal.textColor = _buildMode ? Color.green : Color.cyan;
         GUI.Label(new Rect(Screen.width - 130, 5, 125, 24), _buildMode ? "BUILD [B]" : "SELECT [B]", s);
-        GUI.Label(new Rect(10, Screen.height - 40, 400, 30), "B = build/select  |  LMB = select colonist", s);
 
-        if (selectedColonist == null) return;
-        Colonist c = selectedColonist;
-        GUI.Box(new Rect(Screen.width - 230, Screen.height / 2f - 45, 220, 80),
-            $"{c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
+        if (selectedColonist != null)
+        {
+            Colonist c = selectedColonist;
+            GUI.Box(new Rect(Screen.width - 230, Screen.height / 2 - 45, 220, 80),
+                $"{c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
+        }
     }
 }

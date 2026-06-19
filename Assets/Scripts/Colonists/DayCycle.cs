@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Manages day/night cycle and game time.
@@ -79,13 +80,12 @@ public class DayCycle : MonoBehaviour
     /// </summary>
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+        if (Keyboard.current == null) return;
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
             gameSpeed = Mathf.Approximately(gameSpeed, 0f) ? 1f : 0f;
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad1)) gameSpeed = 1f;
-        if (Input.GetKeyDown(KeyCode.Keypad2)) gameSpeed = 2f;
-        if (Input.GetKeyDown(KeyCode.Keypad3)) gameSpeed = 4f;
+        if (Keyboard.current.numpad1Key.wasPressedThisFrame) gameSpeed = 1f;
+        if (Keyboard.current.numpad2Key.wasPressedThisFrame) gameSpeed = 2f;
+        if (Keyboard.current.numpad3Key.wasPressedThisFrame) gameSpeed = 4f;
     }
 
     /// <summary>
