@@ -14,7 +14,7 @@ public class ColonistSpawner : MonoBehaviour
     public GameObject colonistPrefab;
 
     [Tooltip("Spawn area center")]
-    public Vector3 spawnCenter = new Vector3(50f, 16f, 50f);
+    public Vector3 spawnCenter = new Vector3(50f, 25f, 50f);
 
     [Tooltip("Spawn radius")]
     public float spawnRadius = 5f;

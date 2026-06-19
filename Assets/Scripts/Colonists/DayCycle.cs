@@ -81,11 +81,12 @@ public class DayCycle : MonoBehaviour
         {
             gameSpeed = Mathf.Approximately(gameSpeed, 0f) ? 1f : 0f;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        // Only NumPad for speed (Alpha 1-3 used by BuildManager)
+        if (Input.GetKeyDown(KeyCode.Keypad1))
             gameSpeed = 1f;
-        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        if (Input.GetKeyDown(KeyCode.Keypad2))
             gameSpeed = 2f;
-        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        if (Input.GetKeyDown(KeyCode.Keypad3))
             gameSpeed = 4f;
     }
 
@@ -142,5 +143,23 @@ public class DayCycle : MonoBehaviour
         Summer,
         Autumn,
         Winter,
+    }
+
+    /// <summary>
+    /// Draws game time and speed on screen.
+    /// </summary>
+    private void OnGUI()
+    {
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 18;
+        style.normal.textColor = Color.white;
+
+        string speedText = IsPaused ? "PAUSED" : $"Speed: {gameSpeed}x";
+        string timeText = $"Day {day}  {hour:D2}:{minute:D2}  {speedText}";
+        string seasonText = $"Season: {(Season)season}";
+
+        GUI.Label(new Rect(10, 10, 300, 30), timeText, style);
+        GUI.Label(new Rect(10, 35, 300, 30), seasonText, style);
+        GUI.Label(new Rect(10, 60, 300, 30), $"Num1/Num2/Num3 = speed, Space = pause", new GUIStyle() { fontSize = 12, normal = new GUIStyleState() { textColor = Color.gray } });
     }
 }
