@@ -8,7 +8,7 @@ public class ItemData : ScriptableObject
 {
     public ItemType itemType;
     public string itemName;
-    [TextArea] public string description;
+    public string description;
     public Sprite icon;
 
     [Header("Stacking")]

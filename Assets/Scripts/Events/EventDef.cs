@@ -37,7 +37,7 @@ public class GameEventDef
 {
     public EventType type;
     public string title;
-    [TextArea] public string description;
+    public string description;
     public float duration; // 0 = instant
     public float minDay; // earliest day it can happen
     public float weight; // relative probability
