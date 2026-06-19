@@ -287,9 +287,9 @@ public class GridManager : MonoBehaviour
         {
             float nx = (float)x / worldWidth, nz = (float)z / worldDepth;
             float h = Mathf.PerlinNoise(nx * 2.2f + seed * .001f, nz * 2.2f + seed * .001f)
-                    + Mathf.PerlinNoise(nx * 5f + seed * .002f, nz * 5f + seed * .002f) * .5f
-                    + Mathf.PerlinNoise(nx * 11f + seed * .003f, nz * 11f + seed * .003f) * .25f;
-            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .7f), 2, worldHeight - 1);
+                    + Mathf.PerlinNoise(nx * 5f + seed * .002f, nz * 5f + seed * .002f) * .3f
+                    + Mathf.PerlinNoise(nx * 11f + seed * .003f, nz * 11f + seed * .003f) * .15f;
+            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .55f), 2, worldHeight - 1);
             for (int y = 0; y < worldHeight; y++)
             {
                 if (y == 0) _grid[x, y, z] = new(BlockType.Bedrock);

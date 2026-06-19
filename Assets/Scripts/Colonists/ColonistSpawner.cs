@@ -76,8 +76,19 @@ public class ColonistSpawner : MonoBehaviour
 
     private Vector3 GetRandomSpawnPosition()
     {
-        Vector2 circle = Random.insideUnitCircle * spawnRadius;
-        return spawnCenter + new Vector3(circle.x, 0f, circle.y);
+        for (int attempt = 0; attempt < 20; attempt++)
+        {
+            Vector2 circle = Random.insideUnitCircle * spawnRadius;
+            Vector3 origin = spawnCenter + new Vector3(circle.x, 60f, circle.y);
+
+            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 80f))
+            {
+                // Spawn on top of hit
+                return hit.point + Vector3.up * 1.5f;
+            }
+        }
+        // Fallback — above center
+        return spawnCenter + Vector3.up * 5f;
     }
 
     private string GenerateName(bool male)
