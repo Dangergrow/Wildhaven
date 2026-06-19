@@ -29,13 +29,14 @@ public class ColonistAI : MonoBehaviour
     /// <summary>Issue a player order. Returns false if colonist can't accept orders.</summary>
     public bool GiveOrder(OrderType type, Vector3 target)
     {
-        if (_colonist == null || _colonist.currentState == ColonistState.Dead
-            || _colonist.currentState == ColonistState.Sleeping
-            || _colonist.currentState == ColonistState.Fighting
-            || _colonist.currentState == ColonistState.Incapacitated)
+        if (_colonist == null || _colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated)
             return false;
+        // Wake up if sleeping
+        if (_colonist.currentState == ColonistState.Sleeping)
+            _colonist.currentState = ColonistState.Idle;
         currentOrder = type;
         orderTarget = target;
+        Debug.Log($"[Order] {_colonist.colonistName} {type} dist={Vector3.Distance(transform.position, target):F1} state={_colonist.currentState}");
         return true;
     }
 
