@@ -6,6 +6,8 @@ public class GridManager : MonoBehaviour
 {
     /// <summary>Fired when a block is destroyed. Args: x, y, z, oldBlockType.</summary>
     public System.Action<int, int, int, BlockType> OnBlockRemoved;
+    /// <summary>Fired after any block change (set/remove). Args: x, y, z.</summary>
+    public System.Action<int, int, int> OnBlockChanged;
     #region Public
 
     [Header("World")] public int worldWidth = 100, worldHeight = 32, worldDepth = 100;
@@ -96,6 +98,7 @@ public class GridManager : MonoBehaviour
         if (z % CHUNK == 0 && z > 0) DirtyChunkAt(x, y, z - 1);
         if (z % CHUNK == CHUNK - 1 && z < worldDepth - 1) DirtyChunkAt(x, y, z + 1);
         RebuildDirtyChunks();
+        OnBlockChanged?.Invoke(x, y, z);
     }
 
     public void RemoveBlock(int x, int y, int z)
