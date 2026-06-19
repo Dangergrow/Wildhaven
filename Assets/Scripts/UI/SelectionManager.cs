@@ -9,11 +9,15 @@ public class SelectionManager : MonoBehaviour
     public Colonist selectedColonist;
     public GameObject ring;
     private BuildManager _build;
+    private Camera _cam;
     private bool _buildMode = true;
 
     void Start()
     {
         _build = FindObjectOfType<BuildManager>();
+        _cam = Camera.main;
+        if (_cam == null) _cam = FindObjectOfType<Camera>();
+        if (_cam == null) { Debug.LogError("[SelectionManager] No camera!"); return; }
         if (ring == null)
         {
             ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -33,9 +37,10 @@ public class SelectionManager : MonoBehaviour
             if (_build != null) _build.enabled = _buildMode;
         }
         if (_buildMode) return;
+        if (_cam == null) return;
         if (!Input.GetMouseButtonDown(0)) return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out RaycastHit hit, 200f)) { Deselect(); return; }
 
         Colonist c = hit.collider.GetComponentInParent<Colonist>();
