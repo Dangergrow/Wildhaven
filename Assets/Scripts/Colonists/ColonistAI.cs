@@ -15,6 +15,7 @@ public class ColonistAI : MonoBehaviour
     private Colonist _colonist;
     private NeedsSystem _needs;
     private DayCycle _day;
+    private GridManager _grid;
     private float _speed;
     private Vector3 _wanderTarget;
     private float _wanderTimer;
@@ -25,6 +26,7 @@ public class ColonistAI : MonoBehaviour
         _colonist = GetComponent<Colonist>();
         _needs = GetComponent<NeedsSystem>();
         _day = FindObjectOfType<DayCycle>();
+        _grid = FindObjectOfType<GridManager>();
         _speed = walkSpeed;
         PickWanderTarget();
     }
@@ -43,50 +45,79 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping || _colonist.currentState == ColonistState.Fighting) return;
         if (_colonist.currentState != ColonistState.Idle && _colonist.currentState != ColonistState.Moving) return;
 
-        _wanderTimer -= Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
+        float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
+        _wanderTimer -= dt;
         if (_wanderTimer <= 0f) { PickWanderTarget(); _wanderTimer = Random.Range(1.5f, 4f); }
 
         float dist = Vector3.Distance(transform.position, _wanderTarget);
         if (dist > 0.3f)
         {
             Vector3 dir = (_wanderTarget - transform.position).normalized;
-            Vector3 nextPos = transform.position + dir * _speed * 0.4f * Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
-            // Only move if next position is air
-            GridManager grid = FindObjectOfType<GridManager>();
-            bool canMove = true;
-            if (grid != null)
-            {
-                Vector3Int gp = grid.WorldToGrid(nextPos);
-                if (grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
-                    canMove = false;
-            }
-            if (canMove)
+            float step = _speed * 0.4f * dt;
+            Vector3 nextPos = transform.position + dir * step;
+
+            // AABB vs grid collision: check character's full width
+            if (CanMoveTo(nextPos))
             {
                 transform.position = nextPos;
                 _isMoving = true;
             }
-            else PickWanderTarget(); // blocked — find new target
+            else PickWanderTarget();
         }
         else _isMoving = false;
     }
 
+    /// <summary>
+    /// Checks if the character's bounding box can move to the target position.
+    /// Tests 5 points (center + 4 corners at half-width) against grid.
+    /// </summary>
+    bool CanMoveTo(Vector3 pos)
+    {
+        if (_grid == null) return true;
+
+        float halfW = 0.35f; // slightly less than capsule radius for safety
+        Vector3[] checkPoints = new Vector3[]
+        {
+            pos,                                                   // center
+            pos + new Vector3( halfW, 0,  halfW), // front-right
+            pos + new Vector3( halfW, 0, -halfW), // back-right
+            pos + new Vector3(-halfW, 0,  halfW), // front-left
+            pos + new Vector3(-halfW, 0, -halfW), // back-left
+        };
+
+        foreach (Vector3 pt in checkPoints)
+        {
+            Vector3Int gp = _grid.WorldToGrid(pt);
+            BlockType block = _grid.GetBlock(gp.x, gp.y, gp.z);
+            if (block != BlockType.Air && block != BlockType.Water)
+                return false;
+        }
+
+        // Also check ground exists below (don't walk off cliffs)
+        Vector3Int below = _grid.WorldToGrid(pos + Vector3.down * 1f);
+        BlockType ground = _grid.GetBlock(below.x, below.y, below.z);
+        if (ground == BlockType.Air || ground == BlockType.Water)
+            return false;
+
+        return true;
+    }
+
     void PickWanderTarget()
     {
-        GridManager grid = FindObjectOfType<GridManager>();
-        for (int i = 0; i < 10; i++) // try valid positions
+        for (int i = 0; i < 10; i++)
         {
             Vector3 candidate = transform.position + new Vector3(Random.Range(-2.5f, 2.5f), 0f, Random.Range(-2.5f, 2.5f));
-            if (grid != null)
+            if (_grid != null)
             {
-                Vector3Int gp = grid.WorldToGrid(candidate);
-                if (grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air ||
-                    grid.GetBlock(gp.x, gp.y - 1, gp.z) == BlockType.Air) // need solid ground
+                Vector3Int gp = _grid.WorldToGrid(candidate);
+                if (_grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air ||
+                    _grid.GetBlock(gp.x, gp.y - 1, gp.z) == BlockType.Air)
                     continue;
             }
             _wanderTarget = candidate;
             return;
         }
-        _wanderTarget = transform.position; // stay put
+        _wanderTarget = transform.position;
     }
 
     public bool IsMoving => _isMoving;
