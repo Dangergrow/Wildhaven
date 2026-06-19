@@ -70,11 +70,14 @@ public class SelectionManager : MonoBehaviour
         for (int i = 0; i < 6; i++) { float d = Vector3.Dot(offs[i], dir); if (d > bestDot) { bestDot = d; best = i; } }
         Vector3Int placePos = new(hit.Value.x + offs[best].x, hit.Value.y + offs[best].y, hit.Value.z + offs[best].z);
 
-        if (_grid.InBounds(placePos.x, placePos.y, placePos.z) && _grid.GetBlock(placePos.x, placePos.y, placePos.z) == BlockType.Air)
+        bool blocked = BuildBlocker.IsOccupied(placePos.x, placePos.y, placePos.z);
+        if (_grid.InBounds(placePos.x, placePos.y, placePos.z)
+            && _grid.GetBlock(placePos.x, placePos.y, placePos.z) == BlockType.Air
+            && !blocked)
         {
             ghostCube.SetActive(true);
             ghostCube.transform.position = _grid.GridToWorld(placePos.x, placePos.y, placePos.z);
-            ghostCube.GetComponent<Renderer>().material.color = ghostColor;
+            ghostCube.GetComponent<Renderer>().material.color = blocked ? new Color(1, 0, 0, 0.5f) : ghostColor;
         }
         else
         {
