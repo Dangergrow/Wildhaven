@@ -51,6 +51,7 @@ public class SelectionManager : MonoBehaviour
         // LMB — select colonist
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
+            _showContextMenu = false;
             Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) { Deselect(); return; }
             Colonist c = hit.collider.GetComponentInParent<Colonist>();
