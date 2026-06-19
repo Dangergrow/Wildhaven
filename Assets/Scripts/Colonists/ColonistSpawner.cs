@@ -3,19 +3,20 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Spawns initial colonists and manages colonist list.
+/// Uses physics raycast against world MeshCollider.
 /// </summary>
 public class ColonistSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public int startingColonists = 3;
     public GameObject colonistPrefab;
-    public Vector3 spawnCenter = new Vector3(50f, 30f, 50f);
-    public float spawnRadius = 8f;
+    public Vector3 spawnCenter = new Vector3(50f, 50f, 50f);
+    public float spawnRadius = 10f;
 
     [Header("Random Name Pool")]
-    public string[] maleNames = new string[] { "Ivan", "Boris", "Dmitri", "Alexei", "Sergei", "Nikolai", "Viktor" };
-    public string[] femaleNames = new string[] { "Anna", "Maria", "Elena", "Olga", "Natasha", "Svetlana", "Irina" };
-    public string[] surnames = new string[] { "Petrov", "Ivanov", "Sidorov", "Kuznetsov", "Smirnov", "Volkov", "Morozov" };
+    public string[] maleNames = { "Ivan", "Boris", "Dmitri", "Alexei", "Sergei", "Nikolai", "Viktor" };
+    public string[] femaleNames = { "Anna", "Maria", "Elena", "Olga", "Natasha", "Svetlana", "Irina" };
+    public string[] surnames = { "Petrov", "Ivanov", "Sidorov", "Kuznetsov", "Smirnov", "Volkov", "Morozov" };
 
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
@@ -28,26 +29,18 @@ public class ColonistSpawner : MonoBehaviour
     {
         for (int i = 0; i < startingColonists; i++)
         {
-            SpawnColonist(GetRandomSpawnPosition());
+            Vector3 pos = GetRandomSpawnPosition();
+            SpawnColonist(pos);
         }
     }
 
     public Colonist SpawnColonist(Vector3 position)
     {
-        if (colonistPrefab == null)
-        {
-            Debug.LogError("[ColonistSpawner] No colonist prefab assigned!");
-            return null;
-        }
+        if (colonistPrefab == null) { Debug.LogError("[ColonistSpawner] No prefab!"); return null; }
 
         GameObject go = Instantiate(colonistPrefab, position, Quaternion.identity);
         Colonist colonist = go.GetComponent<Colonist>();
-        if (colonist == null)
-        {
-            Debug.LogError("[ColonistSpawner] Prefab has no Colonist component!");
-            Destroy(go);
-            return null;
-        }
+        if (colonist == null) { Debug.LogError("[ColonistSpawner] Prefab missing Colonist component!"); Destroy(go); return null; }
 
         colonist.isMale = Random.value > 0.5f;
         colonist.colonistName = GenerateName(colonist.isMale);
@@ -66,8 +59,6 @@ public class ColonistSpawner : MonoBehaviour
         colonist.huntingSkill = Random.Range(0, 6);
         colonist.tradingSkill = Random.Range(0, 4);
         colonist.artisticSkill = Random.Range(0, 4);
-        colonist.perk = Random.value < 0.3f ? (Perk)Random.Range(1, System.Enum.GetValues(typeof(Perk)).Length) : Perk.None;
-        colonist.flaw = Random.value < 0.3f ? (Flaw)Random.Range(1, System.Enum.GetValues(typeof(Flaw)).Length) : Flaw.None;
 
         Colonists.Add(colonist);
         Debug.Log($"[ColonistSpawner] Spawned {colonist.colonistName} ({colonist.age}) at {position}");
@@ -76,48 +67,25 @@ public class ColonistSpawner : MonoBehaviour
 
     private Vector3 GetRandomSpawnPosition()
     {
-        GridManager grid = FindObjectOfType<GridManager>();
-        if (grid == null) return spawnCenter;
-
         for (int attempt = 0; attempt < 100; attempt++)
         {
-            int gx = Random.Range(spawnCenterX - 8, spawnCenterX + 8);
-            int gz = Random.Range(spawnCenterZ - 8, spawnCenterZ + 8);
+            Vector2 circle = Random.insideUnitCircle * spawnRadius;
+            Vector3 origin = spawnCenter + new Vector3(circle.x, 0f, circle.y);
 
-            // Scan from top of world down to find surface
-            for (int gy = grid.Height - 1; gy >= 1; gy--)
+            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 80f))
             {
-                BlockType block = grid.GetBlock(gx, gy, gz);
-                BlockType below = grid.GetBlock(gx, gy - 1, gz);
-
-                // Found surface: grass/dirt/stone/snow with solid block below
-                bool isSurface = (block == BlockType.Grass || block == BlockType.Dirt ||
-                                  block == BlockType.Stone || block == BlockType.Snow ||
-                                  block == BlockType.Sand);
-                bool isSolidBelow = below != BlockType.Air && below != BlockType.Water;
-
-                if (isSurface && isSolidBelow)
-                {
-                    return grid.GridToWorld(gx, gy + 1, gz); // one block above surface
-                }
+                return hit.point + Vector3.up * 0.5f;
             }
         }
-        Debug.LogError("[ColonistSpawner] No valid spawn position in grid");
-        return spawnCenter;
+        Debug.LogError("[ColonistSpawner] Raycast failed. Is MeshCollider on World?");
+        return spawnCenter + Vector3.up * 2f;
     }
-
-    private int spawnCenterX => Mathf.RoundToInt(spawnCenter.x);
-    private int spawnCenterZ => Mathf.RoundToInt(spawnCenter.z);
 
     private string GenerateName(bool male)
     {
         string first = male ? maleNames[Random.Range(0, maleNames.Length)] : femaleNames[Random.Range(0, femaleNames.Length)];
-        string last = surnames[Random.Range(0, surnames.Length)];
-        return $"{first} {last}";
+        return $"{first} {surnames[Random.Range(0, surnames.Length)]}";
     }
 
-    public void RemoveColonist(Colonist colonist)
-    {
-        Colonists.Remove(colonist);
-    }
+    public void RemoveColonist(Colonist c) => Colonists.Remove(c);
 }

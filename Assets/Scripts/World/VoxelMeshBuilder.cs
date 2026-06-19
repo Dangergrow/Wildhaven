@@ -87,6 +87,10 @@ public class VoxelMeshBuilder : MonoBehaviour
         _colors = new List<Color>(65536);
 
         if (gridManager == null) gridManager = FindObjectOfType<GridManager>();
+
+        // Ensure MeshCollider exists for physics/raycasts
+        if (GetComponent<MeshCollider>() == null)
+            gameObject.AddComponent<MeshCollider>();
     }
 
     private void Start()
