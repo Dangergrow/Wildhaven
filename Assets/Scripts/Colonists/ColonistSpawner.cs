@@ -9,8 +9,8 @@ public class ColonistSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public int startingColonists = 3;
     public GameObject colonistPrefab;
-    public Vector3 spawnCenter = new Vector3(50f, 20f, 50f);
-    public float spawnRadius = 5f;
+    public Vector3 spawnCenter = new Vector3(50f, 30f, 50f);
+    public float spawnRadius = 8f;
 
     [Header("Random Name Pool")]
     public string[] maleNames = new string[] { "Ivan", "Boris", "Dmitri", "Alexei", "Sergei", "Nikolai", "Viktor" };
