@@ -46,7 +46,7 @@ public class GameHUD : MonoBehaviour
     {
         if (_sp.Colonists.Count == 0) return;
         int count = _sp.Colonists.Count;
-        int panelH = 20 + count * 85;
+        int panelH = 20 + count * 95;
         Rect panel = new Rect(6, 45, 210, panelH);
         GUI.Box(panel, "COLONISTS");
 
@@ -54,10 +54,15 @@ public class GameHUD : MonoBehaviour
         foreach (Colonist c in _sp.Colonists)
         {
             if (c == null) continue;
-            GUI.Label(new Rect(panel.x + 5, y, 200, 18), $"{c.colonistName} ({c.age})", _bold); y += 18;
+            string state = c.currentState.ToString();
+            GUI.Label(new Rect(panel.x + 5, y, 200, 18), $"{c.colonistName} [{state}]", _bold); y += 18;
             GUI.Label(new Rect(panel.x + 8, y, 194, 16), $"HP:{c.health:F0}  Hung:{c.hunger:F0}  Fat:{c.fatigue:F0}", _small); y += 17;
             DrawBarG(new Rect(panel.x + 5, y, 200, 10), c.health / c.maxHealth, Color.red); y += 12;
             DrawBarG(new Rect(panel.x + 5, y, 200, 10), c.mood / 100f, new Color(0.2f, 0.7f, 0.2f)); y += 14;
+            // Show inventory
+            Inventory inv = c.GetComponent<Inventory>();
+            int items = inv != null ? inv.Slots.FindAll(s => !s.IsEmpty).Count : 0;
+            GUI.Label(new Rect(panel.x + 8, y, 194, 14), $"Items:{items}  Skills:", _small); y += 12;
             GUI.Label(new Rect(panel.x + 8, y, 194, 14), $"B:{c.constructionSkill} M:{c.miningSkill} C:{c.cookingSkill}", _small); y += 12;
             GUI.Label(new Rect(panel.x + 8, y, 194, 14), $"R:{c.rangedSkill} F:{c.farmingSkill} S:{c.socialSkill}", _small); y += 14;
         }

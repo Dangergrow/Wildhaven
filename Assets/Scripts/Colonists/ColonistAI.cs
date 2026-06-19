@@ -202,13 +202,18 @@ public class ColonistAI : MonoBehaviour
         else TransitionTo(ColonistState.Idle);
     }
 
+    private float _workCooldown;
+
     /// <summary>
-    /// Finds a nearby solid block and mines it.
+    /// Finds a nearby solid block and mines it. Runs every ~2 seconds.
     /// </summary>
     void TryAutoWork()
     {
+        _workCooldown -= Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
+        if (_workCooldown > 0f) { TransitionTo(ColonistState.Idle); return; }
+        _workCooldown = Random.Range(1.5f, 3f);
+
         if (_grid == null) { TransitionTo(ColonistState.Idle); return; }
-        // Find nearby block to mine
         Vector3Int myPos = _grid.WorldToGrid(transform.position);
         for (int dx = -2; dx <= 2; dx++)
         {
@@ -221,11 +226,9 @@ public class ColonistAI : MonoBehaviour
                     BlockType b = _grid.GetBlock(gx, gy, gz);
                     if (b != BlockType.Air && b != BlockType.Water && b != BlockType.Bedrock)
                     {
-                        // Mine this block
                         _grid.RemoveBlock(gx, gy, gz);
                         _colonist.currentState = ColonistState.Working;
                         currentTask = ColonistTask.Mine;
-                        Debug.Log($"[Colonist] {_colonist.colonistName} mined {b}");
                         return;
                     }
                 }
