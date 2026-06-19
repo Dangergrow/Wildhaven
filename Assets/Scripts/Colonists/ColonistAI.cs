@@ -5,7 +5,7 @@ using UnityEngine.AI;
 /// AI controller for colonists. Handles movement, task execution, and state transitions.
 /// Uses Unity NavMesh for pathfinding.
 /// </summary>
-[RequireComponent(typeof(Colonist), typeof(NeedsSystem), typeof(NavMeshAgent))]
+[RequireComponent(typeof(Colonist), typeof(NeedsSystem))]
 public class ColonistAI : MonoBehaviour
 {
     [Header("Movement")]
@@ -35,6 +35,7 @@ public class ColonistAI : MonoBehaviour
         _colonist = GetComponent<Colonist>();
         _needs = GetComponent<NeedsSystem>();
         _agent = GetComponent<NavMeshAgent>();
+        if (_agent == null) _agent = gameObject.AddComponent<NavMeshAgent>();
 
         _agent.speed = walkSpeed;
         _agent.acceleration = 8f;
