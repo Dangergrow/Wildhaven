@@ -1,84 +1,90 @@
 using UnityEngine;
 
 /// <summary>
-/// Simple HUD overlay showing game time, colonist stats, and colony resources.
-/// Uses OnGUI for simplicity — will be replaced with Canvas UI later.
+/// Simple HUD overlay: time, colonist stats, build panel.
 /// </summary>
 public class GameHUD : MonoBehaviour
 {
-    private DayCycle _dayCycle;
-    private ColonistSpawner _spawner;
+    private DayCycle _day;
+    private ColonistSpawner _sp;
+    private GUIStyle _label, _small, _bold;
 
     void Start()
     {
-        _dayCycle = FindObjectOfType<DayCycle>();
-        _spawner = FindObjectOfType<ColonistSpawner>();
+        _day = FindObjectOfType<DayCycle>();
+        _sp = FindObjectOfType<ColonistSpawner>();
     }
 
     void OnGUI()
     {
-        if (_dayCycle == null || _spawner == null) return;
+        if (_day == null || _sp == null) return;
 
-        // Time bar — top center
-        GUI.Box(new Rect(Screen.width / 2f - 100, 5, 200, 40), "");
-        GUIStyle timeStyle = new GUIStyle(GUI.skin.label) { fontSize = 16, alignment = TextAnchor.MiddleCenter };
-        string speedStr = _dayCycle.IsPaused ? "PAUSED" : $"{_dayCycle.gameSpeed}x";
-        GUI.Label(new Rect(Screen.width / 2f - 95, 8, 190, 20),
-            $"Day {_dayCycle.day}  {_dayCycle.hour:D2}:{_dayCycle.minute:D2}  [{speedStr}]", timeStyle);
-        GUI.Label(new Rect(Screen.width / 2f - 95, 28, 190, 14),
-            $"Season: {_dayCycle.season} | Space=pause  Num1-3=speed", new GUIStyle(GUI.skin.label) { fontSize = 10, alignment = TextAnchor.MiddleCenter });
-
-        // Colonist list — left side
-        if (_spawner.Colonists.Count == 0) return;
-
-        int y = 55;
-        GUI.Box(new Rect(5, y, 220, 20 + _spawner.Colonists.Count * 75), "Colonists");
-
-        foreach (Colonist c in _spawner.Colonists)
+        if (_label == null)
         {
-            if (c == null) continue;
-            y += 22;
-            GUI.Label(new Rect(10, y, 210, 16), $"{c.colonistName} ({c.age})");
-            y += 16;
-            GUI.Label(new Rect(15, y, 200, 14), $"HP: {c.health:F0}  Hunger: {c.hunger:F0}  Fatigue: {c.fatigue:F0}");
-            y += 14;
-
-            // Health bar
-            GUI.Label(new Rect(15, y, 50, 10), "HP");
-            DrawBar(new Rect(65, y, 140, 10), c.health / c.maxHealth, Color.red);
-            y += 14;
-
-            // Mood bar
-            GUI.Label(new Rect(15, y, 50, 10), "Mood");
-            DrawBar(new Rect(65, y, 140, 10), c.mood / 100f, Color.Lerp(Color.red, Color.green, c.mood / 100f));
-            y += 16;
-
-            GUI.Label(new Rect(15, y, 200, 12), $"Skills: B:{c.constructionSkill} M:{c.miningSkill} C:{c.cookingSkill} R:{c.rangedSkill} F:{c.farmingSkill}");
-            y += 14;
+            _label = new GUIStyle(GUI.skin.label) { fontSize = 13, normal = { textColor = Color.white } };
+            _small = new GUIStyle(GUI.skin.label) { fontSize = 10, normal = { textColor = Color.gray } };
+            _bold = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold, normal = { textColor = Color.white } };
         }
 
-        // Bottom bar — build controls
-        GUI.Box(new Rect(5, Screen.height - 35, Screen.width - 10, 30), "");
-        GUI.Label(new Rect(10, Screen.height - 30, Screen.width - 20, 20),
-            "Build: 1=Dirt 2=Grass 3=Stone 4=Wood 5=Planks 6=Brick 7=Glass 8=Snow 9=Sand | LMB=Place  RMB=Destroy | F5=Save  F9=Load",
-            new GUIStyle(GUI.skin.label) { fontSize = 11, alignment = TextAnchor.MiddleCenter });
+        DrawTimeBar();
+        DrawColonistPanel();
+        DrawBuildBar();
+        DrawBlockIndicator();
+    }
 
-        // Top-right — selected block
-        BuildManager bm = FindObjectOfType<BuildManager>();
-        if (bm != null)
+    void DrawTimeBar()
+    {
+        Rect r = new Rect(Screen.width / 2 - 90, 4, 180, 34);
+        GUI.Box(r, "");
+        string spd = _day.IsPaused ? "PAUSED" : $"{_day.gameSpeed}x";
+        GUI.Label(new Rect(r.x + 4, r.y + 2, r.width - 8, 18), $"Day {_day.day}  {_day.hour:D2}:{_day.minute:D2}  [{spd}]", _bold);
+        string season = $"Season: {_day.season} | Space=pause Num1-3=speed";
+        GUI.Label(new Rect(r.x + 4, r.y + 20, r.width - 8, 12), season, _small);
+    }
+
+    void DrawColonistPanel()
+    {
+        if (_sp.Colonists.Count == 0) return;
+        int count = _sp.Colonists.Count;
+        int panelH = 20 + count * 70;
+        Rect panel = new Rect(6, 45, 200, panelH);
+        GUI.Box(panel, "COLONISTS");
+
+        int y = panel.y + 20;
+        foreach (Colonist c in _sp.Colonists)
         {
-            GUI.Box(new Rect(Screen.width - 110, 5, 105, 25), "");
-            GUI.Label(new Rect(Screen.width - 105, 8, 95, 20), $"Block: {bm.SelectedType}",
-                new GUIStyle(GUI.skin.label) { fontSize = 12 });
+            if (c == null) continue;
+            GUI.Label(new Rect(panel.x + 5, y, 190, 15), $"{c.colonistName} ({c.age})", _bold); y += 16;
+            GUI.Label(new Rect(panel.x + 8, y, 184, 13), $"HP:{c.health:F0}  Hung:{c.hunger:F0}  Fat:{c.fatigue:F0}", _small); y += 14;
+            DrawBarG(new Rect(panel.x + 5, y, 190, 8), c.health / c.maxHealth, Color.red); y += 10;
+            DrawBarG(new Rect(panel.x + 5, y, 190, 8), c.mood / 100f, new Color(0.2f, 0.7f, 0.2f)); y += 12;
+            GUI.Label(new Rect(panel.x + 8, y, 184, 12), $"Skills B:{c.constructionSkill} M:{c.miningSkill} C:{c.cookingSkill}", _small); y += 12;
+            GUI.Label(new Rect(panel.x + 8, y, 184, 12), $"       R:{c.rangedSkill} F:{c.farmingSkill} S:{c.socialSkill}", _small); y += 16;
         }
     }
 
-    void DrawBar(Rect rect, float fill, Color color)
+    void DrawBuildBar()
     {
-        GUI.color = Color.gray;
-        GUI.Box(rect, "");
-        GUI.color = color;
-        GUI.Box(new Rect(rect.x + 1, rect.y + 1, (rect.width - 2) * Mathf.Clamp01(fill), rect.height - 2), "");
+        Rect r = new Rect(4, Screen.height - 28, Screen.width - 8, 24);
+        GUI.Box(r, "");
+        GUI.Label(new Rect(r.x + 4, r.y + 4, r.width - 8, 16), "Build: 1=Dirt 2=Grass 3=Stone 4=Wood 5=Planks 6=Brick 7=Glass 8=Snow 9=Sand | LMB=Place RMB=Destroy | F5=Save F9=Load", _small);
+    }
+
+    void DrawBlockIndicator()
+    {
+        BuildManager bm = FindObjectOfType<BuildManager>();
+        if (bm == null) return;
+        Rect r = new Rect(Screen.width - 100, 4, 95, 22);
+        GUI.Box(r, "");
+        GUI.Label(new Rect(r.x + 4, r.y + 3, 87, 16), $"Block: {bm.SelectedType}", _small);
+    }
+
+    void DrawBarG(Rect r, float fill, Color c)
+    {
+        GUI.color = new Color(0.15f, 0.15f, 0.15f);
+        GUI.Box(r, "");
+        GUI.color = c;
+        GUI.Box(new Rect(r.x + 1, r.y + 1, (r.width - 2) * Mathf.Clamp01(fill), r.height - 2), "");
         GUI.color = Color.white;
     }
 }
