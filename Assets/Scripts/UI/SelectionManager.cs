@@ -93,7 +93,7 @@ public class SelectionManager : MonoBehaviour
         if (spawner == null) return;
 
         Colonist nearest = null;
-        float minDist = 2f;
+        float minDist = 3f; // larger selection radius
         foreach (Colonist c in spawner.Colonists)
         {
             if (c == null) continue;
