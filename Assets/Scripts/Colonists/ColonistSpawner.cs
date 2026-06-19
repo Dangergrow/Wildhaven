@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -8,16 +7,9 @@ using System.Collections.Generic;
 public class ColonistSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    [Tooltip("Number of starting colonists")]
     public int startingColonists = 3;
-
-    [Tooltip("Prefab for colonist (requires Colonist + ColonistAI + NeedsSystem + NavMeshAgent)")]
     public GameObject colonistPrefab;
-
-    [Tooltip("Spawn area center")]
-    public Vector3 spawnCenter = new Vector3(50f, 25f, 50f);
-
-    [Tooltip("Spawn radius")]
+    public Vector3 spawnCenter = new Vector3(50f, 20f, 50f);
     public float spawnRadius = 5f;
 
     [Header("Random Name Pool")]
@@ -25,19 +17,13 @@ public class ColonistSpawner : MonoBehaviour
     public string[] femaleNames = new string[] { "Anna", "Maria", "Elena", "Olga", "Natasha", "Svetlana", "Irina" };
     public string[] surnames = new string[] { "Petrov", "Ivanov", "Sidorov", "Kuznetsov", "Smirnov", "Volkov", "Morozov" };
 
-    // All spawned colonists
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
-    private IEnumerator Start()
+    private void Start()
     {
-        // Wait for VoxelMeshBuilder to generate mesh and bake NavMesh
-        yield return new WaitForSeconds(0.5f);
         SpawnInitialColonists();
     }
 
-    /// <summary>
-    /// Spawns the starting colonist group.
-    /// </summary>
     private void SpawnInitialColonists()
     {
         for (int i = 0; i < startingColonists; i++)
@@ -46,9 +32,6 @@ public class ColonistSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Spawns a single colonist at the given position.
-    /// </summary>
     public Colonist SpawnColonist(Vector3 position)
     {
         if (colonistPrefab == null)
@@ -57,28 +40,7 @@ public class ColonistSpawner : MonoBehaviour
             return null;
         }
 
-        // Spawn without NavMeshAgent (prefab should NOT have it)
         GameObject go = Instantiate(colonistPrefab, position, Quaternion.identity);
-
-        // Find valid NavMesh position
-        Vector3 navPos = position;
-        if (!UnityEngine.AI.NavMesh.SamplePosition(position, out UnityEngine.AI.NavMeshHit hit, 100f, UnityEngine.AI.NavMesh.AllAreas))
-        {
-            // Try center
-            if (!UnityEngine.AI.NavMesh.SamplePosition(spawnCenter, out hit, 100f, UnityEngine.AI.NavMesh.AllAreas))
-            {
-                Debug.LogError("[ColonistSpawner] Cannot find NavMesh anywhere. Is it baked?");
-                Destroy(go);
-                return null;
-            }
-        }
-        navPos = hit.position;
-
-        // Add NavMeshAgent AFTER placement
-        UnityEngine.AI.NavMeshAgent agent = go.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (agent == null) agent = go.AddComponent<UnityEngine.AI.NavMeshAgent>();
-        agent.Warp(navPos);
-
         Colonist colonist = go.GetComponent<Colonist>();
         if (colonist == null)
         {
@@ -87,12 +49,9 @@ public class ColonistSpawner : MonoBehaviour
             return null;
         }
 
-        // Random identity
         colonist.isMale = Random.value > 0.5f;
         colonist.colonistName = GenerateName(colonist.isMale);
         colonist.age = Random.Range(18, 50);
-
-        // Random skills (weighted)
         colonist.constructionSkill = Random.Range(0, 8);
         colonist.miningSkill = Random.Range(0, 8);
         colonist.cookingSkill = Random.Range(0, 6);
@@ -107,40 +66,27 @@ public class ColonistSpawner : MonoBehaviour
         colonist.huntingSkill = Random.Range(0, 6);
         colonist.tradingSkill = Random.Range(0, 4);
         colonist.artisticSkill = Random.Range(0, 4);
-
-        // Random traits (30% chance for each)
         colonist.perk = Random.value < 0.3f ? (Perk)Random.Range(1, System.Enum.GetValues(typeof(Perk)).Length) : Perk.None;
         colonist.flaw = Random.value < 0.3f ? (Flaw)Random.Range(1, System.Enum.GetValues(typeof(Flaw)).Length) : Flaw.None;
 
         Colonists.Add(colonist);
-        Debug.Log($"[ColonistSpawner] Spawned {colonist.colonistName} ({colonist.age})");
+        Debug.Log($"[ColonistSpawner] Spawned {colonist.colonistName} ({colonist.age}) at {position}");
         return colonist;
     }
 
-    /// <summary>
-    /// Generates a random name.
-    /// </summary>
-    private string GenerateName(bool male)
-    {
-        string first = male
-            ? maleNames[Random.Range(0, maleNames.Length)]
-            : femaleNames[Random.Range(0, femaleNames.Length)];
-        string last = surnames[Random.Range(0, surnames.Length)];
-        return $"{first} {last}";
-    }
-
-    /// <summary>
-    /// Returns a random position near spawn center (any height — Warp will fix).
-    /// </summary>
     private Vector3 GetRandomSpawnPosition()
     {
         Vector2 circle = Random.insideUnitCircle * spawnRadius;
         return spawnCenter + new Vector3(circle.x, 0f, circle.y);
     }
 
-    /// <summary>
-    /// Removes a colonist from tracking.
-    /// </summary>
+    private string GenerateName(bool male)
+    {
+        string first = male ? maleNames[Random.Range(0, maleNames.Length)] : femaleNames[Random.Range(0, femaleNames.Length)];
+        string last = surnames[Random.Range(0, surnames.Length)];
+        return $"{first} {last}";
+    }
+
     public void RemoveColonist(Colonist colonist)
     {
         Colonists.Remove(colonist);
