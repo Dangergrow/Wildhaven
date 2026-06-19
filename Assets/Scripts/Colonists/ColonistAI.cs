@@ -14,6 +14,7 @@ public class ColonistAI : MonoBehaviour
 
     private Colonist _colonist;
     private NeedsSystem _needs;
+    private DayCycle _day;
     private float _speed;
     private Vector3 _wanderTarget;
     private float _wanderTimer;
@@ -23,6 +24,7 @@ public class ColonistAI : MonoBehaviour
     {
         _colonist = GetComponent<Colonist>();
         _needs = GetComponent<NeedsSystem>();
+        _day = FindObjectOfType<DayCycle>();
         _speed = walkSpeed;
         PickWanderTarget();
     }
@@ -30,8 +32,7 @@ public class ColonistAI : MonoBehaviour
     private void Update()
     {
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
-        DayCycle day = FindObjectOfType<DayCycle>();
-        if (day != null && day.IsPaused) return;
+        if (_day != null && _day.IsPaused) return;
         EvaluateState();
         HandleWandering();
         HandleCombat();
@@ -42,14 +43,14 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping || _colonist.currentState == ColonistState.Fighting) return;
         if (_colonist.currentState != ColonistState.Idle && _colonist.currentState != ColonistState.Moving) return;
 
-        _wanderTimer -= Time.deltaTime * (day != null ? day.gameSpeed : 1f);
+        _wanderTimer -= Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
         if (_wanderTimer <= 0f) { PickWanderTarget(); _wanderTimer = Random.Range(1.5f, 4f); }
 
         float dist = Vector3.Distance(transform.position, _wanderTarget);
         if (dist > 0.3f)
         {
             Vector3 dir = (_wanderTarget - transform.position).normalized;
-            Vector3 nextPos = transform.position + dir * _speed * 0.4f * Time.deltaTime * (day != null ? day.gameSpeed : 1f);
+            Vector3 nextPos = transform.position + dir * _speed * 0.4f * Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
             // Only move if next position is air
             GridManager grid = FindObjectOfType<GridManager>();
             bool canMove = true;
