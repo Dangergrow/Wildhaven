@@ -31,7 +31,7 @@ public class ColonistSpawner : MonoBehaviour
         GridManager grid = FindObjectOfType<GridManager>();
         if (grid == null) return new Vector3(50, 20, 50);
 
-        for (int attempt = 0; attempt < 300; attempt++)
+        for (int attempt = 0; attempt < 500; attempt++)
         {
             int gx = spawnOrigin.x + Random.Range(-searchRadius, searchRadius + 1);
             int gz = spawnOrigin.z + Random.Range(-searchRadius, searchRadius + 1);
@@ -49,10 +49,8 @@ public class ColonistSpawner : MonoBehaviour
 
                 if (isSolid && hasAirAbove)
                 {
-                    // Spawn ON top of block, not in its center
                     Vector3 pos = grid.GridToWorld(gx, gy, gz);
-                    pos.y += grid.BlockSize * 0.5f; // top surface of block
-                    pos.y += 0.5f; // small offset above
+                    pos.y += grid.BlockSize * 0.7f; // well above block surface
                     return pos;
                 }
             }
