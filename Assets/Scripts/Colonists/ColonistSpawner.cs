@@ -106,12 +106,22 @@ public class ColonistSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a random position near the spawn center.
+    /// Returns a random position on the terrain surface near the spawn center.
+    /// Casts a ray downward to find ground level.
     /// </summary>
     private Vector3 GetRandomSpawnPosition()
     {
         Vector2 circle = Random.insideUnitCircle * spawnRadius;
-        return spawnCenter + new Vector3(circle.x, 0f, circle.y);
+        Vector3 origin = new Vector3(spawnCenter.x + circle.x, 60f, spawnCenter.z + circle.y);
+
+        // Raycast down to find terrain
+        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 100f))
+        {
+            return hit.point + Vector3.up * 0.5f; // just above ground
+        }
+
+        // Fallback
+        return spawnCenter + Vector3.up * 2f;
     }
 
     /// <summary>
