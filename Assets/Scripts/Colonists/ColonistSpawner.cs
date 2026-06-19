@@ -22,7 +22,7 @@ public class ColonistSpawner : MonoBehaviour
 
     private void Start()
     {
-        SpawnInitialColonists();
+        Invoke(nameof(SpawnInitialColonists), 1f); // wait for world mesh+collider
     }
 
     private void SpawnInitialColonists()
