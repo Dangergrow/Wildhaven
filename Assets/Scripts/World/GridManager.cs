@@ -294,12 +294,9 @@ public class GridManager : MonoBehaviour
         for (int z = 0; z < worldDepth; z++)
         {
             float nx = (float)x / worldWidth, nz = (float)z / worldDepth;
-            // Jitter: small random offset for irregular terrain shapes
-            float jx = (float)(r.NextDouble() - 0.5) * 0.15f;
-            float jz = (float)(r.NextDouble() - 0.5) * 0.15f;
-            float h = Mathf.PerlinNoise((nx + jx) * 2.2f + seed * .001f, (nz + jz) * 2.2f + seed * .001f)
-                    + Mathf.PerlinNoise((nx + jx) * 5f + seed * .002f, (nz + jz) * 5f + seed * .002f) * .3f
-                    + Mathf.PerlinNoise((nx + jx) * 11f + seed * .003f, (nz + jz) * 11f + seed * .003f) * .15f;
+            float h = Mathf.PerlinNoise(nx * 2.2f + seed * .001f, nz * 2.2f + seed * .001f)
+                    + Mathf.PerlinNoise(nx * 5f + seed * .002f, nz * 5f + seed * .002f) * .3f
+                    + Mathf.PerlinNoise(nx * 11f + seed * .003f, nz * 11f + seed * .003f) * .15f;
             int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .55f), 2, worldHeight - 1);
             for (int y = 0; y < worldHeight; y++)
             {
