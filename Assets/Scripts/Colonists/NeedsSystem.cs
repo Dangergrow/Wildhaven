@@ -75,7 +75,7 @@ public class NeedsSystem : MonoBehaviour
     {
         // Hunger — always decays
         _colonist.hunger = Mathf.Max(0f, _colonist.hunger - hungerDecay * dt);
-        if (IsPerkActive(Perk.Glutton))
+        if (IsFlawActive(Flaw.Glutton))
             _colonist.hunger = Mathf.Max(0f, _colonist.hunger - hungerDecay * dt); // double
 
         // Thirst — always decays
