@@ -100,7 +100,9 @@ public class ColonistAI : MonoBehaviour
         _colonist.currentState = ColonistState.Moving;
 
         float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
-        if (Mathf.Approximately(dt, 0f)) dt = Time.unscaledDeltaTime; // move during pause too
+        if (Mathf.Approximately(dt, 0f)) dt = Time.unscaledDeltaTime;
+
+        Debug.Log($"[OrderTick] {_colonist.colonistName} {currentOrder} dist={dist:F1} dt={dt:F4} state={_colonist.currentState} speed={_speed}"); // move during pause too
         float dist = Vector3.Distance(transform.position, orderTarget);
 
         if (dist > 0.5f)
