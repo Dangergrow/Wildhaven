@@ -77,6 +77,7 @@ public class VoxelMeshBuilder : MonoBehaviour
 
         _mesh = new Mesh();
         _mesh.name = "VoxelWorld";
+        _mesh.MarkDynamic(); // for runtime updates
         _meshFilter.mesh = _mesh;
 
         if (blockMaterial != null) _meshRenderer.material = blockMaterial;
@@ -87,10 +88,6 @@ public class VoxelMeshBuilder : MonoBehaviour
         _colors = new List<Color>(65536);
 
         if (gridManager == null) gridManager = FindObjectOfType<GridManager>();
-
-        // Ensure MeshCollider exists for physics/raycasts
-        if (GetComponent<MeshCollider>() == null)
-            gameObject.AddComponent<MeshCollider>();
     }
 
     private void Start()
@@ -133,9 +130,12 @@ public class VoxelMeshBuilder : MonoBehaviour
         _mesh.RecalculateNormals();
         _mesh.RecalculateBounds();
 
-        // Refresh MeshCollider if present
+        // Setup or refresh MeshCollider for physics
         MeshCollider collider = GetComponent<MeshCollider>();
-        if (collider != null) collider.sharedMesh = _mesh;
+        if (collider == null) collider = gameObject.AddComponent<MeshCollider>();
+        collider.sharedMesh = null;
+        collider.sharedMesh = _mesh;
+        Physics.SyncTransforms(); // force physics update for runtime mesh changes
 
         // Bake NavMesh at runtime for AI pathfinding
         Unity.AI.Navigation.NavMeshSurface surface = GetComponent<Unity.AI.Navigation.NavMeshSurface>();
