@@ -2,19 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// Spawns colonists on terrain surface by querying GridManager directly.
-/// Finds the highest solid block with air above — no physics needed.
+/// Spawns colonists at guaranteed valid positions above terrain.
+/// No physics, no gravity — pure grid-based placement.
 /// </summary>
 public class ColonistSpawner : MonoBehaviour
 {
     public int startingColonists = 3;
     public GameObject colonistPrefab;
-    public Vector3Int spawnOrigin = new Vector3Int(50, 0, 50); // grid coords
-    public int searchRadius = 40; // huge — will find land somewhere
-
-    public string[] maleNames = { "Ivan", "Boris", "Dmitri", "Alexei", "Sergei" };
-    public string[] femaleNames = { "Anna", "Maria", "Elena", "Olga", "Natasha" };
-    public string[] surnames = { "Petrov", "Ivanov", "Sidorov", "Kuznetsov", "Smirnov" };
+    public string[] maleNames = { "Ivan", "Boris", "Dmitri" };
+    public string[] femaleNames = { "Anna", "Maria", "Elena" };
+    public string[] surnames = { "Petrov", "Ivanov", "Sidorov" };
 
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
@@ -22,81 +19,49 @@ public class ColonistSpawner : MonoBehaviour
 
     void DoSpawn()
     {
-        // Guarantee 3 valid positions
-        Vector3[] spots = new Vector3[startingColonists];
-        for (int i = 0; i < startingColonists; i++)
-        {
-            spots[i] = FindSurface();
-            // Offset each colonist slightly
-            spots[i] += new Vector3(i * 2f - 2f, 0f, 0f);
-        }
-
-        for (int i = 0; i < startingColonists; i++)
-            SpawnColonist(spots[i]);
-    }
-
-    Vector3 FindSurface()
-    {
         GridManager grid = FindObjectOfType<GridManager>();
-        if (grid == null) return new Vector3(50, 20, 50);
+        if (grid == null) { Debug.LogError("No GridManager!"); return; }
 
-        for (int attempt = 0; attempt < 500; attempt++)
+        // Find safe spawn positions
+        int[] xs = { 50, 48, 52 };
+        int[] zs = { 50, 52, 48 };
+
+        for (int i = 0; i < startingColonists; i++)
         {
-            int gx = spawnOrigin.x + Random.Range(-searchRadius, searchRadius + 1);
-            int gz = spawnOrigin.z + Random.Range(-searchRadius, searchRadius + 1);
+            // Find highest solid block at column
+            int gx = xs[i], gz = zs[i];
+            int topY = -1;
 
-            // Scan from top down to find the FIRST air block above solid surface
-            for (int gy = grid.Height - 2; gy >= 1; gy--)
+            for (int gy = grid.Height - 1; gy >= 1; gy--)
             {
-                BlockType below = grid.GetBlock(gx, gy - 1, gz);
                 BlockType here = grid.GetBlock(gx, gy, gz);
+                BlockType below = grid.GetBlock(gx, gy - 1, gz);
 
-                bool solidBelow = below == BlockType.Grass || below == BlockType.Dirt ||
-                                  below == BlockType.Stone || below == BlockType.Snow ||
-                                  below == BlockType.Sand || below == BlockType.Gravel ||
-                                  below == BlockType.WoodPlanks || below == BlockType.StoneBrick;
-
-                bool isAirHere = here == BlockType.Air;
-
-                // Found: air above solid — spawn here
-                if (solidBelow && isAirHere)
+                // Found surface: air here, solid below
+                if (here == BlockType.Air)
                 {
-                    Vector3 pos = grid.GridToWorld(gx, gy, gz);
-                    pos.y += 0.5f; // nudge up so capsule sits ON surface, not in it
-                    return pos;
+                    bool solid = below == BlockType.Grass || below == BlockType.Dirt ||
+                                 below == BlockType.Stone || below == BlockType.Snow ||
+                                 below == BlockType.Sand || below == BlockType.Gravel;
+                    if (solid) { topY = gy; break; }
                 }
             }
-        }
 
-        Debug.LogError("[ColonistSpawner] No surface — using grid center");
-        // Force: find ANY non-air block and spawn above it
-        GridManager gm = FindObjectOfType<GridManager>();
-        for (int gy = gm.Height - 1; gy >= 1; gy--)
-        {
-            BlockType b = gm.GetBlock(50, gy, 50);
-            if (b != BlockType.Air && b != BlockType.Water)
-            {
-                return gm.GridToWorld(50, gy + 1, 50);
-            }
+            if (topY < 0) topY = 15; // fallback
+
+            Vector3 worldPos = grid.GridToWorld(gx, topY, gz);
+            worldPos.y += 0.8f; // above surface
+            SpawnColonist(worldPos);
         }
-        return new Vector3(50, 30, 50);
     }
 
     public Colonist SpawnColonist(Vector3 pos)
     {
-        if (colonistPrefab == null) { Debug.LogError("[ColonistSpawner] No prefab!"); return null; }
+        if (colonistPrefab == null) { Debug.LogError("No prefab!"); return null; }
         GameObject go = Instantiate(colonistPrefab, pos, Quaternion.identity);
-        // scale 0.8 to fit inside 1-block space without clipping
         go.transform.localScale = Vector3.one * 0.8f;
-        // Add collider for selection + physics
-        if (go.GetComponent<Collider>() == null)
-        {
-            var cc = go.AddComponent<CapsuleCollider>();
-            cc.height = 2f; cc.radius = 0.5f; cc.center = Vector3.up;
-        }
-        // Make visible
         Renderer r = go.GetComponent<Renderer>();
-        if (r != null) { r.material = new Material(r.material) { color = Color.red }; }
+        if (r != null) r.material.color = Color.red;
         Colonist c = go.GetComponent<Colonist>();
         if (c == null) { Destroy(go); return null; }
 
@@ -107,7 +72,6 @@ public class ColonistSpawner : MonoBehaviour
             + " " + surnames[Random.Range(0, surnames.Length)];
         c.age = Random.Range(18, 50);
         Colonists.Add(c);
-        Debug.Log($"[ColonistSpawner] {c.colonistName} at grid pos near ({Mathf.RoundToInt(pos.x)}, {Mathf.RoundToInt(pos.y)}, {Mathf.RoundToInt(pos.z)})");
         return c;
     }
 
