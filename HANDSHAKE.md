@@ -6,25 +6,24 @@
 
 ## ▶ Сессия: 19.06.2026 | ПК: РАБОЧИЙ
 
-### Что сделано (Этап 2 — колонисты)
-- Colonist.cs: идентичность, 7 потребностей, 14 навыков, 12 перков, 11 недостатков
-- NeedsSystem.cs: голод/жажда/усталость/настроение/комфорт/общение/вера — расчёт по dt
-- ColonistAI.cs: state machine (Idle→Working→Eating→Sleeping→Recreation), NavMeshAgent
-- DayCycle.cs: 24ч цикл, 4 сезона, солнце, пауза (Space), скорость (1/2/3)
-- ColonistSpawner.cs: спавн 3 колонистов, случайные имена/навыки
-- JobManager.cs: очередь задач, назначение по навыкам
-- RecreationManager.cs: 10 активностей, 6 типов, штраф за однообразие
+### Что сделано (Этапы 1-7)
+**Этап 1:** Воксельный мир 100x32x100, чанки 16x16x16, greedy mesh, 9 типов блоков, вода, снег
+**Этап 2:** Колонисты — Colonist, NeedsSystem (7 потребностей), ColonistAI (стейт-машина), DayCycle, Spawner, JobManager, RecreationManager
+**Этап 3:** Ресурсы — 70+ типов предметов, Inventory (стаки, слоты), ItemData SO, RecipeData, CraftingStation, BlockDropManager (дроп при разрушении → летит к колонисту)
+**Этап 4:** Глобальная карта — HexTile, WorldMapGenerator (15 биомов, острова, фракции), Caravan (путь, события, припасы), FactionManager (репутация -100..+100)
+**Этап 5:** Бой — Enemy (AI, атака, дроп), RaidManager (волны), Trap (4 типа)
+**Этап 7:** События — EventManager (11 типов), ResearchManager (тех-древо 5 эпох)
+**Этап 8:** UI — GameHUD (время, статы колонистов, панель строительства)
 
-### Что сделать для Play
-1. World: добавить NavMeshSurface → Bake
-2. Создать Empty "GameManager" → DayCycle + JobManager + RecreationManager + ColonistSpawner
-3. Создать префаб Colonist (Capsule + Colonist + ColonistAI + NeedsSystem + NavMeshAgent)
-4. Назначить префаб в ColonistSpawner.colonistPrefab
-5. DayCycle.sunLight = Directional Light
+### Что нужно добавить в Unity
+- На GameManager добавь: **Game HUD**, **Event Manager**, **Raid Manager**, **Research Manager**
+- Колонисты: красные капсулы 0.8x, спавн на поверхности
 
 ### Следующий шаг
-- Доделать Stage 2: NavMesh на вокселях, тест спавна
-- Этап 3: Ресурсы, инвентарь, крафт
+- Домашний ПК: Этап 6 (мультиплеер Mirror + Steamworks)
+- Дополнить ResearchManager всеми 60+ исследованиями из SETUP.md
+- Анимации (Mixamo)
+- Главное меню, настройки
 
 ---
 
