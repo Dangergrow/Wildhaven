@@ -356,6 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildManager
   _gridManager: {fileID: 85651709}
+  _cam: {fileID: 942698272}
   _selectedType: 1
 --- !u!4 &1465607627
 Transform:

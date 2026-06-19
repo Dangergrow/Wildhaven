@@ -156,57 +156,99 @@ public class GridManager : MonoBehaviour
         var N = new Dictionary<BlockType, List<Vector3>>();
         var UV = new Dictionary<BlockType, List<Vector2>>();
 
-        for (int x = x0; x < x1; x++)
-        for (int y = y0; y < y1; y++)
-        for (int z = z0; z < z1; z++)
+        // Greedy meshing per face direction
+        int[] ax = { 1, 1, 0, 0, 2, 2 };
+        int[] sn = { 1, -1, 1, -1, 1, -1 };
+        int[] ua = { 2, 0, 1, 2, 0, 1 };
+        int[] va = { 0, 2, 2, 1, 1, 0 };
+        Vector3[] nrms = { Vector3.up, Vector3.down, Vector3.right, Vector3.left, Vector3.forward, Vector3.back };
+
+        int[] dims = { worldWidth, worldHeight, worldDepth };
+        int[] mins = { x0, y0, z0 };
+        int[] maxs = { x1, y1, z1 };
+
+        for (int d = 0; d < 6; d++)
         {
-            BlockType t = _grid[x, y, z].blockType;
-            if (t == BlockType.Air) continue;
-            Vector3 bp = new Vector3(x, y, z) * blockSize;
+            int axis = ax[d], sign = sn[d], uAx = ua[d], vAx = va[d];
+            Vector3 normal = nrms[d];
+            int layerMin = mins[axis], layerMax = maxs[axis];
+            int uSize = maxs[uAx] - mins[uAx], vSize = maxs[vAx] - mins[vAx];
 
-            // 6 face directions
-            int[,] dirs = { { 0, 1, 0 }, { 0, -1, 0 }, { 1, 0, 0 }, { -1, 0, 0 }, { 0, 0, 1 }, { 0, 0, -1 } };
-            Vector3[] nrm = { Vector3.up, Vector3.down, Vector3.right, Vector3.left, Vector3.forward, Vector3.back };
-            Vector3[,] fv = {
-                { new(0,1,0), new(1,1,0), new(1,1,1), new(0,1,1) },
-                { new(0,0,1), new(1,0,1), new(1,0,0), new(0,0,0) },
-                { new(1,0,1), new(1,1,1), new(1,1,0), new(1,0,0) },
-                { new(0,0,0), new(0,1,0), new(0,1,1), new(0,0,1) },
-                { new(0,0,1), new(1,0,1), new(1,1,1), new(0,1,1) },
-                { new(1,0,0), new(0,0,0), new(0,1,0), new(1,1,0) },
-            };
-
-            for (int d = 0; d < 6; d++)
+            for (int layer = layerMin; layer < layerMax; layer++)
             {
-                int nx = x + dirs[d, 0], ny = y + dirs[d, 1], nz = z + dirs[d, 2];
-                if (InBounds(nx, ny, nz) && !_grid[nx, ny, nz].IsEmpty) continue;
+                BlockType?[,] mask = new BlockType?[uSize, vSize];
+                for (int u = 0; u < uSize; u++)
+                for (int v = 0; v < vSize; v++)
+                {
+                    int[] bc = new int[3]; bc[axis] = layer; bc[uAx] = mins[uAx] + u; bc[vAx] = mins[vAx] + v;
+                    int bx = bc[0], by = bc[1], bz = bc[2];
+                    BlockType t = _grid[bx, by, bz].blockType;
+                    if (t == BlockType.Air) continue;
+                    int nx = bx + (axis == 0 ? sign : 0);
+                    int ny = by + (axis == 1 ? sign : 0);
+                    int nz = bz + (axis == 2 ? sign : 0);
+                    if (!InBounds(nx, ny, nz) || _grid[nx, ny, nz].IsEmpty)
+                        mask[u, v] = t;
+                }
 
-                if (!V.ContainsKey(t)) { V[t] = new(); T[t] = new(); N[t] = new(); UV[t] = new(); }
-                var vv = V[t]; var tt = T[t]; var nn = N[t]; var uv = UV[t]; int s = vv.Count;
-                for (int i = 0; i < 4; i++) { vv.Add(bp + fv[d, i] * blockSize); nn.Add(nrm[d]); }
-                int idx = (int)t;
-                float u0 = (idx % 8) / 8f, v0 = (idx / 8) / 4f;
-                uv.Add(new Vector2(u0, v0)); uv.Add(new Vector2(u0 + .125f, v0));
-                uv.Add(new Vector2(u0 + .125f, v0 + .25f)); uv.Add(new Vector2(u0, v0 + .25f));
-                tt.Add(s); tt.Add(s + 1); tt.Add(s + 2);
-                tt.Add(s); tt.Add(s + 2); tt.Add(s + 3);
+                bool[,] visited = new bool[uSize, vSize];
+                for (int u = 0; u < uSize; u++)
+                for (int v = 0; v < vSize; v++)
+                {
+                    if (!mask[u, v].HasValue || visited[u, v]) continue;
+                    BlockType t = mask[u, v].Value;
+                    int w = 1;
+                    while (u + w < uSize && mask[u + w, v].HasValue && mask[u + w, v].Value == t && !visited[u + w, v]) w++;
+                    int h = 1; bool ok = true;
+                    while (v + h < vSize && ok)
+                    {
+                        for (int k = 0; k < w; k++)
+                            if (!mask[u + k, v + h].HasValue || mask[u + k, v + h].Value != t || visited[u + k, v + h])
+                            { ok = false; break; }
+                        if (ok) h++;
+                    }
+                    for (int i = 0; i < w; i++)
+                    for (int j = 0; j < h; j++)
+                        visited[u + i, v + j] = true;
+
+                    if (!V.ContainsKey(t)) { V[t] = new(); T[t] = new(); N[t] = new(); UV[t] = new(); }
+                    var vv = V[t]; var tt = T[t]; var nn = N[t]; var uv = UV[t]; int s = vv.Count;
+
+                    int fc = sign > 0 ? layer + 1 : layer;
+                    int[] c0 = new int[3], c1 = new int[3], c2 = new int[3], c3 = new int[3];
+                    c0[axis] = fc; c0[uAx] = mins[uAx] + u;     c0[vAx] = mins[vAx] + v;
+                    c1[axis] = fc; c1[uAx] = mins[uAx] + u + w; c1[vAx] = mins[vAx] + v;
+                    c2[axis] = fc; c2[uAx] = mins[uAx] + u + w; c2[vAx] = mins[vAx] + v + h;
+                    c3[axis] = fc; c3[uAx] = mins[uAx] + u;     c3[vAx] = mins[vAx] + v + h;
+
+                    vv.Add(new Vector3(c0[0], c0[1], c0[2]) * blockSize);
+                    vv.Add(new Vector3(c1[0], c1[1], c1[2]) * blockSize);
+                    vv.Add(new Vector3(c2[0], c2[1], c2[2]) * blockSize);
+                    vv.Add(new Vector3(c3[0], c3[1], c3[2]) * blockSize);
+                    for (int i = 0; i < 4; i++) nn.Add(normal);
+
+                    int idx = (int)t;
+                    float uu0 = (idx % 8) / 8f, vv0 = (idx / 8) / 4f;
+                    uv.Add(new Vector2(uu0, vv0)); uv.Add(new Vector2(uu0 + .125f, vv0));
+                    uv.Add(new Vector2(uu0 + .125f, vv0 + .25f)); uv.Add(new Vector2(uu0, vv0 + .25f));
+
+                    tt.Add(s); tt.Add(s + 1); tt.Add(s + 2);
+                    tt.Add(s); tt.Add(s + 2); tt.Add(s + 3);
+                }
             }
         }
 
         if (V.Count == 0) { chunk.filter.mesh = chunk.mesh; return; }
 
-        var allV = new List<Vector3>();
-        var allN = new List<Vector3>();
-        var allUV = new List<Vector2>();
-        var types = new List<BlockType>();
-        var subT = new List<int[]>();
+        var allV = new List<Vector3>(); var allN = new List<Vector3>(); var allUV = new List<Vector2>();
+        var types = new List<BlockType>(); var subT = new List<int[]>();
         foreach (var kv in V)
         {
             int off = allV.Count;
-            var tList = T[kv.Key];
-            for (int i = 0; i < tList.Count; i++) tList[i] += off;
+            var tl = T[kv.Key];
+            for (int i = 0; i < tl.Count; i++) tl[i] += off;
             allV.AddRange(kv.Value); allN.AddRange(N[kv.Key]); allUV.AddRange(UV[kv.Key]);
-            types.Add(kv.Key); subT.Add(tList.ToArray());
+            types.Add(kv.Key); subT.Add(tl.ToArray());
         }
 
         chunk.mesh.subMeshCount = subT.Count;
@@ -227,7 +269,6 @@ public class GridManager : MonoBehaviour
                 mats.Add(m);
             }
             chunk.renderer.materials = mats.ToArray();
-            chunk.materials = mats;
         }
     }
 
