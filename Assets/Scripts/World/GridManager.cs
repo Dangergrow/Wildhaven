@@ -287,7 +287,7 @@ public class GridManager : MonoBehaviour
             float h = Mathf.PerlinNoise(nx * 2.2f + seed * .001f, nz * 2.2f + seed * .001f)
                     + Mathf.PerlinNoise(nx * 5f + seed * .002f, nz * 5f + seed * .002f) * .5f
                     + Mathf.PerlinNoise(nx * 11f + seed * .003f, nz * 11f + seed * .003f) * .25f;
-            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .9f), 2, worldHeight - 1);
+            int th = Mathf.Clamp(Mathf.FloorToInt(h * worldHeight * .7f), 2, worldHeight - 1);
             for (int y = 0; y < worldHeight; y++)
             {
                 if (y == 0) _grid[x, y, z] = new(BlockType.Bedrock);
@@ -300,7 +300,7 @@ public class GridManager : MonoBehaviour
                 else _grid[x, y, z] = GridCell.Empty;
             }
             // Water fills depressions: if terrain below sea level, fill above terrain with water
-            int seaLevel = 7;
+            int seaLevel = 10;
             if (th < seaLevel)
                 for (int y = th + 1; y <= seaLevel; y++)
                     _grid[x, y, z] = new(BlockType.Water);
