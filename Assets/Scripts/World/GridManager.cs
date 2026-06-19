@@ -8,6 +8,8 @@ public class GridManager : MonoBehaviour
 
     [Header("World")] public int worldWidth = 100, worldHeight = 32, worldDepth = 100;
     [Header("Block")] public float blockSize = 1f; public Material blockMaterial;
+    [Tooltip("Optional: assign BlockDatabase asset for per-block config")]
+    public BlockDatabase blockDatabase;
     [Header("Gen")] public int seed;
 
     #endregion
@@ -311,7 +313,10 @@ public class GridManager : MonoBehaviour
 
     #region Colors
 
-    Color BlockColor(BlockType t) => t switch
+    Color BlockColor(BlockType t)
+    {
+        if (blockDatabase != null) return blockDatabase.GetColor(t);
+        return t switch
     {
         BlockType.Grass => new(.25f, .55f, .15f), BlockType.Dirt => new(.45f, .32f, .18f),
         BlockType.Stone => new(.50f, .50f, .55f), BlockType.Bedrock => new(.15f, .14f, .16f),
@@ -322,6 +327,7 @@ public class GridManager : MonoBehaviour
         BlockType.Water => new(.20f, .40f, .75f), BlockType.Snow => new(.95f, .95f, .97f),
         _ => Color.gray,
     };
+    }
 
     Texture2D CreateAtlas()
     {
