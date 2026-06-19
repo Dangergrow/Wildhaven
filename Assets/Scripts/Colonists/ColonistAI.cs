@@ -32,7 +32,6 @@ public class ColonistAI : MonoBehaviour
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
         EvaluateState();
         HandleWandering();
-        AutoCollect();
     }
 
     void HandleWandering()
@@ -50,24 +49,6 @@ public class ColonistAI : MonoBehaviour
             _isMoving = true;
         }
         else _isMoving = false;
-    }
-
-    void AutoCollect()
-    {
-        if (_colonist.currentState == ColonistState.Sleeping || _colonist.currentState == ColonistState.Fighting) return;
-        Inventory inv = GetComponent<Inventory>();
-        if (inv == null) return;
-
-        WorldItem[] items = FindObjectsOfType<WorldItem>();
-        foreach (WorldItem item in items)
-        {
-            if (item == null) continue;
-            if (Vector3.Distance(transform.position, item.transform.position) < 2f)
-            {
-                inv.AddItem(item.itemType, item.amount);
-                Destroy(item.gameObject);
-            }
-        }
     }
 
     void PickWanderTarget()

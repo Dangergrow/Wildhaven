@@ -61,6 +61,7 @@ public class BlockDropManager : MonoBehaviour
         for (int i = _worldItems.Count - 1; i >= 0; i--)
         {
             WorldItem item = _worldItems[i];
+            if (item == null || item.gameObject == null) { _worldItems.RemoveAt(i); continue; }
             Colonist nearest = FindNearestColonist(item.transform.position, spawner);
 
             if (nearest != null && Vector3.Distance(item.transform.position, nearest.transform.position) < pickupRadius)
