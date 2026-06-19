@@ -174,8 +174,7 @@ public class WorldItem : MonoBehaviour
             transform.position += spawnVelocity * Time.deltaTime;
 
             // Check ground
-            GridManager grid = _grid;
-            if (grid == null) grid = FindObjectOfType<GridManager>();
+            GridManager grid = FindObjectOfType<GridManager>();
             if (grid != null)
             {
                 Vector3Int below = grid.WorldToGrid(transform.position + Vector3.down * 0.2f);
