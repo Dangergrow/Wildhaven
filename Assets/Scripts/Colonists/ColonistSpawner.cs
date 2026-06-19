@@ -54,22 +54,29 @@ public class ColonistSpawner : MonoBehaviour
             return null;
         }
 
-        // Disable NavMeshAgent during spawn to avoid "not close to NavMesh" error
+        // Spawn without NavMeshAgent (prefab should NOT have it)
         GameObject go = Instantiate(colonistPrefab, position, Quaternion.identity);
-        UnityEngine.AI.NavMeshAgent agent = go.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (agent != null) agent.enabled = false;
 
-        Colonist colonist = go.GetComponent<Colonist>();
-
-        // Re-enable agent and warp to nearest NavMesh
-        if (agent != null)
+        // Find valid NavMesh position
+        Vector3 navPos = position;
+        if (!UnityEngine.AI.NavMesh.SamplePosition(position, out UnityEngine.AI.NavMeshHit hit, 100f, UnityEngine.AI.NavMesh.AllAreas))
         {
-            agent.enabled = true;
-            if (UnityEngine.AI.NavMesh.SamplePosition(position, out UnityEngine.AI.NavMeshHit hit, 50f, UnityEngine.AI.NavMesh.AllAreas))
+            // Try center
+            if (!UnityEngine.AI.NavMesh.SamplePosition(spawnCenter, out hit, 100f, UnityEngine.AI.NavMesh.AllAreas))
             {
-                agent.Warp(hit.position);
+                Debug.LogError("[ColonistSpawner] Cannot find NavMesh anywhere. Is it baked?");
+                Destroy(go);
+                return null;
             }
         }
+        navPos = hit.position;
+
+        // Add NavMeshAgent AFTER placement
+        UnityEngine.AI.NavMeshAgent agent = go.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (agent == null) agent = go.AddComponent<UnityEngine.AI.NavMeshAgent>();
+        agent.Warp(navPos);
+
+        Colonist colonist = go.GetComponent<Colonist>();
         if (colonist == null)
         {
             Debug.LogError("[ColonistSpawner] Prefab has no Colonist component!");
