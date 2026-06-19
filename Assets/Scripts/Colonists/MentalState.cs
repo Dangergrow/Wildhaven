@@ -97,7 +97,7 @@ public class MentalState : MonoBehaviour
 
         switch (type.effect)
         {
-            case BreakEffect.BingeEating:
+            case BreakEffect.ConsumeAllFood:
                 // Eat all available food
                 Inventory inv = GetComponent<Inventory>();
                 if (inv != null)
