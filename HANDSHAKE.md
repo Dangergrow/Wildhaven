@@ -5,25 +5,36 @@
 
 ---
 
-## ▶ Сессия: 18.06.2026 | ПК: РАБОЧИЙ
+## ▶ Сессия: 18.06.2026 | ПК: ДОМАШНИЙ
 
 ### Что сделано
-- Настроен проект Wildhaven: репозиторий, гейм-дизайн документ (SETUP.md), система handshake
-- Установлены: Ollama, Node.js, Bun, opencode-ollama плагин
-- Модели Ollama: gemma2:9b, neo-code:27b (NEO-CODE), qwen2.5:14b, qwen2.5-coder:7b, nomic-embed-text
-- Агенты opencode: explore, general, ui-designer (все на deepseek/deepseek-v4-pro)
-- Причина: Ollama агенты не работают из-за бага opencode #18423
-- Конфиг Ollama готов (`npm: @ai-sdk/openai-compatible`), ждём фикса
-- @ai-sdk/openai-compatible установлен глобально
+- Открыт проект в Unity на домашнем ПК
 
 ### Что в процессе
-- Установка Unity Hub + Unity 6 LTS
-- Ожидание: Steam + Spacewar, Mirror, ParrelSync
+- Настройка сцены в Unity (MainScene, World + GridManager, Camera + CameraController)
+- Клонирование репозитория на домашний ПК
 
 ### Следующий шаг
-- Завершить установку Unity
-- Скачать Steam + Spacewar для мультиплеера
-- Начать Этап 1: Воксельный мир + строительство
+- Сделать git commit и push результатов на домашнем ПК
+- Продолжить написание VoxelMeshBuilder (рендер вокселей)
+
+---
+
+## ▶ Сессия: 18.06.2026 | ПК: РАБОЧИЙ (вечер)
+
+### Что сделано
+- Установлен Unity Hub + Unity 6.5 (6000.5.0f1)
+- Создан и настроен проект Wildhaven (URP 3D, репозиторий GitHub)
+- Node.js, Bun, opencode-ollama плагин установлены
+- Написан фундамент: BlockType (24 типа), BlockData, GridCell, GridManager, CameraController
+- Все залито в репозиторий (коммит 364d7e0)
+
+### Что в процессе
+- Этап 1: Воксельный мир — ожидается VoxelMeshBuilder (рендер)
+
+### Следующий шаг
+- Написать VoxelMeshBuilder для отрисовки блоков
+- Настроить сцену в Unity (World + GridManager, Camera + CameraController)
 
 ---
 
