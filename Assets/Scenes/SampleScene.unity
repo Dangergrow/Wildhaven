@@ -347,7 +347,7 @@ Transform:
   m_GameObject: {fileID: 663085796}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 29.28796, y: 9.47166, z: 1.55541}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -504,7 +504,7 @@ Transform:
   m_GameObject: {fileID: 942698268}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5624222, y: 0.3036032, z: -0.23296289, w: 0.73296297}
-  m_LocalPosition: {x: 50, y: 55, z: 50}
+  m_LocalPosition: {x: 50, y: 35, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -559,8 +559,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColonistSpawner
   startingColonists: 3
   colonistPrefab: {fileID: 2729042192664582530, guid: 32a0428588ea2d34f9f28bf51e92b4e3, type: 3}
-  spawnCenter: {x: 50, y: 16, z: 50}
-  spawnRadius: 5
+  spawnOrigin: {x: 50, y: 0, z: 50}
+  searchRadius: 12
   maleNames:
   - Ivan
   - Boris

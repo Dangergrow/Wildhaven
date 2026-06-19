@@ -49,7 +49,11 @@ public class ColonistSpawner : MonoBehaviour
 
                 if (isSolid && hasAirAbove)
                 {
-                    return grid.GridToWorld(gx, gy + 1, gz); // on top
+                    // Spawn ON top of block, not in its center
+                    Vector3 pos = grid.GridToWorld(gx, gy, gz);
+                    pos.y += grid.BlockSize * 0.5f; // top surface of block
+                    pos.y += 0.5f; // small offset above
+                    return pos;
                 }
             }
         }
