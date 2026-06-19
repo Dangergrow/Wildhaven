@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
     public float maxY = 80f;
 
     [Tooltip("Scroll speed")]
-    public float zoomSpeed = 40f;
+    public float zoomSpeed = 120f;
 
     #endregion
 
@@ -97,7 +97,8 @@ public class CameraController : MonoBehaviour
         float scroll = Mouse.current.scroll.ReadValue().y;
         if (Mathf.Approximately(scroll, 0f)) return;
 
-        scroll /= 120f; // normalize to ~1 per notch
+        scroll /= 120f;
+        scroll *= 5f; // boost
         Vector3 pos = transform.position + transform.forward * (scroll * zoomSpeed);
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
         transform.position = pos;
