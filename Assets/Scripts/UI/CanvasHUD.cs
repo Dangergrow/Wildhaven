@@ -55,7 +55,7 @@ public class CanvasHUD : MonoBehaviour
         if (_spawner != null)
         {
             int count = 0, alive = 0;
-            foreach (var c in _spawner.colonists)
+            foreach (var c in _spawner.Colonists)
             {
                 count++;
                 if (c.currentState != ColonistState.Dead) alive++;

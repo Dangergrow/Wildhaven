@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// AI controller for colonists. Manages state transitions, wandering, and auto-collect.
+/// AI controller for colonists. Manages state transitions, wandering, auto-collect, and player orders.
 /// </summary>
 [RequireComponent(typeof(Colonist), typeof(NeedsSystem))]
 public class ColonistAI : MonoBehaviour
@@ -12,6 +12,11 @@ public class ColonistAI : MonoBehaviour
     public Vector3 taskTarget;
     public int[] jobPriorities = new int[14] { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 
+    /// <summary>Player-issued order: Move, Mine, or Attack.</summary>
+    public enum OrderType { None, Move, Mine, Attack }
+    public OrderType currentOrder = OrderType.None;
+    public Vector3 orderTarget;
+
     private Colonist _colonist;
     private NeedsSystem _needs;
     private DayCycle _day;
@@ -20,6 +25,22 @@ public class ColonistAI : MonoBehaviour
     private Vector3 _wanderTarget;
     private float _wanderTimer;
     private bool _isMoving;
+
+    /// <summary>Issue a player order. Returns false if colonist can't accept orders.</summary>
+    public bool GiveOrder(OrderType type, Vector3 target)
+    {
+        if (_colonist == null || _colonist.currentState == ColonistState.Dead
+            || _colonist.currentState == ColonistState.Sleeping
+            || _colonist.currentState == ColonistState.Fighting
+            || _colonist.currentState == ColonistState.Downed)
+            return false;
+        currentOrder = type;
+        orderTarget = target;
+        return true;
+    }
+
+    /// <summary>Cancel current order.</summary>
+    public void CancelOrder() { currentOrder = OrderType.None; }
 
     private void Awake()
     {
@@ -36,6 +57,7 @@ public class ColonistAI : MonoBehaviour
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
         if (_day != null && _day.IsPaused) return;
         EvaluateState();
+        if (HandleOrder()) return; // Player orders take priority
         HandleWandering();
         HandleCombat();
     }
@@ -65,6 +87,41 @@ public class ColonistAI : MonoBehaviour
             else PickWanderTarget();
         }
         else _isMoving = false;
+    }
+
+    /// <summary>Executes player orders (Move/Mine/Attack). Returns true if order is active.</summary>
+    bool HandleOrder()
+    {
+        if (currentOrder == OrderType.None) return false;
+        if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Downed) return false;
+
+        float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
+        float dist = Vector3.Distance(transform.position, orderTarget);
+
+        // Move toward target
+        if (dist > 0.5f)
+        {
+            Vector3 dir = (orderTarget - transform.position).normalized;
+            Vector3 next = transform.position + dir * _speed * dt;
+            if (CanMoveTo(next)) transform.position = next;
+            return true;
+        }
+
+        // Arrived — execute order
+        if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
+
+        if (currentOrder == OrderType.Mine && _grid != null)
+        {
+            Vector3Int gp = _grid.WorldToGrid(orderTarget);
+            if (_grid.InBounds(gp.x, gp.y, gp.z) && _grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
+            {
+                _grid.RemoveBlock(gp.x, gp.y, gp.z);
+                CancelOrder(); return false;
+            }
+            CancelOrder(); return false;
+        }
+
+        CancelOrder(); return false;
     }
 
     /// <summary>

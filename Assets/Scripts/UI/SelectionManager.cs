@@ -43,14 +43,33 @@ public class SelectionManager : MonoBehaviour
 
         if (_buildMode) return;
         if (_cam == null) return;
-        if (!Mouse.current.leftButton.wasPressedThisFrame) return;
 
-        // Raycast from mouse to find colonist
-        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) { Deselect(); return; }
+        // LMB — select colonist
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) { Deselect(); return; }
+            Colonist c = hit.collider.GetComponentInParent<Colonist>();
+            if (c != null) Select(c); else Deselect();
+        }
 
-        Colonist c = hit.collider.GetComponentInParent<Colonist>();
-        if (c != null) Select(c); else Deselect();
+        // RMB — order selected colonist
+        if (Mouse.current.rightButton.wasPressedThisFrame && selectedColonist != null)
+        {
+            var ai = selectedColonist.GetComponent<ColonistAI>();
+            if (ai == null) return;
+            // Check if clicking on a block (solid) or ground (air)
+            GridManager gm = FindObjectOfType<GridManager>();
+            if (gm != null)
+            {
+                Vector3 worldPos = GetMouseWorldPosition();
+                Vector3Int gp = gm.WorldToGrid(worldPos);
+                if (gm.InBounds(gp.x, gp.y, gp.z) && gm.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
+                    ai.GiveOrder(ColonistAI.OrderType.Mine, worldPos);
+                else if (gm.InBounds(gp.x, gp.y, gp.z))
+                    ai.GiveOrder(ColonistAI.OrderType.Move, worldPos);
+            }
+        }
     }
 
     void Select(Colonist c)
@@ -81,5 +100,16 @@ public class SelectionManager : MonoBehaviour
             GUI.Box(new Rect(Screen.width - 230, Screen.height / 2 - 45, 220, 80),
                 $"{c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
         }
+    }
+
+    Vector3 GetMouseWorldPosition()
+    {
+        GridManager gm = FindObjectOfType<GridManager>();
+        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        var hit = gm != null ? gm.RaycastGrid(ray) : null;
+        if (hit != null) return gm.GridToWorld(hit.Value.x, hit.Value.y, hit.Value.z);
+        Plane p = new Plane(Vector3.up, Vector3.zero);
+        if (p.Raycast(ray, out float d)) return ray.GetPoint(d);
+        return ray.origin + ray.direction * 50f;
     }
 }
