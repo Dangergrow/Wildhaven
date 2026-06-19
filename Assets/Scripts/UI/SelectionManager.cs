@@ -1,16 +1,14 @@
 using UnityEngine;
 
 /// <summary>
-/// Shows a ghost preview of where a block will be placed.
-/// Also handles colonist selection on click.
+/// Ghost preview for building + colonist/enemy selection on click.
+/// B = toggle build/select mode.
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
-    [Header("Ghost")]
+    public bool buildMode = true;
     public GameObject ghostCube;
     public Color ghostColor = new Color(1, 1, 1, 0.3f);
-
-    [Header("Selection")]
     public Colonist selectedColonist;
     public GameObject selectionIndicator;
 
@@ -24,19 +22,15 @@ public class SelectionManager : MonoBehaviour
         _build = FindObjectOfType<BuildManager>();
         _cam = Camera.main;
 
-        // Create ghost cube
         if (ghostCube == null)
         {
             ghostCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             ghostCube.name = "BuildGhost";
             ghostCube.transform.localScale = Vector3.one * 0.95f;
-            Renderer r = ghostCube.GetComponent<Renderer>();
-            r.material = new Material(r.material);
-            r.material.color = ghostColor;
+            ghostCube.GetComponent<Renderer>().material.color = ghostColor;
             Destroy(ghostCube.GetComponent<Collider>());
         }
 
-        // Selection indicator
         if (selectionIndicator == null)
         {
             selectionIndicator = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -51,7 +45,7 @@ public class SelectionManager : MonoBehaviour
     void Update()
     {
         UpdateGhost();
-        HandleClick();
+        HandleInput();
     }
 
     void UpdateGhost()
@@ -62,7 +56,6 @@ public class SelectionManager : MonoBehaviour
         var hit = _grid.RaycastGrid(ray);
         if (hit == null) { ghostCube.SetActive(false); return; }
 
-        // Find placement position (same logic as BuildManager)
         Vector3 hw = _grid.GridToWorld(hit.Value.x, hit.Value.y, hit.Value.z);
         Vector3 dir = (_cam.transform.position - hw).normalized;
         Vector3Int[] offs = { new(0,1,0), new(0,-1,0), new(1,0,0), new(-1,0,0), new(0,0,1), new(0,0,-1) };
@@ -70,53 +63,37 @@ public class SelectionManager : MonoBehaviour
         for (int i = 0; i < 6; i++) { float d = Vector3.Dot(offs[i], dir); if (d > bestDot) { bestDot = d; best = i; } }
         Vector3Int placePos = new(hit.Value.x + offs[best].x, hit.Value.y + offs[best].y, hit.Value.z + offs[best].z);
 
-        bool blocked = BuildBlocker.IsOccupied(placePos.x, placePos.y, placePos.z);
-        if (_grid.InBounds(placePos.x, placePos.y, placePos.z)
+        bool canPlace = _grid.InBounds(placePos.x, placePos.y, placePos.z)
             && _grid.GetBlock(placePos.x, placePos.y, placePos.z) == BlockType.Air
-            && !blocked)
-        {
-            ghostCube.SetActive(true);
-            ghostCube.transform.position = _grid.GridToWorld(placePos.x, placePos.y, placePos.z);
-            ghostCube.GetComponent<Renderer>().material.color = blocked ? new Color(1, 0, 0, 0.5f) : ghostColor;
-        }
-        else
-        {
-            ghostCube.SetActive(false);
-        }
+            && !BuildBlocker.IsOccupied(placePos.x, placePos.y, placePos.z);
+
+        ghostCube.SetActive(true);
+        ghostCube.transform.position = _grid.GridToWorld(placePos.x, placePos.y, placePos.z);
+        ghostCube.GetComponent<Renderer>().material.color = canPlace ? ghostColor : Color.red;
     }
 
-    [Header("Build Mode")]
-    public bool buildMode = true; // B to toggle
-
-    void HandleClick()
+    void HandleInput()
     {
-        // Toggle build mode
         if (Input.GetKeyDown(KeyCode.B))
         {
             buildMode = !buildMode;
             if (_build != null) _build.enabled = buildMode;
-            Debug.Log($"[Selection] Build mode: {buildMode}");
         }
-        if (buildMode) return; // let BuildManager handle clicks in build mode
 
-        if (!Input.GetMouseButtonDown(0)) return;
+        // Only select in select mode
+        if (buildMode || !Input.GetMouseButtonDown(0)) return;
         if (_cam == null) return;
 
-        try
-        {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            if (!Physics.Raycast(ray, out RaycastHit hit, 100f)) return;
-            if (hit.collider == null || hit.collider.gameObject == null) return;
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, 100f) || hit.collider == null) return;
 
-            Colonist colonist = hit.collider.GetComponentInParent<Colonist>();
-            if (colonist != null) { SelectColonist(colonist); return; }
+        Colonist c = hit.collider.GetComponentInParent<Colonist>();
+        if (c != null) { SelectColonist(c); return; }
 
-            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-            if (enemy != null) { SelectEnemy(enemy); return; }
+        Enemy e = hit.collider.GetComponentInParent<Enemy>();
+        if (e != null) { SelectEnemy(e); return; }
 
-            DeselectAll();
-        }
-        catch (System.Exception) { /* ignore raycast errors */ }
+        DeselectAll();
     }
 
     void SelectColonist(Colonist c)
@@ -126,7 +103,6 @@ public class SelectionManager : MonoBehaviour
         selectionIndicator.SetActive(true);
         selectionIndicator.transform.position = c.transform.position + Vector3.up * 0.8f;
         selectionIndicator.transform.SetParent(c.transform);
-        Debug.Log($"[Selection] Selected {c.colonistName}");
     }
 
     void SelectEnemy(Enemy e)
@@ -136,7 +112,6 @@ public class SelectionManager : MonoBehaviour
         selectionIndicator.transform.position = e.transform.position + Vector3.up * 0.8f;
         selectionIndicator.transform.SetParent(e.transform);
         selectionIndicator.GetComponent<Renderer>().material.color = Color.red;
-        Debug.Log($"[Selection] Target: {e.enemyName}");
     }
 
     void DeselectAll()
@@ -147,18 +122,15 @@ public class SelectionManager : MonoBehaviour
         selectionIndicator.GetComponent<Renderer>().material.color = Color.green;
     }
 
-    /// <summary>Draws basic info for selected unit.</summary>
     void OnGUI()
     {
-        // Build mode indicator
-        GUIStyle modeStyle = new GUIStyle(GUI.skin.label) { fontSize = 12, fontStyle = FontStyle.Bold };
-        modeStyle.normal.textColor = buildMode ? Color.green : Color.yellow;
-        GUI.Label(new Rect(Screen.width - 110, 28, 105, 20), buildMode ? "BUILD [B]" : "SELECT [B]", modeStyle);
+        GUIStyle ms = new GUIStyle(GUI.skin.label) { fontSize = 12, fontStyle = FontStyle.Bold };
+        ms.normal.textColor = buildMode ? Color.green : Color.yellow;
+        GUI.Label(new Rect(Screen.width - 110, 28, 105, 20), buildMode ? "BUILD [B]" : "SELECT [B]", ms);
 
         if (selectedColonist == null) return;
         Colonist c = selectedColonist;
-        GUIStyle s = new GUIStyle(GUI.skin.box) { fontSize = 12, alignment = TextAnchor.UpperLeft };
-        string info = $"{c.colonistName} ({c.age})\nHP: {c.health:F0}/{c.maxHealth:F0}  Mood: {c.mood:F0}\nHunger: {c.hunger:F0}  Fatigue: {c.fatigue:F0}\nSkills: Con{c.constructionSkill} Min{c.miningSkill} Cok{c.cookingSkill} Med{c.medicineSkill}";
-        GUI.Box(new Rect(Screen.width - 220, Screen.height / 2f - 60, 210, 100), info, s);
+        GUI.Box(new Rect(Screen.width - 220, Screen.height / 2f - 60, 210, 100),
+            $"{c.colonistName}\nHP:{c.health:F0} Mood:{c.mood:F0}\nHunger:{c.hunger:F0} Fatigue:{c.fatigue:F0}");
     }
 }
