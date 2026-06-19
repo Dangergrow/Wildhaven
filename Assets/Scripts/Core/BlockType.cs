@@ -1,6 +1,4 @@
-/// <summary>
-/// All available block types in Wildhaven.
-/// </summary>
+/// <summary>All block types in Wildhaven.</summary>
 public enum BlockType
 {
     Air = 0,
