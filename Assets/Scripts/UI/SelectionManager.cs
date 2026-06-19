@@ -31,10 +31,8 @@ public class SelectionManager : MonoBehaviour
             ghostCube.name = "BuildGhost";
             ghostCube.transform.localScale = Vector3.one * 0.95f;
             Renderer r = ghostCube.GetComponent<Renderer>();
-            r.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            r.material = new Material(r.material);
             r.material.color = ghostColor;
-            // Make transparent
-            r.material.SetFloat("_Surface", 1); // transparent
             Destroy(ghostCube.GetComponent<Collider>());
         }
 
@@ -89,7 +87,7 @@ public class SelectionManager : MonoBehaviour
         if (!Input.GetMouseButtonDown(0)) return;
 
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 100f)) return;
+        if (!Physics.Raycast(ray, out RaycastHit hit, 100f) || hit.collider == null) return;
 
         // Check if clicked on colonist
         Colonist colonist = hit.collider.GetComponentInParent<Colonist>();
