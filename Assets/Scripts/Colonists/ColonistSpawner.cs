@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -27,8 +28,10 @@ public class ColonistSpawner : MonoBehaviour
     // All spawned colonists
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
-    private void Start()
+    private IEnumerator Start()
     {
+        // Wait for VoxelMeshBuilder to generate mesh and bake NavMesh
+        yield return new WaitForSeconds(0.5f);
         SpawnInitialColonists();
     }
 
