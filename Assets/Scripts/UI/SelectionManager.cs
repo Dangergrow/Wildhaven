@@ -80,23 +80,29 @@ public class SelectionManager : MonoBehaviour
             if (_build != null) _build.enabled = buildMode;
         }
 
-        // Only select in select mode
         if (buildMode || !Input.GetMouseButtonDown(0)) return;
         if (_cam == null) return;
 
+        // Select nearest colonist to mouse click position
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 50f, Color.yellow, 1f);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 100f) || hit.collider == null) return;
+        var gridHit = _grid.RaycastGrid(ray);
+        if (gridHit == null) return;
 
-        Debug.Log($"[Selection] Clicked: {hit.collider.gameObject.name}");
+        Vector3 clickWorld = _grid.GridToWorld(gridHit.Value.x, gridHit.Value.y, gridHit.Value.z);
+        ColonistSpawner spawner = FindObjectOfType<ColonistSpawner>();
+        if (spawner == null) return;
 
-        Colonist c = hit.collider.GetComponentInParent<Colonist>();
-        if (c != null) { SelectColonist(c); return; }
+        Colonist nearest = null;
+        float minDist = 2f;
+        foreach (Colonist c in spawner.Colonists)
+        {
+            if (c == null) continue;
+            float d = Vector3.Distance(clickWorld, c.transform.position);
+            if (d < minDist) { minDist = d; nearest = c; }
+        }
 
-        Enemy e = hit.collider.GetComponentInParent<Enemy>();
-        if (e != null) { SelectEnemy(e); return; }
-
-        DeselectAll();
+        if (nearest != null) SelectColonist(nearest);
+        else DeselectAll();
     }
 
     void SelectColonist(Colonist c)
