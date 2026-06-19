@@ -103,7 +103,8 @@ public class BlockDropManager : MonoBehaviour
     {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.transform.position = position + Vector3.up * 0.5f;
-        go.transform.localScale = Vector3.one * 0.2f;
+        go.transform.localScale = Vector3.one * 0.3f;
+        go.GetComponent<Renderer>().material.color = Color.yellow; // bright
         WorldItem item = go.AddComponent<WorldItem>();
         item.itemType = type;
         item.amount = amount;
