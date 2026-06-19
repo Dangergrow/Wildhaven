@@ -32,7 +32,7 @@ public class ColonistAI : MonoBehaviour
         if (_colonist == null || _colonist.currentState == ColonistState.Dead
             || _colonist.currentState == ColonistState.Sleeping
             || _colonist.currentState == ColonistState.Fighting
-            || _colonist.currentState == ColonistState.Downed)
+            || _colonist.currentState == ColonistState.Incapacitated)
             return false;
         currentOrder = type;
         orderTarget = target;
@@ -93,7 +93,7 @@ public class ColonistAI : MonoBehaviour
     bool HandleOrder()
     {
         if (currentOrder == OrderType.None) return false;
-        if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Downed) return false;
+        if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
 
         float dt = Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
         float dist = Vector3.Distance(transform.position, orderTarget);
