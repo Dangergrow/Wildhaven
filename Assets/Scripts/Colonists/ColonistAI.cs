@@ -32,6 +32,7 @@ public class ColonistAI : MonoBehaviour
         if (_colonist == null || _colonist.currentState == ColonistState.Dead) return;
         EvaluateState();
         HandleWandering();
+        HandleCombat();
     }
 
     void HandleWandering()
@@ -57,6 +58,47 @@ public class ColonistAI : MonoBehaviour
     }
 
     public bool IsMoving => _isMoving;
+
+    /// <summary>
+    /// Attacks nearby enemies if colonist is not dead/sleeping.
+    /// Uses equipment stats for damage.
+    /// </summary>
+    void HandleCombat()
+    {
+        if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping) return;
+
+        Enemy nearest = null;
+        float minDist = 3f;
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy e in enemies)
+        {
+            if (e == null || e.state == CombatState.Dead) continue;
+            float d = Vector3.Distance(transform.position, e.transform.position);
+            if (d < minDist) { minDist = d; nearest = e; }
+        }
+
+        if (nearest != null)
+        {
+            _colonist.currentState = ColonistState.Fighting;
+            _colonist.isDrafted = true;
+
+            // Face enemy
+            Vector3 dir = (nearest.transform.position - transform.position).normalized;
+            transform.forward = dir;
+
+            // Attack
+            Equipment eq = GetComponent<Equipment>();
+            float dmg = 5f + (_colonist.meleeSkill * 0.5f);
+            if (eq != null) dmg += eq.GetAttackBonus();
+
+            nearest.TakeDamage(dmg * Time.deltaTime, DamageType.Slash);
+        }
+        else if (_colonist.isDrafted)
+        {
+            _colonist.isDrafted = false;
+            _colonist.currentState = ColonistState.Idle;
+        }
+    }
 
     /// <summary>
     /// Eats food from inventory to restore hunger.
