@@ -198,7 +198,40 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.fatigue > 70f) { TransitionTo(ColonistState.Sleeping); return; }
         if (_colonist.recreation < 15f && _colonist.currentState != ColonistState.Working) { TransitionTo(ColonistState.Recreation); return; }
         if (HasWork()) TransitionTo(ColonistState.Working);
+        else if (_colonist.hunger > 30f && _colonist.fatigue < 70f) TryAutoWork(); // do something useful
         else TransitionTo(ColonistState.Idle);
+    }
+
+    /// <summary>
+    /// Finds a nearby solid block and mines it.
+    /// </summary>
+    void TryAutoWork()
+    {
+        if (_grid == null) { TransitionTo(ColonistState.Idle); return; }
+        // Find nearby block to mine
+        Vector3Int myPos = _grid.WorldToGrid(transform.position);
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dz = -2; dz <= 2; dz++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    int gx = myPos.x + dx, gy = myPos.y + dy, gz = myPos.z + dz;
+                    if (!_grid.IsInBounds(gx, gy, gz)) continue;
+                    BlockType b = _grid.GetBlock(gx, gy, gz);
+                    if (b != BlockType.Air && b != BlockType.Water && b != BlockType.Bedrock)
+                    {
+                        // Mine this block
+                        _grid.RemoveBlock(gx, gy, gz);
+                        _colonist.currentState = ColonistState.Working;
+                        currentTask = ColonistTask.Mine;
+                        Debug.Log($"[Colonist] {_colonist.colonistName} mined {b}");
+                        return;
+                    }
+                }
+            }
+        }
+        TransitionTo(ColonistState.Idle);
     }
 
     private void TransitionTo(ColonistState s) { if (_colonist.currentState != s) { _colonist.currentState = s; if (s == ColonistState.Sleeping) _colonist.comfort += 20f; } }
