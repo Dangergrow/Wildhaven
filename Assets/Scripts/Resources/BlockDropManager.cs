@@ -103,12 +103,23 @@ public class BlockDropManager : MonoBehaviour
     void SpawnItem(ItemType type, int amount, Vector3 position)
     {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        go.transform.position = position + Vector3.up * 0.5f;
-        go.transform.localScale = Vector3.one * 0.3f;
-        go.GetComponent<Renderer>().material.color = Color.yellow; // bright
+        go.transform.position = position + Vector3.up * 0.3f;
+        go.transform.localScale = Vector3.one * 0.25f;
+        go.GetComponent<Renderer>().material.color = type switch
+        {
+            ItemType.WoodLog => new Color(0.55f, 0.27f, 0.07f),
+            ItemType.StoneBlock => Color.gray,
+            ItemType.IronOre => new Color(0.7f, 0.4f, 0.3f),
+            ItemType.CopperOre => new Color(0.8f, 0.5f, 0.3f),
+            ItemType.Coal => Color.black,
+            ItemType.Berries => Color.red,
+            ItemType.Wheat => Color.yellow,
+            _ => Color.yellow,
+        };
         WorldItem item = go.AddComponent<WorldItem>();
         item.itemType = type;
         item.amount = amount;
+        item.spawnVelocity = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(1f, 3f), Random.Range(-0.5f, 0.5f));
         _worldItems.Add(item);
     }
 
@@ -136,9 +147,44 @@ public struct DropEntry
 
 /// <summary>
 /// Represents an item GameObject dropped in the world.
+/// Has physics: gravity, bouncing, settling on ground.
 /// </summary>
 public class WorldItem : MonoBehaviour
 {
     public ItemType itemType;
     public int amount;
+    public Vector3 spawnVelocity;
+    public bool hasLanded;
+
+    private float _lifetime = 30f;
+    private float _bounceTimer;
+
+    void Update()
+    {
+        _lifetime -= Time.deltaTime;
+        if (_lifetime < 0f) { Destroy(gameObject); return; }
+
+        if (!hasLanded)
+        {
+            // Gravity
+            spawnVelocity.y -= 12f * Time.deltaTime;
+            transform.position += spawnVelocity * Time.deltaTime;
+
+            // Check ground
+            GridManager grid = FindObjectOfType<GridManager>();
+            if (grid != null)
+            {
+                Vector3Int below = grid.WorldToGrid(transform.position + Vector3.down * 0.2f);
+                BlockType block = grid.GetBlock(below.x, below.y, below.z);
+                if (block != BlockType.Air && block != BlockType.Water && spawnVelocity.y < 0f)
+                {
+                    // Land
+                    Vector3 ground = grid.GridToWorld(below.x, below.y, below.z);
+                    transform.position = new Vector3(transform.position.x, ground.y + 0.15f + grid.BlockSize * 0.5f, transform.position.z);
+                    spawnVelocity = Vector3.zero;
+                    hasLanded = true;
+                }
+            }
+        }
+    }
 }
