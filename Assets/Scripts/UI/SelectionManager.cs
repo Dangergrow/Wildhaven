@@ -91,7 +91,12 @@ public class SelectionManager : MonoBehaviour
     void HandleClick()
     {
         // Toggle build mode
-        if (Input.GetKeyDown(KeyCode.B)) { buildMode = !buildMode; Debug.Log($"[Selection] Build mode: {buildMode}"); }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            buildMode = !buildMode;
+            if (_build != null) _build.enabled = buildMode;
+            Debug.Log($"[Selection] Build mode: {buildMode}");
+        }
         if (buildMode) return; // let BuildManager handle clicks in build mode
 
         if (!Input.GetMouseButtonDown(0)) return;
