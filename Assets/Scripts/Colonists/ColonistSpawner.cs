@@ -22,8 +22,17 @@ public class ColonistSpawner : MonoBehaviour
 
     void DoSpawn()
     {
+        // Guarantee 3 valid positions
+        Vector3[] spots = new Vector3[startingColonists];
         for (int i = 0; i < startingColonists; i++)
-            SpawnColonist(FindSurface());
+        {
+            spots[i] = FindSurface();
+            // Offset each colonist slightly
+            spots[i] += new Vector3(i * 2f - 2f, 0f, 0f);
+        }
+
+        for (int i = 0; i < startingColonists; i++)
+            SpawnColonist(spots[i]);
     }
 
     Vector3 FindSurface()
@@ -59,7 +68,17 @@ public class ColonistSpawner : MonoBehaviour
             }
         }
 
-        Debug.LogError("[ColonistSpawner] No surface found — using fallback");
+        Debug.LogError("[ColonistSpawner] No surface — using grid center");
+        // Force: find ANY non-air block and spawn above it
+        GridManager gm = FindObjectOfType<GridManager>();
+        for (int gy = gm.Height - 1; gy >= 1; gy--)
+        {
+            BlockType b = gm.GetBlock(50, gy, 50);
+            if (b != BlockType.Air && b != BlockType.Water)
+            {
+                return gm.GridToWorld(50, gy + 1, 50);
+            }
+        }
         return new Vector3(50, 30, 50);
     }
 

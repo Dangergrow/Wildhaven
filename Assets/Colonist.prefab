@@ -18,11 +18,11 @@ GameObject:
   - component: {fileID: 7327179678463401954}
   - component: {fileID: -5056173664091930940}
   - component: {fileID: -7322278092646299517}
-  - component: {fileID: 5829676215179870898}
   - component: {fileID: -1605943289329865873}
   - component: {fileID: 8913155844293531954}
+  - component: {fileID: -7236260758985811738}
   m_Layer: 0
-  m_Name: 'Colonist '
+  m_Name: Colonist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,21 +270,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColonistGravity
   gravity: 9.8
   fallSpeed: 0
---- !u!114 &5829676215179870898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2729042192664582530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 546b9b505cd859b42ab0a50f2ac7066c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitPhysics
-  waterSlowMultiplier: 0.3
-  waterPushForce: 2
-  deathFadeTime: 1.5
 --- !u!114 &-1605943289329865873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,3 +301,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c9fbbd714607419b2da4bc4e15fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildBlocker
+--- !u!114 &-7236260758985811738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2729042192664582530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3983d7ca1c8cb4ab3da370f2422c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaterInteraction

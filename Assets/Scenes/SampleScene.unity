@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 1183656587}
   - component: {fileID: 1183656586}
   - component: {fileID: 1183656585}
+  - component: {fileID: 1183656589}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -736,6 +737,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623a09fa452b5d42b2549b92bd0363f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameHUD
+--- !u!114 &1183656589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183656579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683337c4449443441bec3a462b979e23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SelectionManager
+  buildMode: 1
+  ghostCube: {fileID: 0}
+  ghostColor: {r: 1, g: 1, b: 1, a: 0.3}
+  selectedColonist: {fileID: 0}
+  selectionIndicator: {fileID: 0}
 --- !u!1 &1465607625
 GameObject:
   m_ObjectHideFlags: 0
