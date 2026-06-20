@@ -149,9 +149,6 @@ public class ColonistAI : MonoBehaviour
 
         // Path finished — execute order
         _path = null;
-        float finalDist = Vector3.Distance(transform.position, orderTarget);
-        if (finalDist > 0.5f) { CancelOrder(); return false; }
-
         if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
         if (currentOrder == OrderType.Mine && _grid != null)
         {
