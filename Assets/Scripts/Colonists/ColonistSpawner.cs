@@ -49,7 +49,7 @@ public class ColonistSpawner : MonoBehaviour
                                  below == BlockType.Stone || below == BlockType.Snow ||
                                  below == BlockType.Sand || below == BlockType.Gravel;
                     if (solid) { topY = gy; break; }
-                    if (below == BlockType.Water) break; // skip water columns
+                    // Water is not solid surface — keep searching higher
                 }
             }
 

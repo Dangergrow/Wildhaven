@@ -65,6 +65,7 @@ public class ColonistAI : MonoBehaviour
             if (Time.frameCount % 60 == 0) Debug.Log($"[AI] {name} — paused, no order");
             return;
         } // allow orders during pause
+        SnapToSurface();
         EvaluateState();
         if (HandleOrder()) return; // Player orders take priority
         HandleWandering();
@@ -73,7 +74,6 @@ public class ColonistAI : MonoBehaviour
 
     void HandleWandering()
     {
-        SnapToSurface();
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping || _colonist.currentState == ColonistState.Fighting) return;
         if (_colonist.currentState != ColonistState.Idle && _colonist.currentState != ColonistState.Moving) return;
 
@@ -109,9 +109,6 @@ public class ColonistAI : MonoBehaviour
         float dt = Time.unscaledDeltaTime;
         float dist = Vector3.Distance(transform.position, orderTarget);
 
-        // Snap to surface — keep colonist on top of terrain
-        SnapToSurface();
-
         if (dist > 0.5f)
         {
             Vector3 dir = (orderTarget - transform.position).normalized;
@@ -146,7 +143,7 @@ public class ColonistAI : MonoBehaviour
         CancelOrder(); return false;
     }
 
-    /// <summary>Snap colonist to terrain surface to prevent falling through.</summary>
+    /// <summary>Keep colonist on terrain surface. Only adjusts when Y off by >0.5.</summary>
     void SnapToSurface()
     {
         if (_grid == null) return;
@@ -159,7 +156,7 @@ public class ColonistAI : MonoBehaviour
             if (b != BlockType.Air && b != BlockType.Water)
             {
                 float surfaceY = (y + 1) * _grid.BlockSize + 0.1f;
-                if (Mathf.Abs(transform.position.y - surfaceY) > 0.3f)
+                if (Mathf.Abs(transform.position.y - surfaceY) > 0.5f)
                     transform.position = new Vector3(pos.x, surfaceY, pos.z);
                 return;
             }
