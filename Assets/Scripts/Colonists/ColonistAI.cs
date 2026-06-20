@@ -127,7 +127,7 @@ public class ColonistAI : MonoBehaviour
                 }
                 CancelOrder(); return false;
             }
-            if (CanMoveTo(next, 0.3f, true)) transform.position = next;
+            if (CanMoveTo(next, 0.1f, true)) transform.position = next;
             else { CancelOrder(); return false; }
             return true;
         }
@@ -141,7 +141,7 @@ public class ColonistAI : MonoBehaviour
             if (dist < 0.3f) { _pathIndex++; return true; }
             Vector3 dir = (target - transform.position).normalized;
             Vector3 next = transform.position + dir * spd * dt;
-            if (CanMoveTo(next, 0.3f, true)) transform.position = next;
+            if (CanMoveTo(next, 0.1f, true)) transform.position = next;
             else _pathIndex++; // skip blocked node
             return true;
         }
