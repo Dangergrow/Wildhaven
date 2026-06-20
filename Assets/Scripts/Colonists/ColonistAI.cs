@@ -27,6 +27,7 @@ public class ColonistAI : MonoBehaviour
     private float _wanderTimer;
     private List<Vector3Int> _path;
     private int _pathIndex;
+    private bool _isMoving;
 
     /// <summary>Issue a player order. Returns false if colonist can't accept orders.</summary>
     public bool GiveOrder(OrderType type, Vector3 target)
