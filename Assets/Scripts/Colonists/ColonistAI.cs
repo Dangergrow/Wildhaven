@@ -113,9 +113,20 @@ public class ColonistAI : MonoBehaviour
             Vector3 dir = (orderTarget - transform.position).normalized;
             float spd = _speed > 0 ? _speed : walkSpeed;
             Vector3 next = transform.position + dir * spd * dt;
-            // Use relaxed collision for player orders
-            if (CanMoveTo(next, 0.2f, false)) { transform.position = next; if (Time.frameCount % 30 == 0) Debug.Log($"[Move] {name} dist={dist:F1}"); }
-            else { CancelOrder(); Debug.Log($"[Move] {name} BLOCKED at pos={next} dist={dist:F1}"); return false; }
+            // Use narrow collision for orders, keep ground check to prevent falling through
+            if (CanMoveTo(next, 0.15f, true))
+            {
+                transform.position = next;
+            }
+            else
+            {
+                // Try sliding along X or Z axis
+                Vector3 slideX = new Vector3(next.x, transform.position.y, transform.position.z);
+                Vector3 slideZ = new Vector3(transform.position.x, transform.position.y, next.z);
+                if (CanMoveTo(slideX, 0.15f, true)) transform.position = slideX;
+                else if (CanMoveTo(slideZ, 0.15f, true)) transform.position = slideZ;
+                else { CancelOrder(); Debug.Log($"[Move] {name} BLOCKED"); return false; }
+            }
             return true;
         }
 
