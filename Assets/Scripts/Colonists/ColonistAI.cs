@@ -73,6 +73,7 @@ public class ColonistAI : MonoBehaviour
 
     void HandleWandering()
     {
+        SnapToSurface();
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping || _colonist.currentState == ColonistState.Fighting) return;
         if (_colonist.currentState != ColonistState.Idle && _colonist.currentState != ColonistState.Moving) return;
 
@@ -108,6 +109,9 @@ public class ColonistAI : MonoBehaviour
         float dt = Time.unscaledDeltaTime;
         float dist = Vector3.Distance(transform.position, orderTarget);
 
+        // Snap to surface — keep colonist on top of terrain
+        SnapToSurface();
+
         if (dist > 0.5f)
         {
             Vector3 dir = (orderTarget - transform.position).normalized;
@@ -140,6 +144,26 @@ public class ColonistAI : MonoBehaviour
             CancelOrder(); return false;
         }
         CancelOrder(); return false;
+    }
+
+    /// <summary>Snap colonist to terrain surface to prevent falling through.</summary>
+    void SnapToSurface()
+    {
+        if (_grid == null) return;
+        Vector3 pos = transform.position;
+        int cx = Mathf.FloorToInt(pos.x / _grid.BlockSize);
+        int cz = Mathf.FloorToInt(pos.z / _grid.BlockSize);
+        for (int y = Mathf.FloorToInt(pos.y / _grid.BlockSize); y >= 0; y--)
+        {
+            BlockType b = _grid.GetBlock(cx, y, cz);
+            if (b != BlockType.Air && b != BlockType.Water)
+            {
+                float surfaceY = (y + 1) * _grid.BlockSize + 0.1f;
+                if (Mathf.Abs(transform.position.y - surfaceY) > 0.3f)
+                    transform.position = new Vector3(pos.x, surfaceY, pos.z);
+                return;
+            }
+        }
     }
 
     /// <summary>
