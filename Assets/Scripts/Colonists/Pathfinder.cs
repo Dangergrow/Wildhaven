@@ -19,7 +19,13 @@ public static class Pathfinder
     /// <summary>Find path from start to end on the terrain surface. Returns list of grid positions or null.</summary>
     public static List<Vector3Int> FindPath(GridManager grid, Vector3Int start, Vector3Int end, int maxSteps = 500)
     {
-        if (!IsWalkable(grid, start) || !IsWalkable(grid, end)) return null;
+        bool sw = IsWalkable(grid, start);
+        bool ew = IsWalkable(grid, end);
+        if (!sw || !ew)
+        {
+            Debug.LogWarning($"[Pathfinder] Walkable: start({start})={sw} (air={grid.GetBlock(start.x,start.y,start.z)} below={grid.GetBlock(start.x,start.y-1,start.z)}) end({end})={ew} (air={grid.GetBlock(end.x,end.y,end.z)} below={grid.GetBlock(end.x,end.y-1,end.z)})");
+            return null;
+        }
         if (start == end) return new List<Vector3Int> { start };
 
         var nodes = new Dictionary<Vector3Int, Node>();
