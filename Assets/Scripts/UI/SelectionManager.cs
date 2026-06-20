@@ -65,8 +65,13 @@ public class SelectionManager : MonoBehaviour
                 Vector3Int gp = gm.WorldToGrid(worldPos);
                 if (gm.InBounds(gp.x, gp.y, gp.z) && gm.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
                     ai.GiveOrder(ColonistAI.OrderType.Mine, worldPos);
-                else
-                    ai.GiveOrder(ColonistAI.OrderType.Move, worldPos);
+                else if (gm.InBounds(gp.x, gp.y, gp.z))
+                {
+                    // Move to the walkable air cell above the ground
+                    Vector3 moveTarget = gm.GridToWorld(gp.x, gp.y, gp.z);
+                    moveTarget.y += gm.BlockSize; // air above surface
+                    ai.GiveOrder(ColonistAI.OrderType.Move, moveTarget);
+                }
             }
         }
     }

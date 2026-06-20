@@ -19,13 +19,10 @@ public static class Pathfinder
     /// <summary>Find path from start to end on the terrain surface. Returns list of grid positions or null.</summary>
     public static List<Vector3Int> FindPath(GridManager grid, Vector3Int start, Vector3Int end, int maxSteps = 500)
     {
-        bool sw = IsWalkable(grid, start);
-        bool ew = IsWalkable(grid, end);
-        if (!sw || !ew)
-        {
-            Debug.LogWarning($"[Pathfinder] Walkable: start({start})={sw} (air={grid.GetBlock(start.x,start.y,start.z)} below={grid.GetBlock(start.x,start.y-1,start.z)}) end({end})={ew} (air={grid.GetBlock(end.x,end.y,end.z)} below={grid.GetBlock(end.x,end.y-1,end.z)})");
-            return null;
-        }
+        // Try to find walkable positions near start/end
+        start = FindWalkableNear(grid, start);
+        end = FindWalkableNear(grid, end);
+        if (!IsWalkable(grid, start) || !IsWalkable(grid, end)) return null;
         if (start == end) return new List<Vector3Int> { start };
 
         var nodes = new Dictionary<Vector3Int, Node>();
@@ -109,4 +106,19 @@ public static class Pathfinder
 
     static int Heuristic(Vector3Int a, Vector3Int b)
         => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y) + Mathf.Abs(a.z - b.z);
+
+    /// <summary>Find nearest walkable cell within 3 block radius.</summary>
+    static Vector3Int FindWalkableNear(GridManager grid, Vector3Int p)
+    {
+        if (IsWalkable(grid, p)) return p;
+        for (int r = 1; r <= 3; r++)
+            for (int dx = -r; dx <= r; dx++)
+            for (int dz = -r; dz <= r; dz++)
+            for (int dy = -r; dy <= r; dy++)
+            {
+                Vector3Int n = new(p.x + dx, p.y + dy, p.z + dz);
+                if (IsWalkable(grid, n)) return n;
+            }
+        return p; // give up, will fail walkability check
+    }
 }
