@@ -1,11 +1,11 @@
 [Licensing::Module] Trying to connect to existing licensing client channel...
 Built from '6000.5/staging' branch; Version is '6000.5.0f1 (88b47c5e7076) revision 8959100'; Using compiler version '194234433'; Build Type 'Release'
 OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32361 MB
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-06-20T07:10:49.4993854Z"
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-06-20T07:12:58.518671Z"
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
 System  architecture: x64
 Process architecture: x64
-Date: 2026-06-20T07:10:49Z
+Date: 2026-06-20T07:12:58Z
 
 COMMAND LINE ARGUMENTS:
 C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Unity.exe
@@ -55,18 +55,18 @@ C:/Users/Administrator/Desktop/12/Wildhaven-main
     "memorysetup-job-temp-allocator-block-size=2097152"
     "memorysetup-job-temp-allocator-block-size-background=1048576"
     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
-Logging is directed to a specific file, skipping project log.Player connection [11108]  Target information:
+Logging is directed to a specific file, skipping project log.Player connection [14068]  Target information:
 
-Player connection [11108]  * "[IP] 192.168.1.101 [Port] 55504 [Flags] 2 [Guid] 1688194710 [EditorId] 1688194710 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [14068]  * "[IP] 192.168.1.101 [Port] 55504 [Flags] 2 [Guid] 219221821 [EditorId] 219221821 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [11108]  * "[IP] 172.22.48.1 [Port] 55504 [Flags] 2 [Guid] 1688194710 [EditorId] 1688194710 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [14068]  * "[IP] 172.22.48.1 [Port] 55504 [Flags] 2 [Guid] 219221821 [EditorId] 219221821 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [11108] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [11108] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [14068] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [14068] Host joined alternative multi-casting on [225.0.0.222:34997]...
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
-[Package Manager] Connected to IPC stream "Upm-19248" after 0.2 seconds.
+[Package Manager] Connected to IPC stream "Upm-14024" after 0.2 seconds.
 [Licensing::Module] Licensing is not yet initialized.
 [Licensing::Client] Error: HandshakeResponse reported an error:
 	ResponseCode: 505
@@ -74,21 +74,21 @@ Input System module state changed to: Initialized.
 [Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-Administrator"
 [Licensing::IpcConnector] LicenseClient-Administrator channel disconnected successfully.
 [Licensing::IpcConnector] Channel LicenseClient-Administrator-6000.5.0 doesn't exist
-[Licensing::Module] Successfully launched the LicensingClient (PId: 15080)
+[Licensing::Module] Successfully launched the LicensingClient (PId: 8568)
 Starting IPC server.
 Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-Administrator-6000.5.0, press Ctrl-C to exit.
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-6000.5.0" at "2026-06-20T07:10:50.2726001Z"
-[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 15080, path: "C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-6000.5.0" at "2026-06-20T07:12:59.3655035Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 8568, path: "C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
 [Licensing::Module] LicensingClient has failed validation; ignoring
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.18.1+9fbee8e
-  Session Id:              f6384d4f616d4be6b54d147578ab993d
-  Correlation Id:          ef473cc0b0b15071a4aca7ca950226de
-  External correlation Id: 5850919995911777473
+  Session Id:              986506a60d774b7bab56c0a0f62a1c1b
+  Correlation Id:          187eb36bb7aa5d8fab0a58240162a735
+  External correlation Id: 1519496399498375099
   Machine Id:              EwKEM0X19wSmmqlbBWpgTKNwbwM=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator-6000.5.0" (connect: 0.16s, validation: 0.09s, handshake: 0.00s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-6000.5.0-notifications" at "2026-06-20T07:10:50.3675565Z"
-[Licensing::Module] Connected to LicensingClient (PId: 15080, launch time: 0.00, total connection time: 0.25s)
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator-6000.5.0" (connect: 0.24s, validation: 0.11s, handshake: 0.00s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-6000.5.0-notifications" at "2026-06-20T07:12:59.4806559Z"
+[Licensing::Module] Connected to LicensingClient (PId: 8568, launch time: 0.00, total connection time: 0.36s)
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -98,8 +98,8 @@ Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-Administrator-600
   Expiration: Unlimited
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
 [Licensing::Client] Successfully resolved entitlement details
-[Licensing::Module] Licensing Background thread has ended after 0.90s
-[Licensing::Module] Licensing is initialized (took 0.62s).
+[Licensing::Module] Licensing Background thread has ended after 0.99s
+[Licensing::Module] Licensing is initialized (took 0.71s).
 [Licensing::Client] Successfully resolved entitlement details
 Library Redirect Path: Library/
 [Physics::Module] Selected backend.
@@ -125,7 +125,7 @@ Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Managed
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
 Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56248
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56024
 CodeReloadManager initialized
 ImportWorker Server TCP listen port: 0
 AcceleratorClientConnectionCallback - disconnected - :0
@@ -133,28 +133,28 @@ Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001139 seconds.
+Registered in 0.001346 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Package Manager log level set to [2]
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
 Mono: successfully reloaded assembly
 - Finished resetting the current domain, in  0.277 seconds
-Domain Reload Profiling: 617ms
-	BeginReloadAssembly (84ms)
-		CreateAndSetChildDomain (3ms)
+Domain Reload Profiling: 630ms
+	BeginReloadAssembly (95ms)
+		CreateAndSetChildDomain (13ms)
 	RebuildCommonClasses (4ms)
 	RebuildNativeTypeToScriptingClass (12ms)
-	initialDomainReloadingComplete (40ms)
-	LoadAllAssembliesAndSetupDomain (198ms)
+	initialDomainReloadingComplete (41ms)
+	LoadAllAssembliesAndSetupDomain (199ms)
 		LoadAssemblies (80ms)
 		AnalyzeDomain (145ms)
-			TypeCache.Refresh (143ms)
+			TypeCache.Refresh (144ms)
 				TypeCache.ScanAssembly (133ms)
 	FinalizeReload (279ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (63ms)
-			ProcessInitializeOnLoadAttributes (71ms)
+			BeforeProcessingInitializeOnLoad (64ms)
+			ProcessInitializeOnLoadAttributes (68ms)
 			ProcessInitializeOnLoadMethodAttributes (89ms)
 [Licensing::Client] Successfully resolved entitlement details
 Application.AssetDatabase Initial Refresh Start
@@ -238,7 +238,7 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 21.0964ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 22.8721ms
 Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
 WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
@@ -256,16 +256,26 @@ info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 27.0832ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 27.4482ms
 DisplayProgressbar: Compiling Scripts
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
       Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 142 defines and 337 references
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
       Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 140 defines and 360 references
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
       processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
       running Unity.Jobs.CodeGen.JobsILPostProcessor
 info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
@@ -278,17 +288,105 @@ info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       Resolved Unity.Scripting, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Managed\UnityEngine\Unity.Scripting.dll
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
       running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
 info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       Resolved Unity.Burst.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library\PackageCache\com.unity.burst@6bb9aca3ef38\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 246.4228ms
-ExitCode: 0 Duration: 1s98ms
-[721/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
-[911/915    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
-Assets\Scripts\Editor\TestRunner.cs(25,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-[912/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 246.6238ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 246.7335ms
+ExitCode: 0 Duration: 1s222ms
+[720/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[907/915    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\Scripts\Colonists\BuildBlocker.cs(17,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\NeedsSystem.cs(62,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistGravity.cs(16,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistAI.cs(42,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistAI.cs(59,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistAI.cs(60,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\WaterInteraction.cs(14,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Farming\PlantGrowth.cs(26,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Farming\PlantGrowth.cs(27,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Resources\BlockDropManager.cs(23,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Events\EventManager.cs(28,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Events\EventManager.cs(29,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Events\EventManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistAI.cs(252,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\UI\CanvasHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\CanvasHUD.cs(16,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\CanvasHUD.cs(17,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\CanvasHUD.cs(18,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\GameHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\GameHUD.cs(16,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\GameHUD.cs(17,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\SelectionManager.cs(18,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\SelectionManager.cs(20,34): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\WorldMap\FactionManager.cs(24,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\WorldMap\Caravan.cs(45,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\SelectionManager.cs(63,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistAI.cs(332,9): warning CS0162: Unreachable code detected
+
+Assets\Scripts\UI\SelectionManager.cs(120,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+[909/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 142 defines and 337 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[910/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
 Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 140 defines and 360 references
 
 processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
@@ -296,111 +394,148 @@ processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.Burst
 running Unity.Jobs.CodeGen.JobsILPostProcessor
 
 running zzzUnity.Burst.CodeGen.BurstILPostProcessor
-[913/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-[914/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
-*** Tundra build success (1.08 seconds), 5 items updated, 915 evaluated
-Assets\Scripts\Editor\TestRunner.cs(25,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-AssetDatabase: script compilation time: 1.408329s
+[913/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[914/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+*** Tundra build success (1.20 seconds), 6 items updated, 915 evaluated
+Assets\Scripts\Colonists\BuildBlocker.cs(17,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\NeedsSystem.cs(62,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistGravity.cs(16,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(42,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(59,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(60,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\WaterInteraction.cs(14,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Farming\PlantGrowth.cs(26,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Farming\PlantGrowth.cs(27,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\BlockDropManager.cs(23,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\EventManager.cs(28,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\EventManager.cs(29,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\EventManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(252,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\UI\CanvasHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\CanvasHUD.cs(16,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\CanvasHUD.cs(17,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\CanvasHUD.cs(18,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\GameHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\GameHUD.cs(16,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\GameHUD.cs(17,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\SelectionManager.cs(18,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\SelectionManager.cs(20,34): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\WorldMap\FactionManager.cs(24,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\WorldMap\Caravan.cs(45,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\SelectionManager.cs(63,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(332,9): warning CS0162: Unreachable code detected
+Assets\Scripts\UI\SelectionManager.cs(120,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+AssetDatabase: script compilation time: 1.537030s
 Total cache size 64320372
-Total cache size after purge 64320372, took 00:00:00.0328468
+Total cache size after purge 64320372, took 00:00:00.0357985
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.083 seconds
-Domain Reload Profiling: 2717ms
-	BeginReloadAssembly (170ms)
+- Finished resetting the current domain, in  2.141 seconds
+Domain Reload Profiling: 2777ms
+	BeginReloadAssembly (174ms)
 		DisableScriptedObjects (17ms)
-		CreateAndSetChildDomain (43ms)
+		CreateAndSetChildDomain (47ms)
 	RebuildCommonClasses (7ms)
-	RebuildNativeTypeToScriptingClass (12ms)
-	initialDomainReloadingComplete (34ms)
-	LoadAllAssembliesAndSetupDomain (410ms)
-		LoadAssemblies (223ms)
-		AnalyzeDomain (170ms)
-			TypeCache.Refresh (115ms)
-				TypeCache.ScanAssembly (107ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (37ms)
+	LoadAllAssembliesAndSetupDomain (405ms)
+		LoadAssemblies (227ms)
+		AnalyzeDomain (169ms)
+			TypeCache.Refresh (114ms)
+				TypeCache.ScanAssembly (106ms)
 			BuildScriptInfoCaches (47ms)
 			ResolveRequiredComponents (6ms)
-	FinalizeReload (2084ms)
+	FinalizeReload (2142ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (61ms)
-			ProcessInitializeOnLoadAttributes (1591ms)
-			ProcessInitializeOnLoadMethodAttributes (177ms)
+			BeforeProcessingInitializeOnLoad (64ms)
+			ProcessInitializeOnLoadAttributes (1642ms)
+			ProcessInitializeOnLoadMethodAttributes (149ms)
 			AfterProcessingInitializeOnLoad (5ms)
-		AwakeInstancesAfterBackupRestoration (15ms)
+		AwakeInstancesAfterBackupRestoration (21ms)
 Starting new worker id: 0 with log in C:/Users/Administrator/Desktop/12/Wildhaven-main/Logs/AssetImportWorkerHW0.log
 
-Asset Pipeline Refresh (id=cf75e2c8d102d0545ae04c2b53ef078d): Total: 4.825 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+Asset Pipeline Refresh (id=a4705334d80f6be468908d81d2b7100b): Total: 4.929 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	(Values over 0.05ms)
 	Summary:
 		Imports: total=0 (actual=0, local cache=0, cache server=0)
-		Asset DB Process Time: managed=0 ms, native=2403 ms
-		Asset DB Callback time: managed=288 ms, native=22 ms
-		Scripting: domain reloads=1, domain reload time=663 ms, compile time=1409 ms, other=38 ms
+		Asset DB Process Time: managed=0 ms, native=2457 ms
+		Asset DB Callback time: managed=206 ms, native=21 ms
+		Scripting: domain reloads=1, domain reload time=663 ms, compile time=1539 ms, other=41 ms
 		Project Asset Count: scripts=1326, non-scripts=2262
 		Asset File Changes: new=0, changed=1, moved=0, deleted=0
 		Scan Filter Count: 0
-	InvokePackagesCallback: 16.274ms
-	ApplyChangesToAssetFolders: 0.480ms
-	Scan: 52.521ms
-	Collect global state as custom dependencies: 2.593ms
-	OnSourceAssetsModified: 0.621ms
-	CategorizeScriptCompilationAssets: 31.733ms
-	ProcessAssetsWithTransientArtifactChanges: 61.698ms
-	CategorizeAssets: 37.315ms
-	CompileScripts: 1409.402ms
-	ImportOutOfDateAssets: 2134.494ms (2098.041ms without children)
-		UnloadImportedAssets: 0.774ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.562ms
-		ImportSchedulerStart: 35.067ms
-	PostProcessAllAssets: 289.833ms
-		VCAutoAddAssetPostprocess 1.266ms
-		XRBuildSystem.XRAssetImported 0.439ms
-		MonoPostProcessAllAssets: 287.576ms
-			BuilderAssetPostprocessor.OnPostprocessAllAssets 117.616ms
-			AssetPostprocessor.OnPostprocessAllAssets 97.579ms
-			StyleCatalogPostProcessor.OnPostprocessAllAssets 19.290ms
-			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 8.508ms
-			SyncVS.PostprocessSyncProject 8.160ms
-			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 5.060ms
-			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.791ms
-			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.560ms
-			AssetChangedListener.OnPostprocessAllAssets 0.989ms
-			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.975ms
-			PostProcessor.OnPostprocessAllAssets 0.967ms
-			MaterialPostprocessor.OnPostprocessAllAssets 0.617ms
-			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.610ms
-			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.582ms
-			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.439ms
-			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.417ms
-			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.393ms
-			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.328ms
-			AssetEvents.OnPostprocessAllAssets 0.271ms
-			TextAssetPostProcessor.OnPostprocessAllAssets 0.256ms
-			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.252ms
-			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.247ms
-			AudioMixerPostprocessor.OnPostprocessAllAssets 0.234ms
-			ConfigAssetsTracker.OnPostprocessAllAssets 0.232ms
-			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.222ms
-			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.161ms
-			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.151ms
-			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.137ms
-			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.128ms
-			SpeedTreePostProcessor.OnPostprocessAllAssets 0.126ms
-			SamplePostprocessor.OnPostprocessAllAssets 0.109ms
-			AudioContainerPostProcessor.OnPostprocessAllAssets 0.060ms
-	PostAssetChangesProfiler: 5.092ms
-	UnloadStreamsBegin: 2.062ms
-	PersistCurrentRevisions: 0.079ms
-	GenerateScriptTypeHashes: 1.087ms
-	GenerateScriptTypeSerializationHashes: 1.886ms
-	Untracked: 777.568ms
+	InvokePackagesCallback: 14.106ms
+	ApplyChangesToAssetFolders: 0.443ms
+	Scan: 54.721ms
+	Collect global state as custom dependencies: 5.189ms
+	OnSourceAssetsModified: 0.619ms
+	CategorizeScriptCompilationAssets: 31.673ms
+	ProcessAssetsWithTransientArtifactChanges: 59.584ms
+	CategorizeAssets: 37.808ms
+	CompileScripts: 1538.587ms
+	ImportOutOfDateAssets: 2186.040ms (2156.890ms without children)
+		UnloadImportedAssets: 0.697ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.487ms
+		ImportSchedulerStart: 27.926ms
+	PostProcessAllAssets: 208.122ms
+		VCAutoAddAssetPostprocess 1.340ms
+		XRBuildSystem.XRAssetImported 0.312ms
+		MonoPostProcessAllAssets: 206.052ms
+			AssetPostprocessor.OnPostprocessAllAssets 89.473ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 52.258ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 17.692ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 8.322ms
+			SyncVS.PostprocessSyncProject 7.427ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.262ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.532ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.031ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.954ms
+			AssetChangedListener.OnPostprocessAllAssets 0.952ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.731ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.584ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.574ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.562ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.548ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.378ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.339ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.317ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.270ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.267ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.262ms
+			AssetEvents.OnPostprocessAllAssets 0.248ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.224ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.217ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.207ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.204ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.181ms
+			PostProcessor.OnPostprocessAllAssets 0.161ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.153ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.130ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.116ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.084ms
+	PostAssetChangesProfiler: 6.745ms
+	UnloadStreamsBegin: 2.046ms
+	PersistCurrentRevisions: 0.087ms
+	GenerateScriptTypeHashes: 1.300ms
+	GenerateScriptTypeSerializationHashes: 2.319ms
+	Untracked: 779.251ms
 
 Application.AssetDatabase Initial Refresh End
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
-Scanning for USB devices : 13.760ms
+Scanning for USB devices : 13.330ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
@@ -444,9 +579,9 @@ GetVirtualKey: Could not map char: b (98) to any virtual key
 GetVirtualKey: Could not map char: c (99) to any virtual key
 GetVirtualKey: Could not map char: u (117) to any virtual key
 Unloading 25 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6486 unused Assets / (7.6 MB). Loaded Objects now: 7391.
-Memory consumption went from 415.1 MB to 407.6 MB.
-Total: 13.524100 ms (FindLiveObjects: 0.654000 ms CreateObjectMapping: 2.200500 ms MarkObjects: 6.348000 ms  DeleteObjects: 4.317600 ms)
+Unloading 6486 unused Assets / (7.5 MB). Loaded Objects now: 7391.
+Memory consumption went from 418.5 MB to 411.0 MB.
+Total: 15.511600 ms (FindLiveObjects: 1.086100 ms CreateObjectMapping: 2.476000 ms MarkObjects: 7.006600 ms  DeleteObjects: 4.938100 ms)
 
 GetVirtualKey: Could not map char: z (122) to any virtual key
 GetVirtualKey: Could not map char: y (121) to any virtual key
@@ -588,7 +723,6 @@ TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:18)
 (Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
 
 Batchmode quit successfully invoked - shutting down!
-Curl error 42: Callback aborted
 Worker ready: AssetImportWorkerHW0 0
 [Physics::Module] Cleanup current backend.
 [Physics::Module] Id: 0xf2b8ea05
@@ -601,17 +735,14 @@ Shut down.
 AcceleratorClientConnectionCallback - disconnected - :0
 Cleanup mono
 CodeReloadManager destroyed
-abort_threads: Failed aborting id: 0000000000003844, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000001C28, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 000000000000432C, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 00000000000005A8, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 00000000000034D0, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000001C28, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 0000000000003844, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 00000000000005A8, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 000000000000432C, mono_thread_manage will ignore it
-
-abort_threads: Failed aborting id: 00000000000034D0, mono_thread_manage will ignore it
-
+debugger-agent: Unable to listen on 4548
 Exiting batchmode successfully now!
 Exiting without the bug reporter. Application will terminate with return code 0
