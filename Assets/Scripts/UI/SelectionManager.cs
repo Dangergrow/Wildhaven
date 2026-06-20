@@ -18,6 +18,7 @@ public class SelectionManager : MonoBehaviour
         _build = FindObjectOfType<BuildManager>();
         _cam = Camera.main;
         if (_cam == null) _cam = FindObjectOfType<Camera>();
+        Debug.Log($"[Selection] _cam={(_cam != null ? _cam.name : "NULL")} _build={(_build != null ? _build.name : "NULL")}");
         if (ring == null)
         {
             ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);

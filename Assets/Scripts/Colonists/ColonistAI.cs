@@ -29,14 +29,13 @@ public class ColonistAI : MonoBehaviour
     /// <summary>Issue a player order. Returns false if colonist can't accept orders.</summary>
     public bool GiveOrder(OrderType type, Vector3 target)
     {
-        if (_colonist == null || _colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated)
-            return false;
-        // Wake up if sleeping
-        if (_colonist.currentState == ColonistState.Sleeping)
-            _colonist.currentState = ColonistState.Idle;
+        if (_colonist == null) { Debug.LogWarning($"[Order] {name} — colonist is NULL"); return false; }
+        if (_colonist.currentState == ColonistState.Dead) { Debug.LogWarning($"[Order] {name} — DEAD"); return false; }
+        if (_colonist.currentState == ColonistState.Incapacitated) { Debug.LogWarning($"[Order] {name} — INCAPACITATED"); return false; }
+        if (_colonist.currentState == ColonistState.Sleeping) _colonist.currentState = ColonistState.Idle;
         currentOrder = type;
         orderTarget = target;
-        Debug.Log($"[Order] {_colonist.colonistName} {type} dist={Vector3.Distance(transform.position, target):F1} state={_colonist.currentState}");
+        Debug.Log($"[Order] {_colonist.colonistName} -> {type} dist={Vector3.Distance(transform.position, target):F1}");
         return true;
     }
 
@@ -50,6 +49,7 @@ public class ColonistAI : MonoBehaviour
         _day = FindObjectOfType<DayCycle>();
         _grid = FindObjectOfType<GridManager>();
         _speed = walkSpeed;
+        Debug.Log($"[AI] {name} awake — colonist={(_colonist!=null)} day={(_day!=null)} grid={(_grid!=null)} speed={_speed}");
         PickWanderTarget();
     }
 

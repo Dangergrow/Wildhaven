@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 85651711}
   - component: {fileID: 85651712}
   - component: {fileID: 85651713}
+  - component: {fileID: 85651714}
   m_Layer: 0
   m_Name: 'World '
   m_TagString: Untagged
@@ -242,6 +243,18 @@ MonoBehaviour:
   dropTable: []
   pickupRadius: 2
   flySpeed: 5
+--- !u!114 &85651714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85651708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15fba07d69ee37548956817202076333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CanvasHUD
 --- !u!1 &663085796
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,8 +593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColonistSpawner
   startingColonists: 3
   colonistPrefab: {fileID: 2729042192664582530, guid: 32a0428588ea2d34f9f28bf51e92b4e3, type: 3}
-  spawnOrigin: {x: 50, y: 0, z: 50}
-  searchRadius: 12
   maleNames:
   - Ivan
   - Boris
@@ -749,11 +760,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683337c4449443441bec3a462b979e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectionManager
-  buildMode: 1
-  ghostCube: {fileID: 0}
-  ghostColor: {r: 1, g: 1, b: 1, a: 0.3}
   selectedColonist: {fileID: 0}
-  selectionIndicator: {fileID: 0}
+  ring: {fileID: 0}
 --- !u!1 &1465607625
 GameObject:
   m_ObjectHideFlags: 0
