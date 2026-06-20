@@ -14,7 +14,8 @@ public class BuildBlocker : MonoBehaviour
 
     void Start()
     {
-        _grid = FindObjectOfType<GridManager>();
+        _grid = GetComponent<GridManager>();
+        if (_grid == null) _grid = FindObjectOfType<GridManager>();
     }
 
     void Update()

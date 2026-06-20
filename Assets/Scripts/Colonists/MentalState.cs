@@ -30,6 +30,7 @@ public class MentalState : MonoBehaviour
     void Awake()
     {
         _colonist = GetComponent<Colonist>();
+        if (_colonist == null) _colonist = gameObject.AddComponent<Colonist>();
         if (breakTypes == null || breakTypes.Length == 0)
         {
             breakTypes = new MentalBreakType[]

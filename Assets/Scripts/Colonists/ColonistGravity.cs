@@ -13,7 +13,8 @@ public class ColonistGravity : MonoBehaviour
 
     void Awake()
     {
-        _grid = FindObjectOfType<GridManager>();
+        _grid = GetComponent<GridManager>();
+        if (_grid == null) _grid = FindObjectOfType<GridManager>();
     }
 
     void Update()

@@ -11,8 +11,10 @@ public class WaterInteraction : MonoBehaviour
 
     void Awake()
     {
-        _grid = FindObjectOfType<GridManager>();
+        _grid = GetComponent<GridManager>();
+        if (_grid == null) _grid = FindObjectOfType<GridManager>();
         _colonist = GetComponent<Colonist>();
+        if (_colonist == null) _colonist = gameObject.AddComponent<Colonist>();
     }
 
     void Update()
