@@ -145,7 +145,7 @@ public class GridManager : MonoBehaviour
                 BuildChunkMesh(cx, cy, cz);
     }
 
-    void BuildAllChunks()
+    public void BuildAllChunks()
     {
         for (int cx = 0; cx < _cx; cx++)
         for (int cy = 0; cy < _cy; cy++)
@@ -289,7 +289,30 @@ public class GridManager : MonoBehaviour
 
     #region Terrain
 
-    void GenerateTerrain()
+    /// <summary>Initialize grid and chunks (for Editor testing).</summary>
+    public void InitGrid()
+    {
+        _grid = new GridCell[worldWidth, worldHeight, worldDepth];
+        _cx = Mathf.CeilToInt((float)worldWidth / CHUNK);
+        _cy = Mathf.CeilToInt((float)worldHeight / CHUNK);
+        _cz = Mathf.CeilToInt((float)worldDepth / CHUNK);
+        _chunks = new Chunk[_cx, _cy, _cz];
+        for (int cx = 0; cx < _cx; cx++)
+        for (int cy = 0; cy < _cy; cy++)
+        for (int cz = 0; cz < _cz; cz++)
+        {
+            var c = new Chunk();
+            c.go = new GameObject($"Chunk_{cx}_{cy}_{cz}");
+            c.go.transform.SetParent(transform);
+            c.go.transform.localPosition = Vector3.zero;
+            c.filter = c.go.AddComponent<MeshFilter>();
+            c.renderer = c.go.AddComponent<MeshRenderer>();
+            c.mesh = new Mesh { name = $"ChunkMesh_{cx}_{cy}_{cz}", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
+            _chunks[cx, cy, cz] = c;
+        }
+    }
+
+    public void GenerateTerrain()
     {
         if (seed == 0) seed = Random.Range(1, 1000000);
         var r = new System.Random(seed);

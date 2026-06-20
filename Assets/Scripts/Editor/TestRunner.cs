@@ -27,19 +27,29 @@ public static class TestRunner
         {
             var world = new GameObject("TestWorld");
             gm = world.AddComponent<GridManager>();
-            gm.worldWidth = 50; gm.worldHeight = 32; gm.worldDepth = 50;
-            gm.blockMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Material/BlockMaterial.mat");
         }
+        gm.worldWidth = 50; gm.worldHeight = 32; gm.worldDepth = 50;
+        gm.seed = 42;
 
-        // Force generate
-        gm.seed = 0; // random
-        var awake = typeof(GridManager).GetMethod("Awake", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (awake != null) awake.Invoke(gm, null);
+        // Initialize grid (Awake not called in Editor mode)
+        gm.InitGrid();
+        gm.GenerateTerrain();
+        gm.BuildAllChunks();
 
-        // Verify mesh exists
-        var mf = gm.GetComponent<MeshFilter>();
-        if (mf == null || mf.sharedMesh == null) { Log("ERROR: No mesh generated!"); return false; }
-        Log($"Mesh: {mf.sharedMesh.vertexCount} verts, {mf.sharedMesh.subMeshCount} submeshes");
+        // Verify mesh exists (check chunks, not main GridManager)
+        int totalVerts = 0;
+        int totalChunks = 0;
+        foreach (Transform child in gm.transform)
+        {
+            var mf2 = child.GetComponent<MeshFilter>();
+            if (mf2 != null && mf2.sharedMesh != null)
+            {
+                totalVerts += mf2.sharedMesh.vertexCount;
+                totalChunks++;
+            }
+        }
+        if (totalVerts == 0) { Log("ERROR: No mesh generated!"); return false; }
+        Log($"Mesh: {totalVerts} total verts across {totalChunks} chunks");
 
         // Test raycast
         var ray = new Ray(new Vector3(25, 50, 25), Vector3.down);
