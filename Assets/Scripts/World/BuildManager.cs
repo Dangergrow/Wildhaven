@@ -7,6 +7,7 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private Camera _cam;
     [SerializeField] private BlockType _selectedType = BlockType.Dirt;
     public BlockType SelectedType => _selectedType;
+    public void SetSelectedType(BlockType t) => _selectedType = t;
 
     private Vector3Int _placementPos;
     private bool _canPlace;
