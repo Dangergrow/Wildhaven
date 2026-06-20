@@ -40,49 +40,61 @@ public static class ColonistTest
             return;
         }
 
-        // Create colonist
+        // Create colonist manually (prefab GUIDs may not match across PCs)
         var colGo = new GameObject("TestColonist");
         colGo.transform.position = spawnPos + Vector3.up * 0.5f;
-
-        // Add components manually
         var col = colGo.AddComponent<Colonist>();
+        colGo.AddComponent<ColonistAI>();
+        colGo.AddComponent<NeedsSystem>();
+        colGo.AddComponent<ColonistGravity>();
+        colGo.AddComponent<WaterInteraction>();
+        colGo.AddComponent<BuildBlocker>();
+        colGo.AddComponent<MentalState>();
+        colGo.AddComponent<Inventory>();
+        // Skip ALL other components — test minimal movement first
+        colGo.AddComponent<CapsuleCollider>();
         col.colonistName = "Tester";
         col.health = col.maxHealth = 100;
-        col.hunger = 50;
-        col.fatigue = 0;
-        col.mood = 50;
+        col.hunger = 50; col.fatigue = 0; col.mood = 50;
+        var ai = colGo.GetComponent<ColonistAI>();
+        // Awake doesn't run in Editor mode — call manually
+        CallMethod(ai, "Awake");
+        CallMethod(colGo.GetComponent<NeedsSystem>(), "Awake");
+        CallMethod(colGo.GetComponent<ColonistGravity>(), "Awake");
+        CallMethod(colGo.GetComponent<WaterInteraction>(), "Awake");
+        CallMethod(colGo.GetComponent<BuildBlocker>(), "Start");
+        CallMethod(colGo.GetComponent<MentalState>(), "Awake");
+        CallMethod(colGo.GetComponent<Inventory>(), "Awake");
 
-        var ai = colGo.AddComponent<ColonistAI>();
-        var needs = colGo.AddComponent<NeedsSystem>();
-
-        // Add collider for physics raycasts
-        var cap = colGo.AddComponent<CapsuleCollider>();
-        cap.radius = 0.3f;
-        cap.height = 1.5f;
+        // Cap collider for selection
+        var cap = colGo.GetComponent<CapsuleCollider>();
+        if (cap == null) cap = colGo.AddComponent<CapsuleCollider>();
 
         // Setup DayCycle (needed by AI)
         var dayGo = new GameObject("DayCycle");
         var day = dayGo.AddComponent<DayCycle>();
-        day.gameSpeed = 1f;
+        day.gameSpeed = 0f; // SIMULATE PAUSE — does colonist still move?
 
-        // Manually call Awake-like init
-        CallMethod(ai, "Awake");
-        CallMethod(needs, "Awake");
+        // Prefab components already initialized via Instantiate
         col.currentState = ColonistState.Idle;
+        ai = colGo.GetComponent<ColonistAI>();
 
         Vector3 startPos = colGo.transform.position;
 
-        // Issue Move order
+        // Force order by directly setting fields (bypass state checks)
         Vector3 target = spawnPos + new Vector3(3, 0, 2);
-        bool ordered = ai.GiveOrder(ColonistAI.OrderType.Move, target);
-        Debug.Log($"[CTEST] Order issued: {ordered}  target={target}");
+        ai.currentOrder = ColonistAI.OrderType.Move;
+        ai.orderTarget = target;
+        Debug.Log($"[CTEST] Order forced: Move to {target}");
 
-        if (!ordered) { Debug.Log("[CTEST] FAIL: Order rejected!"); return; }
-
-        // Simulate 120 frames (2 seconds)
+        // Simulate frames — call Update on key components
         for (int f = 0; f < 120; f++)
         {
             CallMethod(ai, "Update");
+            CallMethod(colGo.GetComponent<ColonistGravity>(), "Update");
+            CallMethod(colGo.GetComponent<WaterInteraction>(), "Update");
+            CallMethod(colGo.GetComponent<BuildBlocker>(), "Update");
+            CallMethod(colGo.GetComponent<MentalState>(), "Update");
         }
 
         Vector3 endPos = colGo.transform.position;

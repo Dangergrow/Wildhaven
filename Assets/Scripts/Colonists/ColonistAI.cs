@@ -55,7 +55,10 @@ public class ColonistAI : MonoBehaviour
     private void Awake()
     {
         _colonist = GetComponent<Colonist>();
+        // Prefab may have broken script references (GUID mismatch across PCs)
+        if (_colonist == null) _colonist = gameObject.AddComponent<Colonist>();
         _needs = GetComponent<NeedsSystem>();
+        if (_needs == null) _needs = gameObject.AddComponent<NeedsSystem>();
         _day = FindObjectOfType<DayCycle>();
         _grid = FindObjectOfType<GridManager>();
         _speed = walkSpeed;
@@ -184,6 +187,7 @@ public class ColonistAI : MonoBehaviour
     /// Checks if the character's bounding box can move to the target position.
     /// Tests 5 points (center + 4 corners at half-width) against grid.
     /// </summary>
+    static int _blockLogFrame;
     bool CanMoveTo(Vector3 pos, float halfW = 0.35f, bool checkGround = true)
     {
         if (_grid == null) return true;

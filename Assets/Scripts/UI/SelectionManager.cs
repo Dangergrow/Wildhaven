@@ -58,7 +58,6 @@ public class SelectionManager : MonoBehaviour
         {
             var ai = selectedColonist.GetComponent<ColonistAI>();
             if (ai == null) return;
-            Debug.Log($"[RMB] Order for {selectedColonist.colonistName}");
             Vector3 worldPos = GetMouseWorldPosition();
             GridManager gm = FindObjectOfType<GridManager>();
             if (gm != null)
