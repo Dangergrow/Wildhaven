@@ -104,28 +104,22 @@ public class ColonistAI : MonoBehaviour
         if (currentOrder == OrderType.None) return false;
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
 
-        // Override state — orders take priority
         _colonist.currentState = ColonistState.Moving;
-
         float dt = Time.unscaledDeltaTime;
-
         float dist = Vector3.Distance(transform.position, orderTarget);
-        if (Time.frameCount % 30 == 0)
-            Debug.Log($"[OrderTick] {_colonist.colonistName} {currentOrder} dist={dist:F1} dt={dt:F4}");
 
         if (dist > 0.5f)
         {
             Vector3 dir = (orderTarget - transform.position).normalized;
             float spd = _speed > 0 ? _speed : walkSpeed;
-        Vector3 next = transform.position + dir * spd * dt;
-            if (CanMoveTo(next)) transform.position = next;
-            else { CancelOrder(); return false; } // blocked, give up
+            Vector3 next = transform.position + dir * spd * dt;
+            if (CanMoveTo(next)) { transform.position = next; if (Time.frameCount % 30 == 0) Debug.Log($"[Move] {name} dist={dist:F1}"); }
+            else { CancelOrder(); Debug.Log($"[Move] {name} BLOCKED at dist={dist:F1}"); return false; }
             return true;
         }
 
-        // Arrived — execute order
+        // Arrived
         if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
-
         if (currentOrder == OrderType.Mine && _grid != null)
         {
             Vector3Int gp = _grid.WorldToGrid(orderTarget);
@@ -133,7 +127,6 @@ public class ColonistAI : MonoBehaviour
                 _grid.RemoveBlock(gp.x, gp.y, gp.z);
             CancelOrder(); return false;
         }
-
         CancelOrder(); return false;
     }
 

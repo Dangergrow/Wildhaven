@@ -27,9 +27,9 @@ public class ColonistSpawner : MonoBehaviour
         GridManager grid = FindObjectOfType<GridManager>();
         if (grid == null) { Debug.LogError("[ColonistSpawner] No GridManager!"); return; }
 
-        // Find safe spawn positions
-        int[] xs = { 50, 48, 52 };
-        int[] zs = { 50, 52, 48 };
+        // Find safe spawn positions (avoid water, find land surface)
+        int[] xs = { 50, 48, 52, 45, 55, 40, 60 };
+        int[] zs = { 50, 52, 48, 55, 45, 60, 40 };
 
         for (int i = 0; i < startingColonists; i++)
         {
@@ -49,6 +49,7 @@ public class ColonistSpawner : MonoBehaviour
                                  below == BlockType.Stone || below == BlockType.Snow ||
                                  below == BlockType.Sand || below == BlockType.Gravel;
                     if (solid) { topY = gy; break; }
+                    if (below == BlockType.Water) break; // skip water columns
                 }
             }
 
