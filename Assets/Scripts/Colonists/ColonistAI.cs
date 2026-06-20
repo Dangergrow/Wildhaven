@@ -106,12 +106,12 @@ public class ColonistAI : MonoBehaviour
         if (currentOrder == OrderType.None) return false;
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
         _colonist.currentState = ColonistState.Moving;
+        float dt = Time.unscaledDeltaTime;
+        float spd = _speed > 0 ? _speed : walkSpeed;
 
         if (_path == null)
         {
-            // No path found — walk directly toward target
-            float dt = Time.unscaledDeltaTime;
-            float spd = _speed > 0 ? _speed : walkSpeed;
+            // No path — walk directly toward target
             Vector3 dir = (orderTarget - transform.position).normalized;
             Vector3 next = transform.position + dir * spd * dt;
             float dist = Vector3.Distance(transform.position, orderTarget);
@@ -131,9 +131,6 @@ public class ColonistAI : MonoBehaviour
             else { CancelOrder(); return false; }
             return true;
         }
-
-        float dt = Time.unscaledDeltaTime;
-        float spd = _speed > 0 ? _speed : walkSpeed;
 
         // Follow A* path
         if (_path != null && _pathIndex < _path.Count)
