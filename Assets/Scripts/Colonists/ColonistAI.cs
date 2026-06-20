@@ -113,8 +113,9 @@ public class ColonistAI : MonoBehaviour
             Vector3 dir = (orderTarget - transform.position).normalized;
             float spd = _speed > 0 ? _speed : walkSpeed;
             Vector3 next = transform.position + dir * spd * dt;
-            if (CanMoveTo(next)) { transform.position = next; if (Time.frameCount % 30 == 0) Debug.Log($"[Move] {name} dist={dist:F1}"); }
-            else { CancelOrder(); Debug.Log($"[Move] {name} BLOCKED at dist={dist:F1}"); return false; }
+            // Use relaxed collision for player orders
+            if (CanMoveTo(next, 0.2f, false)) { transform.position = next; if (Time.frameCount % 30 == 0) Debug.Log($"[Move] {name} dist={dist:F1}"); }
+            else { CancelOrder(); Debug.Log($"[Move] {name} BLOCKED at pos={next} dist={dist:F1}"); return false; }
             return true;
         }
 
@@ -134,11 +135,10 @@ public class ColonistAI : MonoBehaviour
     /// Checks if the character's bounding box can move to the target position.
     /// Tests 5 points (center + 4 corners at half-width) against grid.
     /// </summary>
-    bool CanMoveTo(Vector3 pos)
+    bool CanMoveTo(Vector3 pos, float halfW = 0.35f, bool checkGround = true)
     {
         if (_grid == null) return true;
 
-        float halfW = 0.35f; // slightly less than capsule radius for safety
         Vector3[] checkPoints = new Vector3[]
         {
             pos,                                                   // center
@@ -157,10 +157,13 @@ public class ColonistAI : MonoBehaviour
         }
 
         // Also check ground exists below (don't walk off cliffs)
-        Vector3Int below = _grid.WorldToGrid(pos + Vector3.down * 1f);
-        BlockType ground = _grid.GetBlock(below.x, below.y, below.z);
-        if (ground == BlockType.Air || ground == BlockType.Water)
-            return false;
+        if (checkGround)
+        {
+            Vector3Int below = _grid.WorldToGrid(pos + Vector3.down * 1f);
+            BlockType ground = _grid.GetBlock(below.x, below.y, below.z);
+            if (ground == BlockType.Air || ground == BlockType.Water)
+                return false;
+        }
 
         return true;
     }
