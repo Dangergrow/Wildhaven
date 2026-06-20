@@ -45,9 +45,7 @@ public class ColonistAI : MonoBehaviour
             Vector3Int end = _grid.WorldToGrid(target);
             _path = Pathfinder.FindPath(_grid, start, end);
             _pathIndex = 0;
-            if (_path == null) Debug.LogWarning($"[Path] {name} no path from {start} to {end}");
-            else Debug.Log($"[Path] {name} path={_path.Count} steps");
-        } else Debug.LogError($"[Path] {name} GridManager not found!");
+        }
         return true;
     }
 
@@ -109,7 +107,7 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
         _colonist.currentState = ColonistState.Moving;
 
-        if (_path == null) { Debug.LogWarning($"[Path] {name} has null path, cancelling"); CancelOrder(); return false; }
+        if (_path == null) { CancelOrder(); return false; }
 
         float dt = Time.unscaledDeltaTime;
         float spd = _speed > 0 ? _speed : walkSpeed;
