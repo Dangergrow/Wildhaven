@@ -107,7 +107,30 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
         _colonist.currentState = ColonistState.Moving;
 
-        if (_path == null) { CancelOrder(); return false; }
+        if (_path == null)
+        {
+            // No path found — walk directly toward target
+            float dt = Time.unscaledDeltaTime;
+            float spd = _speed > 0 ? _speed : walkSpeed;
+            Vector3 dir = (orderTarget - transform.position).normalized;
+            Vector3 next = transform.position + dir * spd * dt;
+            float dist = Vector3.Distance(transform.position, orderTarget);
+
+            if (dist < 0.5f)
+            {
+                if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
+                if (currentOrder == OrderType.Mine && _grid != null)
+                {
+                    Vector3Int gp = _grid.WorldToGrid(orderTarget);
+                    if (_grid.InBounds(gp.x, gp.y, gp.z) && _grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
+                        _grid.RemoveBlock(gp.x, gp.y, gp.z);
+                }
+                CancelOrder(); return false;
+            }
+            if (CanMoveTo(next, 0.3f, true)) transform.position = next;
+            else { CancelOrder(); return false; }
+            return true;
+        }
 
         float dt = Time.unscaledDeltaTime;
         float spd = _speed > 0 ? _speed : walkSpeed;
