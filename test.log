@@ -1,12 +1,12 @@
 [Licensing::Module] Trying to connect to existing licensing client channel...
 Built from '6000.5/staging' branch; Version is '6000.5.0f1 (88b47c5e7076) revision 8959100'; Using compiler version '194234433'; Build Type 'Release'
-OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32361 MB
 [Licensing::IpcConnector] Channel LicenseClient-Administrator doesn't exist
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32361 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
 System  architecture: x64
 Process architecture: x64
-Date: 2026-06-20T07:19:20Z
-[Licensing::Module] Successfully launched the LicensingClient (PId: 2224)
+Date: 2026-06-20T07:21:00Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 15364)
 
 COMMAND LINE ARGUMENTS:
 C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Unity.exe
@@ -16,7 +16,7 @@ C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Unity.exe
 -projectPath
 C:\Users\Administrator\Desktop\12\Wildhaven-main
 -executeMethod
-TestRunner.RunAllTests
+ColonistTest.Run
 -logFile
 C:\Users\Administrator\Desktop\12\Wildhaven-main\test.log
 Successfully changed project path to: C:\Users\Administrator\Desktop\12\Wildhaven-main
@@ -57,33 +57,33 @@ C:/Users/Administrator/Desktop/12/Wildhaven-main
     "memorysetup-job-temp-allocator-block-size=2097152"
     "memorysetup-job-temp-allocator-block-size-background=1048576"
     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
-Logging is directed to a specific file, skipping project log.Player connection [19420]  Target information:
+Logging is directed to a specific file, skipping project log.Player connection [15352]  Target information:
 
-Player connection [19420]  * "[IP] 192.168.1.101 [Port] 55504 [Flags] 2 [Guid] 3372287651 [EditorId] 3372287651 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [15352]  * "[IP] 192.168.1.101 [Port] 55504 [Flags] 2 [Guid] 4111693171 [EditorId] 4111693171 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [19420]  * "[IP] 172.22.48.1 [Port] 55504 [Flags] 2 [Guid] 3372287651 [EditorId] 3372287651 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [15352]  * "[IP] 172.22.48.1 [Port] 55504 [Flags] 2 [Guid] 4111693171 [EditorId] 4111693171 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [19420] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [19420] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [15352] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [15352] Host joined alternative multi-casting on [225.0.0.222:34997]...
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
 Starting IPC server.
 Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-Administrator, press Ctrl-C to exit.
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-06-20T07:19:20.8202603Z"
-[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 2224, path: "C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-06-20T07:21:00.8010356Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 15364, path: "C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
 [Licensing::Module] LicensingClient has failed validation; ignoring
-[Package Manager] Connected to IPC stream "Upm-19356" after 0.2 seconds.
+[Package Manager] Connected to IPC stream "Upm-4124" after 0.2 seconds.
 [Licensing::Module] Licensing is not yet initialized.
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.18.1+9fbee8e
-  Session Id:              4f7a26c78c754b4380fac9391d2a30d0
-  Correlation Id:          ce9ccef41747e20cd0860e235eef5432
-  External correlation Id: 2600933235834766519
+  Session Id:              838c424d59e640f48748bb26e97dd720
+  Correlation Id:          46261732bfd9f714e82ef78f57b0f2d9
+  External correlation Id: 4996567937535390764
   Machine Id:              EwKEM0X19wSmmqlbBWpgTKNwbwM=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator" (connect: 0.25s, validation: 0.05s, handshake: 0.02s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-notifications" at "2026-06-20T07:19:20.887385Z"
-[Licensing::Module] Connected to LicensingClient (PId: 2224, launch time: 0.00, total connection time: 0.31s)
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator" (connect: 0.24s, validation: 0.09s, handshake: 0.02s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-notifications" at "2026-06-20T07:21:00.9142278Z"
+[Licensing::Module] Connected to LicensingClient (PId: 15364, launch time: 0.00, total connection time: 0.36s)
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -93,8 +93,8 @@ Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-Administrator, pr
   Expiration: Unlimited
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
 [Licensing::Client] Successfully resolved entitlement details
-[Licensing::Module] Licensing Background thread has ended after 0.34s
-[Licensing::Module] Licensing is initialized (took 0.06s).
+[Licensing::Module] Licensing Background thread has ended after 0.39s
+[Licensing::Module] Licensing is initialized (took 0.11s).
 [Licensing::Client] Successfully resolved entitlement details
 Library Redirect Path: Library/
 [Physics::Module] Selected backend.
@@ -118,7 +118,7 @@ Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Managed
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
 Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56356
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56124
 CodeReloadManager initialized
 ImportWorker Server TCP listen port: 0
 AcceleratorClientConnectionCallback - disconnected - :0
@@ -126,29 +126,29 @@ Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001153 seconds.
+Registered in 0.001103 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Package Manager log level set to [2]
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.269 seconds
-Domain Reload Profiling: 623ms
-	BeginReloadAssembly (96ms)
-		CreateAndSetChildDomain (14ms)
+- Finished resetting the current domain, in  0.271 seconds
+Domain Reload Profiling: 632ms
+	BeginReloadAssembly (92ms)
+		CreateAndSetChildDomain (13ms)
 	RebuildCommonClasses (4ms)
 	RebuildNativeTypeToScriptingClass (12ms)
 	initialDomainReloadingComplete (40ms)
-	LoadAllAssembliesAndSetupDomain (200ms)
-		LoadAssemblies (81ms)
-		AnalyzeDomain (146ms)
-			TypeCache.Refresh (145ms)
-				TypeCache.ScanAssembly (134ms)
-	FinalizeReload (271ms)
+	LoadAllAssembliesAndSetupDomain (211ms)
+		LoadAssemblies (77ms)
+		AnalyzeDomain (156ms)
+			TypeCache.Refresh (155ms)
+				TypeCache.ScanAssembly (144ms)
+	FinalizeReload (273ms)
 		SetupLoadedEditorAssemblies (0ms)
 			BeforeProcessingInitializeOnLoad (64ms)
 			ProcessInitializeOnLoadAttributes (70ms)
-			ProcessInitializeOnLoadMethodAttributes (81ms)
+			ProcessInitializeOnLoadMethodAttributes (82ms)
 [Licensing::Client] Successfully resolved entitlement details
 Application.AssetDatabase Initial Refresh Start
 [Package Manager] Restoring resolved packages state from cache
@@ -231,7 +231,7 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 20.7697ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 22.0378ms
 Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
 WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
@@ -249,14 +249,33 @@ info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 26.6202ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 26.8745ms
 DisplayProgressbar: Compiling Scripts
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
+ExitCode: 4 Duration: 0s145ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[722/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (0.13 seconds), 1 items updated, 721 evaluated
+ExitCode: 0 Duration: 0s752ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Current configuration matches the requested one, skipping
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 1.0818ms
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
       Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
-      Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 142 defines and 337 references
+      Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 140 defines and 360 references
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
       processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
@@ -271,117 +290,23 @@ info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       Resolved Unity.Scripting, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Managed\UnityEngine\Unity.Scripting.dll
 info: Unity.ILPP.Runner.PostProcessingPipeline[0]
       running zzzUnity.Burst.CodeGen.BurstILPostProcessor
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
-info: Unity.ILPP.Runner.PostProcessingPipeline[0]
-      Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 140 defines and 360 references
-info: Unity.ILPP.Runner.PostProcessingPipeline[0]
-      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
-info: Unity.ILPP.Runner.PostProcessingPipeline[0]
-      running Unity.Jobs.CodeGen.JobsILPostProcessor
-info: Unity.ILPP.Runner.PostProcessingPipeline[0]
-      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
 info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       Resolved Unity.Burst.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library\PackageCache\com.unity.burst@6bb9aca3ef38\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 91.7478ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 268.7264ms
-ExitCode: 0 Duration: 1s261ms
-[720/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
-[907/915    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
-Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 247.3548ms
+ExitCode: 0 Duration: 1s260ms
+Finished compiling graph: 919 nodes, 17532 flattened edges (14666 ToBuild, 140 ToUse), maximum node priority 967
+[511/915    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[721/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[911/915    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets\Scripts\Editor\IntegrationTest.cs(80,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\Colonists\BuildBlocker.cs(17,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Editor\IntegrationTest.cs(81,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\Colonists\NeedsSystem.cs(62,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistGravity.cs(16,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistAI.cs(42,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistAI.cs(59,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistAI.cs(60,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\WaterInteraction.cs(14,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Farming\PlantGrowth.cs(26,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Farming\PlantGrowth.cs(27,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\BlockDropManager.cs(23,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Events\EventManager.cs(28,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Events\EventManager.cs(29,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Events\EventManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\GameHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\GameHUD.cs(16,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\GameHUD.cs(17,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\CanvasHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\CanvasHUD.cs(16,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\CanvasHUD.cs(17,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\CanvasHUD.cs(18,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\SelectionManager.cs(18,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\SelectionManager.cs(20,34): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistAI.cs(250,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
-
-Assets\Scripts\WorldMap\FactionManager.cs(24,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\WorldMap\Caravan.cs(45,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\SelectionManager.cs(63,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistAI.cs(330,9): warning CS0162: Unreachable code detected
-
-Assets\Scripts\UI\SelectionManager.cs(120,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-[908/915    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
 Assets\Scripts\Editor\TestRunner.cs(25,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-[909/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
-Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 142 defines and 337 references
-
-processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
-
-running Unity.Jobs.CodeGen.JobsILPostProcessor
-
-running zzzUnity.Burst.CodeGen.BurstILPostProcessor
-[910/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+[912/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
 Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 140 defines and 360 references
 
 processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
@@ -389,263 +314,114 @@ processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.Burst
 running Unity.Jobs.CodeGen.JobsILPostProcessor
 
 running zzzUnity.Burst.CodeGen.BurstILPostProcessor
-[911/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
-[912/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
 [913/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
-[914/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
-*** Tundra build success (1.24 seconds), 9 items updated, 915 evaluated
-Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\BuildBlocker.cs(17,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\NeedsSystem.cs(62,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistGravity.cs(16,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistAI.cs(42,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistAI.cs(59,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistAI.cs(60,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\WaterInteraction.cs(14,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Farming\PlantGrowth.cs(26,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Farming\PlantGrowth.cs(27,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\BlockDropManager.cs(23,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\EventManager.cs(28,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\EventManager.cs(29,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\EventManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\GameHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\GameHUD.cs(16,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\GameHUD.cs(17,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\CanvasHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\CanvasHUD.cs(16,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\CanvasHUD.cs(17,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\CanvasHUD.cs(18,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\SelectionManager.cs(18,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\SelectionManager.cs(20,34): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistAI.cs(250,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
-Assets\Scripts\WorldMap\FactionManager.cs(24,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\WorldMap\Caravan.cs(45,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\SelectionManager.cs(63,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistAI.cs(330,9): warning CS0162: Unreachable code detected
-Assets\Scripts\UI\SelectionManager.cs(120,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+[914/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (1.25 seconds), 6 items updated, 915 evaluated
+Assets\Scripts\Editor\IntegrationTest.cs(80,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\Editor\IntegrationTest.cs(81,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Editor\TestRunner.cs(25,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-AssetDatabase: script compilation time: 1.566101s
+AssetDatabase: script compilation time: 2.460678s
 Total cache size 64320372
-Total cache size after purge 64320372, took 00:00:00.0385427
+Total cache size after purge 64320372, took 00:00:00.0329524
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.048 seconds
-Domain Reload Profiling: 2693ms
-	BeginReloadAssembly (168ms)
-		DisableScriptedObjects (16ms)
+- Finished resetting the current domain, in  2.082 seconds
+Domain Reload Profiling: 2734ms
+	BeginReloadAssembly (171ms)
+		DisableScriptedObjects (17ms)
 		CreateAndSetChildDomain (46ms)
 	RebuildCommonClasses (7ms)
 	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (39ms)
+	initialDomainReloadingComplete (38ms)
 	LoadAllAssembliesAndSetupDomain (417ms)
-		LoadAssemblies (228ms)
-		AnalyzeDomain (175ms)
+		LoadAssemblies (233ms)
+		AnalyzeDomain (173ms)
 			TypeCache.Refresh (118ms)
-				TypeCache.ScanAssembly (110ms)
-			BuildScriptInfoCaches (49ms)
+				TypeCache.ScanAssembly (109ms)
+			BuildScriptInfoCaches (48ms)
 			ResolveRequiredComponents (6ms)
-	FinalizeReload (2049ms)
+	FinalizeReload (2088ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (63ms)
-			ProcessInitializeOnLoadAttributes (1591ms)
-			ProcessInitializeOnLoadMethodAttributes (127ms)
-			AfterProcessingInitializeOnLoad (5ms)
-		AwakeInstancesAfterBackupRestoration (25ms)
-Importing 'GUID: 1142bbad8b9e8c44c83a9775ff120d37 - Path: Packages/com.unity.render-pipelines.core/Tests/Editor/UnifiedRayTracing/TraceRays.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
-
-Compiling Ray Tracing Shader "TraceRays.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 1142bbad8b9e8c44c83a9775ff120d37' -> (Import Result ID: '2f80b42cb77a5ba8408fb1fbf9105067') in 0.039 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=dd8ac7dc757973ce66df0f8192beeedc DependenciesID=923d55a04994898b005482160e081841 StaticDependenciesID=83382896bf2194e2afb7a814a9f914cd 
-Importing 'GUID: d19f4f8a13b6edb48b986a47ec96402e - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapShadowMaskIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapShadowMaskIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: d19f4f8a13b6edb48b986a47ec96402e' -> (Import Result ID: 'c81150214ac3e9f5e228ed0d3729c080') in 0.034 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=f9d6f25beaf5d632388b03cbd647ba2d DependenciesID=d30defaa51229579d6a3e089451a8ff8 StaticDependenciesID=14c19d6e640993fbe77b1f068828bf12 
-Importing 'GUID: 737a1597422c12547a8714d76a9406ec - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapGBufferDebug.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapGBufferDebug.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 737a1597422c12547a8714d76a9406ec' -> (Import Result ID: '698ffc378a4d85d97d34daf19b03facb') in 0.014 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1d2c381688657612bf743dea33e4ae23 DependenciesID=e3493efa11b41a5fce221d01dc1593a4 StaticDependenciesID=8d11f009385b3a4cea3b53c3339efefb 
-Importing 'GUID: f32463968f29423cad25aee15a14b9f1 - Path: Packages/com.unity.render-pipelines.core/Runtime/Lighting/SurfaceCache/PunctualLightSampling.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "PunctualLightSampling.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: f32463968f29423cad25aee15a14b9f1' -> (Import Result ID: 'ea753f701bc603d4f37080ad7e7d81d3') in 0.014 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c345b5a4fe54a56e0d3503075d4bb008 DependenciesID=6ae75420b80efbc8cd7671e1a3f71446 StaticDependenciesID=fae2d39a41418b21bab2b70cd0d272f0 
-Importing 'GUID: 1451d029813b192429211be28181beab - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapNormalIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapNormalIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 1451d029813b192429211be28181beab' -> (Import Result ID: '520a9bbc03fb0ce2fb572ccbfaf42110') in 0.010 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=45d5bed88c08e0ae24f0e31fdf9fdc71 DependenciesID=74f2ac14e5fa0052311ef1ac8f1fa5d1 StaticDependenciesID=6695b2a8ac591a9580bdd3907887ec37 
-Importing 'GUID: 94a070d33e408384bafc1dea4a565df9 - Path: Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/RenderingLayerMask/TraceRenderingLayerMask.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "TraceRenderingLayerMask.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 94a070d33e408384bafc1dea4a565df9' -> (Import Result ID: '6b57880dcf6cee457d172c8795f31ce2') in 0.009 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=0c75c5da200e55f509589784931565ac DependenciesID=b1e57c2e101e38532081fd4f7b47bb66 StaticDependenciesID=76c56abbfe1dea1698b482e1c311a1b3 
-Importing 'GUID: 94a39d12848d8d64ca962a72b74e7c50 - Path: Packages/com.unity.render-pipelines.core/Runtime/Lighting/SurfaceCache/Estimation.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "Estimation.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 94a39d12848d8d64ca962a72b74e7c50' -> (Import Result ID: '96f27f815e773686e99a8ad8b6da041f') in 0.008 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1b0eb138d1e1b0e28d1dc38e6c2ee3c2 DependenciesID=d2722f9f0ca270c105f0bd733c94345d StaticDependenciesID=3d83c90598d39b20511fc2d468edef81 
-Importing 'GUID: 6513c3b892e933c4f8d00c19d5c47532 - Path: Packages/com.unity.render-pipelines.core/Tests/Editor/UnifiedRayTracing/TraceTransparentRays.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "TraceTransparentRays.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 6513c3b892e933c4f8d00c19d5c47532' -> (Import Result ID: 'e92e1eaa55ec81e9f67112a377208e03') in 0.005 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=059128fa4c67d89d87bfe4d554ad391b DependenciesID=aa28f2783794e06c99213afe659c244e StaticDependenciesID=8372fb0bb36e1468fa9601c49a86d0e6 
-Importing 'GUID: 7624adbeb148b5c48ab5ab660cc2602a - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapIndirectIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapIndirectIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 7624adbeb148b5c48ab5ab660cc2602a' -> (Import Result ID: '80250c0b0a9d30af0155daad69be964e') in 0.010 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2cd6cb9b0035d2315974d321ecfa36f5 DependenciesID=23c634e5f6c07c120f6280f7e50a8253 StaticDependenciesID=67a45332e0f51102f9bb9c93a750d036 
-Importing 'GUID: e9f4de6d1e07fb94f9a60d35b618f724 - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapGBufferIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapGBufferIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: e9f4de6d1e07fb94f9a60d35b618f724' -> (Import Result ID: '25795c3be563296f568e3faa4a6efb14') in 0.007 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=a7f5bdb587796a71d8ca128a644b358f DependenciesID=5373e5004429887b0f43544db0930b3b StaticDependenciesID=8b26c93a6e3373b36ba430a420b17d9a 
-Importing 'GUID: 5a2a534753fbdb44e96c3c78b5a6999d - Path: Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/DynamicGI/DynamicGISkyOcclusion.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "DynamicGISkyOcclusion.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 5a2a534753fbdb44e96c3c78b5a6999d' -> (Import Result ID: '3cff4f520314642302fee8b4b3bc3054') in 0.006 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1cf97bfff22f517865c2e82dc6d8c4c7 DependenciesID=21f2ee2bde8ca4c442ed0ab5071135a4 StaticDependenciesID=41b936436a30154af8a3b61f441fd564 
-Importing 'GUID: 5bbebdef5916845478fcef13fa10d89f - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapDirectIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapDirectIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 5bbebdef5916845478fcef13fa10d89f' -> (Import Result ID: '93e181801a4b5541a71a4b5c72d3a09b') in 0.010 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=9652420a6e2647f96f59102062aeed95 DependenciesID=f730659c965eb66074f896124e8f425f StaticDependenciesID=49e7ce722dcdec23942b360d8297bad5 
-Importing 'GUID: fbc59f55df2416344b008dc23753cae2 - Path: Packages/com.unity.render-pipelines.core/Tests/Editor/UnifiedRayTracing/TraceRaysAndFetchAttributes.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "TraceRaysAndFetchAttributes.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: fbc59f55df2416344b008dc23753cae2' -> (Import Result ID: 'be99e65f4c0b51cdac64c4dc7fb52201') in 0.006 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=22c22f4b614e9358e9dd846829db8146 DependenciesID=753a3d7bdf01223bb09c53df7333001f StaticDependenciesID=8530ce6573ae9a6cd0b7e3b83f0a29ad 
-Importing 'GUID: 1c410815c01ce1d4d82c645c0cd45747 - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapAOIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapAOIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 1c410815c01ce1d4d82c645c0cd45747' -> (Import Result ID: '05a6b7cc56ca73c351347ca1d1d6808c') in 0.010 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=629e7047fbba502c5cf40e8eae2d08f7 DependenciesID=a3d95a3fe5fa3e6f79da65b204422992 StaticDependenciesID=750dfd3ce8976c275bbe79cdc0d3127f 
-Importing 'GUID: 2c32233d92a2d0745930664c087c5c9a - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/ProbeIntegrationValidity.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "ProbeIntegrationValidity.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 2c32233d92a2d0745930664c087c5c9a' -> (Import Result ID: '45a0fe9a842b9971874db182f7e63d5d') in 0.009 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=50448cca7f57ca37bc4d9339b13854dd DependenciesID=ec8940c108bc63922c293f668a0937a4 StaticDependenciesID=29b4a31e24ae88c796e0b3135dc8eb9b 
-Importing 'GUID: ace95ac84e213794891b4bd7c9b3c158 - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/LightmapValidityIntegration.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "LightmapValidityIntegration.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: ace95ac84e213794891b4bd7c9b3c158' -> (Import Result ID: '46fd458c839fe45dc61764c5d1350da7') in 0.010 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=47e60a7a62a731fc98fd30d4f1b0213b DependenciesID=594202c4c3e6d88d49db3aa277ba2689 StaticDependenciesID=ba52e4c5fecd98843b40eedfc4866f08 
-Importing 'GUID: 5ecdabd800f05984696f22ba95284516 - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/ProbeIntegrationIndirect.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "ProbeIntegrationIndirect.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 5ecdabd800f05984696f22ba95284516' -> (Import Result ID: '622e287ccf756efede27d7e6c19f265c') in 0.010 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2d2484001f742a5a9c0a3345963f5f9b DependenciesID=b41edbac16c053a304fcb9b9aa2fcc96 StaticDependenciesID=e2c127f94ccdcb83ca23463fb1f2a2e5 
-Importing 'GUID: 6e0b547bab30a804c8123974120d583f - Path: Packages/com.unity.render-pipelines.core/Tests/Runtime/PathTracing/PathIteratorTest.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "PathIteratorTest.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 6e0b547bab30a804c8123974120d583f' -> (Import Result ID: '2b59b5f95abb2c9243d641a1bf179af0') in 0.013 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=67ad072e70c3925bdb321165fa9bf554 DependenciesID=69d721e44ca663306e2ac8bce2ed4663 StaticDependenciesID=109768bf87f2aa9106ce5a61082f1a11 
-Importing 'GUID: de3013e16d99f2746ab1735ec06a660b - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/ProbeIntegrationOcclusion.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "ProbeIntegrationOcclusion.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: de3013e16d99f2746ab1735ec06a660b' -> (Import Result ID: 'a78c01ab46373911f5e2ef366b3b9e9a') in 0.009 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=390f2c8e40990339148dcbd795865f54 DependenciesID=2f10ea92923129ac0d9941f98b459a39 StaticDependenciesID=b27c26bc9001d433eb4742192dec8cdb 
-Importing 'GUID: 1f9bfe60b4ad75943a5281839c1a4e5c - Path: Packages/com.unity.render-pipelines.core/Runtime/PathTracing/Shaders/ProbeIntegrationDirect.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "ProbeIntegrationDirect.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: 1f9bfe60b4ad75943a5281839c1a4e5c' -> (Import Result ID: '712fae4827e2a01e4ec7773293d9fea1') in 0.009 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1be9207c1326c9dca6b7a827acd454b0 DependenciesID=10d406fd958da1cd4dcaaccfdc90328f StaticDependenciesID=9976b23c91526db98b62402ee2637b09 
-Importing 'GUID: ff2cbab5da58bf04d82c5f34037ed123 - Path: Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/VirtualOffset/TraceVirtualOffset.urtshader' with importer (ScriptedImporter : Unity.Rendering.LightTransport.Editor:UnityEditor.Rendering.UnifiedRayTracing:UnifiedRTShaderImporter)
-
-Compiling Ray Tracing Shader "TraceVirtualOffset.urtshader", keywords = <no keywords>
-    finished in 0.00 seconds. Local cache hits 1, remote cache hits 0, compiled 0 platform variants
-Imported 'GUID: ff2cbab5da58bf04d82c5f34037ed123' -> (Import Result ID: '763f90d92a95218ff322e264c3480acd') in 0.008 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3b279ee2b602350b8a13acac76e11c01 DependenciesID=e5a663906791adc6d988111777f219b1 StaticDependenciesID=bb01cef5f5bbfce7bb5614b4f3a2af7b 
+			BeforeProcessingInitializeOnLoad (62ms)
+			ProcessInitializeOnLoadAttributes (1567ms)
+			ProcessInitializeOnLoadMethodAttributes (175ms)
+			AfterProcessingInitializeOnLoad (4ms)
+		AwakeInstancesAfterBackupRestoration (15ms)
 Starting new worker id: 0 with log in C:/Users/Administrator/Desktop/12/Wildhaven-main/Logs/AssetImportWorkerHW0.log
 
-Asset Pipeline Refresh (id=8d0f194f7ef65f648bc1eb5289ae76e2): Total: 5.223 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+Asset Pipeline Refresh (id=b3b8ecfd2162b05419a5baacb2fb4ad3): Total: 5.980 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	(Values over 0.05ms)
 	Summary:
-		Imports: total=21 (actual=21, local cache=0, cache server=0)
-		Asset DB Process Time: managed=2 ms, native=2643 ms
-		Asset DB Callback time: managed=181 ms, native=106 ms
-		Scripting: domain reloads=1, domain reload time=673 ms, compile time=1574 ms, other=41 ms
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2426 ms
+		Asset DB Callback time: managed=354 ms, native=18 ms
+		Scripting: domain reloads=1, domain reload time=676 ms, compile time=2462 ms, other=41 ms
 		Project Asset Count: scripts=1326, non-scripts=2262
-		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Asset File Changes: new=2, changed=2, moved=0, deleted=0
 		Scan Filter Count: 0
-	InvokePackagesCallback: 12.898ms
-	ApplyChangesToAssetFolders: 0.810ms
-	Scan: 73.929ms
-	Collect global state as custom dependencies: 2.847ms
-	OnSourceAssetsModified: 0.681ms
-	CategorizeScriptCompilationAssets: 32.553ms
-	ProcessAssetsWithTransientArtifactChanges: 60.098ms
-	CategorizeAssets: 37.820ms
-	CompileScripts: 1573.981ms
-	ImportOutOfDateAssets: 2355.557ms (2062.342ms without children)
-		ImportManagerImport: 257.475ms (1.506ms without children)
-			UpdateCategorizedAssets: 0.960ms
-		UnloadImportedAssets: 0.823ms
-		ReloadImportedAssets: 0.611ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.443ms
-		ImportSchedulerStart: 34.428ms
-	PostProcessAllAssets: 273.280ms
-		ComputeShaderImportPostprocess 65.953ms
-		RaytracingShaderImportPostprocess 23.905ms
-		VCAutoAddAssetPostprocess 0.876ms
-		XRBuildSystem.XRAssetImported 0.287ms
-		PostProcessCallbackCreateDeferredMaterials 0.081ms
-		MonoPostProcessAllAssets: 181.223ms
-			AssetPostprocessor.OnPostprocessAllAssets 91.675ms
-			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 18.370ms
-			SyncVS.PostprocessSyncProject 17.303ms
-			StyleCatalogPostProcessor.OnPostprocessAllAssets 15.484ms
-			BuilderAssetPostprocessor.OnPostprocessAllAssets 6.142ms
-			SpeedTree9Postprocessor.OnPostprocessAllAssets 4.017ms
-			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 2.821ms
-			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.063ms
-			AssetChangedListener.OnPostprocessAllAssets 1.680ms
-			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.300ms
-			MaterialPostprocessor.OnPostprocessAllAssets 1.147ms
-			TextAssetPostProcessor.OnPostprocessAllAssets 0.741ms
-			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.723ms
-			PostProcessor.OnPostprocessAllAssets 0.502ms
-			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.444ms
-			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.388ms
-			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.385ms
-			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.370ms
-			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.325ms
-			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.320ms
-			AssetEvents.OnPostprocessAllAssets 0.306ms
-			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.299ms
-			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.278ms
-			AudioMixerPostprocessor.OnPostprocessAllAssets 0.271ms
-			SpeedTreePostProcessor.OnPostprocessAllAssets 0.235ms
-			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.170ms
-			SamplePostprocessor.OnPostprocessAllAssets 0.157ms
-			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.152ms
-			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.128ms
-			ConfigAssetsTracker.OnPostprocessAllAssets 0.104ms
-			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.092ms
-			AudioContainerPostProcessor.OnPostprocessAllAssets 0.057ms
-	PostAssetChangesProfiler: 2.718ms
-	UnloadStreamsBegin: 2.321ms
-	PersistCurrentRevisions: 0.205ms
-	GenerateScriptTypeHashes: 1.262ms
-	GenerateScriptTypeSerializationHashes: 2.325ms
-	Untracked: 790.538ms
+	InvokePackagesCallback: 14.681ms
+	ApplyChangesToAssetFolders: 0.445ms
+	Scan: 77.454ms
+	Collect global state as custom dependencies: 3.071ms
+	OnSourceAssetsModified: 0.577ms
+	CategorizeScriptCompilationAssets: 33.511ms
+	ProcessAssetsWithTransientArtifactChanges: 59.653ms
+	CategorizeAssets: 36.789ms
+	CompileScripts: 2462.078ms
+	ImportOutOfDateAssets: 2132.314ms (2102.603ms without children)
+		UnloadImportedAssets: 0.664ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.447ms
+		ImportSchedulerStart: 28.565ms
+	PostProcessAllAssets: 355.372ms
+		VCAutoAddAssetPostprocess 1.538ms
+		XRBuildSystem.XRAssetImported 0.282ms
+		VersionControlSettings.HiddenFilePostprocess 0.066ms
+		MonoPostProcessAllAssets: 353.051ms
+			SyncVS.PostprocessSyncProject 157.305ms
+			AssetPostprocessor.OnPostprocessAllAssets 79.523ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 59.007ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 15.564ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 7.915ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.510ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.384ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.107ms
+			AssetChangedListener.OnPostprocessAllAssets 1.017ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.935ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.577ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.570ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.552ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.532ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.501ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.328ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.302ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.301ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.289ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.277ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.246ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.208ms
+			AssetEvents.OnPostprocessAllAssets 0.204ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.185ms
+			PostProcessor.OnPostprocessAllAssets 0.175ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.149ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.140ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.133ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.120ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.113ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.107ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.079ms
+	PostAssetChangesProfiler: 3.837ms
+	UnloadStreamsBegin: 2.205ms
+	PersistCurrentRevisions: 0.080ms
+	GenerateScriptTypeHashes: 1.343ms
+	GenerateScriptTypeSerializationHashes: 2.510ms
+	Untracked: 794.905ms
 
 Application.AssetDatabase Initial Refresh End
 Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
-Scanning for USB devices : 14.582ms
+Scanning for USB devices : 13.373ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
@@ -688,10 +464,10 @@ GetVirtualKey: Could not map char: b (98) to any virtual key
 GetVirtualKey: Could not map char: b (98) to any virtual key
 GetVirtualKey: Could not map char: c (99) to any virtual key
 GetVirtualKey: Could not map char: u (117) to any virtual key
-Unloading 43 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6523 unused Assets / (3.6 MB). Loaded Objects now: 7392.
-Memory consumption went from 412.0 MB to 408.3 MB.
-Total: 11.223600 ms (FindLiveObjects: 0.713100 ms CreateObjectMapping: 2.034500 ms MarkObjects: 6.077900 ms  DeleteObjects: 2.393600 ms)
+Unloading 25 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6489 unused Assets / (3.0 MB). Loaded Objects now: 7392.
+Memory consumption went from 406.8 MB to 403.8 MB.
+Total: 11.361400 ms (FindLiveObjects: 1.000800 ms CreateObjectMapping: 2.082800 ms MarkObjects: 6.000000 ms  DeleteObjects: 2.273500 ms)
 
 GetVirtualKey: Could not map char: z (122) to any virtual key
 GetVirtualKey: Could not map char: y (121) to any virtual key
@@ -731,109 +507,64 @@ GetVirtualKey: Could not map char: b (98) to any virtual key
 GetVirtualKey: Could not map char: b (98) to any virtual key
 GetVirtualKey: Could not map char: c (99) to any virtual key
 GetVirtualKey: Could not map char: u (117) to any virtual key
-[TEST] === Wildhaven Test Suite ===
+[CTEST] === Colonist Movement Test ===
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:15)
+ColonistTest:Run () (at Assets/Scripts/Editor/ColonistTest.cs:11)
 
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
+(Filename: Assets/Scripts/Editor/ColonistTest.cs Line: 11)
 
-[TEST] Mesh: 26544 total verts across 32 chunks
+[CTEST] Spawn surface at grid(9,11,11) world((9.50, 11.50, 11.50))
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:TestWorldGeneration () (at Assets/Scripts/Editor/TestRunner.cs:52)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:16)
+ColonistTest:Run () (at Assets/Scripts/Editor/ColonistTest.cs:31)
 
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
+(Filename: Assets/Scripts/Editor/ColonistTest.cs Line: 31)
 
-[TEST] Raycast hit: (25, 15, 25)
+[CTEST] Order issued: True  target=(12.50, 11.50, 13.50)
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:TestWorldGeneration () (at Assets/Scripts/Editor/TestRunner.cs:58)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:16)
+ColonistTest:Run () (at Assets/Scripts/Editor/ColonistTest.cs:78)
 
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
+(Filename: Assets/Scripts/Editor/ColonistTest.cs Line: 78)
 
-World saved
+[CTEST] Start: (9.50, 12.00, 11.50)  End: (11.42, 11.60, 12.23)  Moved: 2,09
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GridManager:SaveWorld () (at Assets/Scripts/World/GridManager.cs:409)
-TestRunner:TestWorldGeneration () (at Assets/Scripts/Editor/TestRunner.cs:61)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:16)
+ColonistTest:Run () (at Assets/Scripts/Editor/ColonistTest.cs:90)
 
-(Filename: Assets/Scripts/World/GridManager.cs Line: 409)
+(Filename: Assets/Scripts/Editor/ColonistTest.cs Line: 90)
 
-[TEST] Save/Load: OK
+[CTEST] PASS: Colonist moved!
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:TestWorldGeneration () (at Assets/Scripts/Editor/TestRunner.cs:64)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:16)
+ColonistTest:Run () (at Assets/Scripts/Editor/ColonistTest.cs:93)
 
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
-
-[TEST] Block placement: OK
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:TestWorldGeneration () (at Assets/Scripts/Editor/TestRunner.cs:71)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:16)
-
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
-
-[TEST] World generation: PASS
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:17)
-
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
-
-[TEST] === Done ===
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-TestRunner:Log (string) (at Assets/Scripts/Editor/TestRunner.cs:9)
-TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:18)
-
-(Filename: Assets/Scripts/Editor/TestRunner.cs Line: 9)
+(Filename: Assets/Scripts/Editor/ColonistTest.cs Line: 93)
 
 Batchmode quit successfully invoked - shutting down!
 Curl error 42: Callback aborted
+Worker ready: AssetImportWorkerHW0 0
 [Physics::Module] Cleanup current backend.
 [Physics::Module] Id: 0xf2b8ea05
 Input System module state changed to: ShutdownInProgress.
@@ -841,17 +572,17 @@ Input Polling Thread exited.
 Input System module state changed to: Shutdown.
 [Licensing::IpcConnector] LicenseClient-Administrator-notifications channel disconnected successfully.
 [Licensing::IpcConnector] LicenseClient-Administrator channel disconnected successfully.
+Shut down.
 AcceleratorClientConnectionCallback - disconnected - :0
 Cleanup mono
 CodeReloadManager destroyed
-Shut down.
-abort_threads: Failed aborting id: 00000000000045CC, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000004768, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 0000000000002DA8, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000004648, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 00000000000045CC, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000004768, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 0000000000002DA8, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000004648, mono_thread_manage will ignore it
 
 Exiting batchmode successfully now!
 Exiting without the bug reporter. Application will terminate with return code 0
