@@ -308,6 +308,9 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     void TryAutoWork()
     {
+        TransitionTo(ColonistState.Idle); // Auto-work disabled — use player RMB orders
+        return;
+        // OLD AUTO-MINE CODE (destroys blocks around colonist):
         _workCooldown -= Time.deltaTime * (_day != null ? _day.gameSpeed : 1f);
         if (_workCooldown > 0f) { TransitionTo(ColonistState.Idle); return; }
         _workCooldown = Random.Range(1.5f, 3f);
