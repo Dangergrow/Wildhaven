@@ -104,8 +104,6 @@ public class ColonistAI : MonoBehaviour
             Vector3 dir = (orderTarget - transform.position).normalized;
             float spd = _speed > 0 ? _speed : walkSpeed;
             Vector3 next = transform.position + dir * spd * dt;
-            float spd = _speed > 0 ? _speed : walkSpeed;
-            Vector3 next = transform.position + dir * spd * dt;
             if (CanMoveTo(next, 0.3f, true)) { transform.position = next; }
             else { CancelOrder(); return false; }
             return true;
