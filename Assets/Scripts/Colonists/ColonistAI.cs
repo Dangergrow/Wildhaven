@@ -24,7 +24,8 @@ public class ColonistAI : MonoBehaviour
     private float _speed;
     private Vector3 _wanderTarget;
     private float _wanderTimer;
-    private bool _isMoving;
+    private List<Vector3Int> _path;
+    private int _pathIndex;
 
     /// <summary>Issue a player order. Returns false if colonist can't accept orders.</summary>
     public bool GiveOrder(OrderType type, Vector3 target)
@@ -35,11 +36,18 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Sleeping) _colonist.currentState = ColonistState.Idle;
         currentOrder = type;
         orderTarget = target;
+        // Compute A* path
+        if (_grid != null) {
+            Vector3Int start = _grid.WorldToGrid(transform.position);
+            Vector3Int end = _grid.WorldToGrid(target);
+            _path = Pathfinder.FindPath(_grid, start, end);
+            _pathIndex = 0;
+        }
         return true;
     }
 
     /// <summary>Cancel current order.</summary>
-    public void CancelOrder() { currentOrder = OrderType.None; }
+    public void CancelOrder() { currentOrder = OrderType.None; _path = null; }
 
     private void Awake()
     {
@@ -94,22 +102,30 @@ public class ColonistAI : MonoBehaviour
     {
         if (currentOrder == OrderType.None) return false;
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Incapacitated) return false;
-
         _colonist.currentState = ColonistState.Moving;
-        float dt = Time.unscaledDeltaTime;
-        float dist = Vector3.Distance(transform.position, orderTarget);
 
-        if (dist > 0.5f)
+        float dt = Time.unscaledDeltaTime;
+        float spd = _speed > 0 ? _speed : walkSpeed;
+
+        // Follow A* path
+        if (_path != null && _pathIndex < _path.Count)
         {
-            Vector3 dir = (orderTarget - transform.position).normalized;
-            float spd = _speed > 0 ? _speed : walkSpeed;
+            Vector3 target = _grid.GridToWorld(_path[_pathIndex].x, _path[_pathIndex].y, _path[_pathIndex].z);
+            target.y += 0.1f;
+            float dist = Vector3.Distance(transform.position, target);
+            if (dist < 0.3f) { _pathIndex++; return true; }
+            Vector3 dir = (target - transform.position).normalized;
             Vector3 next = transform.position + dir * spd * dt;
-            if (CanMoveTo(next, 0.3f, true)) { transform.position = next; }
-            else { CancelOrder(); return false; }
+            if (CanMoveTo(next, 0.3f, true)) transform.position = next;
+            else _pathIndex++; // skip blocked node
             return true;
         }
 
-        // Arrived
+        // Path finished — execute order
+        _path = null;
+        float finalDist = Vector3.Distance(transform.position, orderTarget);
+        if (finalDist > 0.5f) { CancelOrder(); return false; }
+
         if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
         if (currentOrder == OrderType.Mine && _grid != null)
         {
