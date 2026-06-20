@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// AI controller for colonists. Manages state transitions, wandering, auto-collect, and player orders.
