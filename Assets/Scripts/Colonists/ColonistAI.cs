@@ -38,14 +38,16 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.currentState == ColonistState.Sleeping) _colonist.currentState = ColonistState.Idle;
         currentOrder = type;
         orderTarget = target;
-        // Compute A* path
+        // Compute A* path — lazy find GridManager if needed
+        if (_grid == null) _grid = FindObjectOfType<GridManager>();
         if (_grid != null) {
             Vector3Int start = _grid.WorldToGrid(transform.position);
             Vector3Int end = _grid.WorldToGrid(target);
             _path = Pathfinder.FindPath(_grid, start, end);
             _pathIndex = 0;
-            Debug.Log($"[Path] {_colonist.colonistName} from {start} to {end} -> path={(_path != null ? _path.Count.ToString() : "NULL")}");
-        }
+            if (_path == null) Debug.LogWarning($"[Path] {name} no path from {start} to {end}");
+            else Debug.Log($"[Path] {name} path={_path.Count} steps");
+        } else Debug.LogError($"[Path] {name} GridManager not found!");
         return true;
     }
 
