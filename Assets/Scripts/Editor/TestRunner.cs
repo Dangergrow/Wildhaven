@@ -22,7 +22,7 @@ public static class TestRunner
     static bool TestWorldGeneration()
     {
         // Find or create GridManager
-        var gm = Object.FindObjectOfType<GridManager>();
+        var gm = Object.FindFirstObjectByType<GridManager>();
         if (gm == null)
         {
             var world = new GameObject("TestWorld");

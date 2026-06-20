@@ -50,7 +50,7 @@ public class ColonistAI : MonoBehaviour
     }
 
     /// <summary>Cancel current order.</summary>
-    public void CancelOrder() { Debug.Log($"[Order] {name} CANCELLED"); currentOrder = OrderType.None; _path = null; }
+    public void CancelOrder() { currentOrder = OrderType.None; _path = null; }
 
     private void Awake()
     {
@@ -130,6 +130,7 @@ public class ColonistAI : MonoBehaviour
             if (CanMoveTo(next, 0.1f, true)) transform.position = next;
             // If blocked, just wait — don't cancel the order
             return true;
+        }
         if (_path != null && _pathIndex < _path.Count)
         {
             Vector3 target = _grid.GridToWorld(_path[_pathIndex].x, _path[_pathIndex].y, _path[_pathIndex].z);
