@@ -52,13 +52,17 @@ public class WorkPanel : MonoBehaviour
 
     void BuildUI()
     {
-        var bg = new GameObject("Bg").AddComponent<Image>();
+        var bgGo = new GameObject("Bg");
+        bgGo.AddComponent<RectTransform>();
+        var bg = bgGo.AddComponent<Image>();
         bg.transform.SetParent(_canvas.transform);
         bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
         bg.color = new Color(0.08f, 0.08f, 0.1f, 0.92f);
 
         // Title
-        var title = new GameObject("Title").AddComponent<Text>();
+        var titleGo = new GameObject("Title");
+        titleGo.AddComponent<RectTransform>();
+        var title = titleGo.AddComponent<Text>();
         title.transform.SetParent(_canvas.transform);
         title.rectTransform.anchorMin = title.rectTransform.anchorMax = new Vector2(0.5f, 0.95f);
         title.rectTransform.sizeDelta = new Vector2(400, 30);
@@ -71,7 +75,9 @@ public class WorkPanel : MonoBehaviour
         {
             int idx = i;
             float y = 0.85f - i * 0.055f;
-            var label = new GameObject($"Job{i}").AddComponent<Text>();
+            var labelGo = new GameObject($"Job{i}");
+            labelGo.AddComponent<RectTransform>();
+            var label = labelGo.AddComponent<Text>();
             label.transform.SetParent(_canvas.transform);
             label.rectTransform.anchorMin = label.rectTransform.anchorMax = new Vector2(0.1f, y);
             label.rectTransform.sizeDelta = new Vector2(120, 20);
@@ -105,11 +111,15 @@ public class WorkPanel : MonoBehaviour
 
     void AddBtn(string label, Vector2 pos, Vector2 size, System.Action onClick)
     {
-        var btn = new GameObject($"Btn_{label}_{pos.x}_{pos.y}").AddComponent<Button>();
+        var btnGo = new GameObject($"Btn_{label}_{pos.x}_{pos.y}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(_canvas.transform);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = pos; rt.sizeDelta = size;
-        var txt = new GameObject("Lbl").AddComponent<Text>();
+        var txtGo = new GameObject("Lbl");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = size;

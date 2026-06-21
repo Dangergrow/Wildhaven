@@ -32,7 +32,9 @@ public class TradeUI : MonoBehaviour
         go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         go.AddComponent<GraphicRaycaster>();
 
-        var bg = new GameObject("Bg").AddComponent<Image>();
+        var bgGo = new GameObject("Bg");
+        bgGo.AddComponent<RectTransform>();
+        var bg = bgGo.AddComponent<Image>();
         bg.transform.SetParent(_canvas.transform);
         bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
         bg.color = new Color(0.06f, 0.06f, 0.08f, 0.93f);
@@ -112,7 +114,9 @@ public class TradeUI : MonoBehaviour
 
     Text MakeText(string name, Vector2 anchor, int size, TextAnchor align)
     {
-        var t = new GameObject(name).AddComponent<Text>();
+        var tGo = new GameObject(name);
+        tGo.AddComponent<RectTransform>();
+        var t = tGo.AddComponent<Text>();
         t.transform.SetParent(_canvas.transform);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(400, 30);
@@ -122,11 +126,15 @@ public class TradeUI : MonoBehaviour
 
     void AddBtn(string label, Vector2 pos, Vector2 size, System.Action onClick)
     {
-        var btn = new GameObject($"Btn_{label}").AddComponent<Button>();
+        var btnGo = new GameObject($"Btn_{label}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(_canvas.transform);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = pos; rt.sizeDelta = size;
-        var txt = new GameObject("Lbl").AddComponent<Text>();
+        var txtGo = new GameObject("Lbl");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = size;

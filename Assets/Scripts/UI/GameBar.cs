@@ -38,7 +38,9 @@ public class GameBar : MonoBehaviour
         go.AddComponent<GraphicRaycaster>();
 
         // Bottom bar background
-        var bg = new GameObject("BarBg").AddComponent<Image>();
+        var bgGo = new GameObject("BarBg");
+        bgGo.AddComponent<RectTransform>();
+        var bg = bgGo.AddComponent<Image>();
         bg.transform.SetParent(_canvas.transform);
         bg.rectTransform.anchorMin = new Vector2(0, 0); bg.rectTransform.anchorMax = new Vector2(1, 0);
         bg.rectTransform.pivot = new Vector2(0.5f, 0); bg.rectTransform.sizeDelta = new Vector2(0, 80);
@@ -77,7 +79,7 @@ public class GameBar : MonoBehaviour
             if (Keyboard.current.rightBracketKey.wasPressedThisFrame) { _architectPage = (_architectPage + _architectBlocks.Length - 1) % _architectBlocks.Length; ShowArchitectBlocks(); }
         }
 
-        _infoText.text = "F5 Save  F9 Load  Space Pause  1/2/3 Speed";
+        if (_infoText != null) _infoText.text = "F5 Save  F9 Load  Space Pause  1/2/3 Speed";
     }
 
     void SetMode(Mode m)
@@ -113,14 +115,18 @@ public class GameBar : MonoBehaviour
         for (int i = 0; i < blocks.Length; i++)
         {
             int idx = i; BlockType bt = blocks[i];
-            var btn = new GameObject($"Block_{bt}").AddComponent<Button>();
+            var btnGo = new GameObject($"Block_{bt}");
+            btnGo.AddComponent<RectTransform>();
+            var btn = btnGo.AddComponent<Button>();
             btn.transform.SetParent(_canvas.transform);
             var rt = btn.GetComponent<RectTransform>();
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0);
             rt.anchoredPosition = new Vector2(-200 + i * 48, 52);
             rt.sizeDelta = new Vector2(44, 24);
 
-            var txt = new GameObject("Label").AddComponent<Text>();
+            var txtGo = new GameObject("Label");
+            txtGo.AddComponent<RectTransform>();
+            var txt = txtGo.AddComponent<Text>();
             txt.transform.SetParent(btn.transform);
             txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
             txt.rectTransform.sizeDelta = new Vector2(44, 24);
@@ -137,14 +143,18 @@ public class GameBar : MonoBehaviour
 
     void CreateTab(string label, float x, int idx, System.Action onClick)
     {
-        var btn = new GameObject($"Tab_{label}").AddComponent<Button>();
+        var btnGo = new GameObject($"Tab_{label}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(_canvas.transform);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(0, 0);
         rt.anchoredPosition = new Vector2(x + 20, 8);
         rt.sizeDelta = new Vector2(130, 28);
 
-        var txt = new GameObject("Label").AddComponent<Text>();
+        var txtGo = new GameObject("Label");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(130, 28);
@@ -157,7 +167,9 @@ public class GameBar : MonoBehaviour
 
     Text MakeText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
     {
-        var t = new GameObject(name).AddComponent<Text>();
+        var tGo = new GameObject(name);
+        tGo.AddComponent<RectTransform>();
+        var t = tGo.AddComponent<Text>();
         t.transform.SetParent(parent);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.pivot = anchor; t.rectTransform.sizeDelta = new Vector2(500, 20);

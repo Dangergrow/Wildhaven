@@ -18,7 +18,9 @@ public class MainMenu : MonoBehaviour
         go.AddComponent<GraphicRaycaster>();
 
         // Background
-        var bg = new GameObject("Bg").AddComponent<Image>();
+        var bgGo = new GameObject("Bg");
+        bgGo.AddComponent<RectTransform>();
+        var bg = bgGo.AddComponent<Image>();
         bg.transform.SetParent(_canvas.transform);
         bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
         bg.color = new Color(0.05f, 0.05f, 0.1f, 1f);
@@ -45,7 +47,9 @@ public class MainMenu : MonoBehaviour
 
     void CreateText(string msg, float y, int size, Color color)
     {
-        var t = new GameObject("Text").AddComponent<Text>();
+        var tGo = new GameObject("Text");
+        tGo.AddComponent<RectTransform>();
+        var t = tGo.AddComponent<Text>();
         t.transform.SetParent(_canvas.transform);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = new Vector2(0.5f, y);
         t.rectTransform.sizeDelta = new Vector2(500, 60);
@@ -56,13 +60,17 @@ public class MainMenu : MonoBehaviour
 
     void AddBtn(string label, float y, System.Action onClick)
     {
-        var btn = new GameObject($"Btn_{label}").AddComponent<Button>();
+        var btnGo = new GameObject($"Btn_{label}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(_canvas.transform);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(0.5f, y);
         rt.sizeDelta = new Vector2(220, 44);
 
-        var txt = new GameObject("Label").AddComponent<Text>();
+        var txtGo = new GameObject("Label");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(220, 44);

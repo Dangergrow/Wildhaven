@@ -54,7 +54,9 @@ public class CharacterCreator : MonoBehaviour
         go.AddComponent<GraphicRaycaster>();
 
         // Background
-        var bg = new GameObject("Bg").AddComponent<Image>();
+        var bgGo = new GameObject("Bg");
+        bgGo.AddComponent<RectTransform>();
+        var bg = bgGo.AddComponent<Image>();
         bg.transform.SetParent(_canvas.transform);
         bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
         bg.color = new Color(0.05f, 0.05f, 0.08f, 1f);
@@ -186,7 +188,9 @@ public class CharacterCreator : MonoBehaviour
 
     Text MakeText(string name, Vector2 anchor, int size, TextAnchor align)
     {
-        var t = new GameObject(name).AddComponent<Text>();
+        var tGo = new GameObject(name);
+        tGo.AddComponent<RectTransform>();
+        var t = tGo.AddComponent<Text>();
         t.transform.SetParent(_canvas.transform);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(300, 30);
@@ -196,11 +200,15 @@ public class CharacterCreator : MonoBehaviour
 
     void AddButton(string label, Vector2 pos, System.Action onClick)
     {
-        var btn = new GameObject($"Btn_{label}").AddComponent<Button>();
+        var btnGo = new GameObject($"Btn_{label}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(_canvas.transform);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = pos; rt.sizeDelta = new Vector2(90, 26);
-        var txt = new GameObject("Lbl").AddComponent<Text>();
+        var txtGo = new GameObject("Lbl");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(90, 26);

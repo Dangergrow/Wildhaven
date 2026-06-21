@@ -24,9 +24,9 @@ public class ColonistPanel : MonoBehaviour
         // Panel at bottom-left
         _panel = new GameObject("Panel");
         _panel.transform.SetParent(_canvas.transform);
+        var rt = _panel.AddComponent<RectTransform>();
         var img = _panel.AddComponent<Image>();
         img.color = new Color(0.1f, 0.1f, 0.12f, 0.9f);
-        var rt = _panel.GetComponent<RectTransform>();
         rt.anchorMin = new Vector2(0, 0.1f); rt.anchorMax = new Vector2(0.3f, 0.5f);
         rt.offsetMin = rt.offsetMax = Vector2.zero;
 
@@ -122,7 +122,9 @@ public class ColonistPanel : MonoBehaviour
 
     Text MakeText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
     {
-        var t = new GameObject(name).AddComponent<Text>();
+        var tGo = new GameObject(name);
+        tGo.AddComponent<RectTransform>();
+        var t = tGo.AddComponent<Text>();
         t.transform.SetParent(parent);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(200, 25);
@@ -133,11 +135,15 @@ public class ColonistPanel : MonoBehaviour
 
     void AddBtn(string label, Vector2 anchor, Transform parent, System.Action onClick)
     {
-        var btn = new GameObject($"Btn_{label}").AddComponent<Button>();
+        var btnGo = new GameObject($"Btn_{label}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(parent);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = anchor; rt.sizeDelta = new Vector2(50, 22);
-        var txt = new GameObject("Lbl").AddComponent<Text>();
+        var txtGo = new GameObject("Lbl");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(50, 22);

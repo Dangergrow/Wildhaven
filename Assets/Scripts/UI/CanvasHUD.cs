@@ -65,14 +65,18 @@ public class CanvasHUD : MonoBehaviour
 
     void AddCatTab(Transform parent, int idx)
     {
-        var btn = new GameObject($"Cat_{_catNames[idx]}").AddComponent<Button>();
+        var btnGo = new GameObject($"Cat_{_catNames[idx]}");
+        btnGo.AddComponent<RectTransform>();
+        var btn = btnGo.AddComponent<Button>();
         btn.transform.SetParent(parent);
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(0.99f, 0.85f - idx * 0.055f);
         rt.pivot = new Vector2(1, 0.5f);
         rt.anchoredPosition = Vector2.zero; rt.sizeDelta = new Vector2(110, 20);
 
-        var txt = new GameObject("Lbl").AddComponent<Text>();
+            var txtGo = new GameObject("Lbl");
+            txtGo.AddComponent<RectTransform>();
+            var txt = txtGo.AddComponent<Text>();
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(110, 20);
@@ -103,7 +107,9 @@ public class CanvasHUD : MonoBehaviour
             rt.sizeDelta = new Vector2(100, 22);
 
             var btn = go.AddComponent<Button>();
-            var txt = new GameObject("Lbl").AddComponent<Text>();
+        var txtGo = new GameObject("Lbl");
+        txtGo.AddComponent<RectTransform>();
+        var txt = txtGo.AddComponent<Text>();
             txt.transform.SetParent(go.transform);
             txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
             txt.rectTransform.sizeDelta = new Vector2(100, 22);
@@ -166,7 +172,9 @@ public class CanvasHUD : MonoBehaviour
 
     Text MakeText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
     {
-        var t = new GameObject(name).AddComponent<Text>();
+        var tGo = new GameObject(name);
+        tGo.AddComponent<RectTransform>();
+        var t = tGo.AddComponent<Text>();
         t.transform.SetParent(parent);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(500, 30);
