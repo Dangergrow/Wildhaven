@@ -88,7 +88,18 @@ public class BuildManager : MonoBehaviour
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
-            _gridManager.RemoveBlock(hit.Value.x, hit.Value.y, hit.Value.z);
+        {
+            if (Keyboard.current.leftShiftKey.isPressed)
+            {
+                // Shift+RMB = demolish 3x3 area
+                for (int dx = -1; dx <= 1; dx++)
+                for (int dy = -1; dy <= 1; dy++)
+                for (int dz = -1; dz <= 1; dz++)
+                    _gridManager.RemoveBlock(hit.Value.x + dx, hit.Value.y + dy, hit.Value.z + dz);
+            }
+            else
+                _gridManager.RemoveBlock(hit.Value.x, hit.Value.y, hit.Value.z);
+        }
     }
 
     // OnGUI removed — use CanvasHUD instead

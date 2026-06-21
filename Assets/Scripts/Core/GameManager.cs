@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<QuestManager>("Quests");
         EnsureSystem<ReligionSystem>("Religion");
         EnsureSystem<MedicineSystem>("Medicine");
-        EnsureSystem<CookingSystem>("Cooking");
+        EnsureSystem<ColonyServices>("Services");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
