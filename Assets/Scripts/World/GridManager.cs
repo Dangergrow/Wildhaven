@@ -398,6 +398,28 @@ public class GridManager : MonoBehaviour
     string SavePath => System.IO.Path.Combine(Application.persistentDataPath, "world.sav");
     public bool HasSave => System.IO.File.Exists(SavePath);
 
+    /// <summary>Save world blocks to stream (for GameSaveManager).</summary>
+    public void SaveToStream(System.IO.BinaryWriter w)
+    {
+        w.Write(worldWidth); w.Write(worldHeight); w.Write(worldDepth); w.Write(seed);
+        for (int x = 0; x < worldWidth; x++)
+        for (int y = 0; y < worldHeight; y++)
+        for (int z = 0; z < worldDepth; z++)
+            w.Write((byte)_grid[x, y, z].blockType);
+    }
+
+    /// <summary>Load world blocks from stream (for GameSaveManager).</summary>
+    public void LoadFromStream(System.IO.BinaryReader r)
+    {
+        int w = r.ReadInt32(), h = r.ReadInt32(), d = r.ReadInt32();
+        if (w != worldWidth || h != worldHeight || d != worldDepth) return;
+        seed = r.ReadInt32();
+        for (int x = 0; x < worldWidth; x++)
+        for (int y = 0; y < worldHeight; y++)
+        for (int z = 0; z < worldDepth; z++)
+            _grid[x, y, z] = new GridCell((BlockType)r.ReadByte());
+    }
+
     public void SaveWorld()
     {
         using (var w = new System.IO.BinaryWriter(System.IO.File.Open(SavePath, System.IO.FileMode.Create)))
