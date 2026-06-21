@@ -160,6 +160,25 @@ public class PlantGrowth : MonoBehaviour
     /// Returns the number of planted crops.
     /// </summary>
     public int PlantCount => _plants.Count;
+
+    /// <summary>Try to harvest mature plant at grid position. Returns true if harvested.</summary>
+    public bool TryHarvestAt(Vector3Int pos, Inventory inv)
+    {
+        if (!_plants.ContainsKey(pos)) return false;
+        var plant = _plants[pos];
+        if (plant.growth < 1f) return false; // not mature
+        // Find crop def
+        foreach (var def in cropDefs)
+        {
+            if (def.cropType == plant.cropType)
+            {
+                if (inv != null) inv.AddItem(def.yieldItem, def.yieldAmount);
+                _plants.Remove(pos);
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 [System.Serializable]
