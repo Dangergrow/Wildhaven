@@ -7,7 +7,7 @@ public class MedicineSystem : MonoBehaviour
     public MedicineLevel activeMedicine = MedicineLevel.Herbal;
 
     public enum MedicineLevel { None, Herbal, Standard, Advanced, Experimental }
-    public enum Disease { None, Cold, Flu, Infection, Plague, Dysentery, Malaria, Tetanus }
+    public enum Disease { None, Cold, Flu, Infection, Plague, Dysentery, Malaria, Tetanus, Pneumonia, Tuberculosis, Scurvy, Rabies, Cholera, Typhus, Measles, Smallpox, Leprosy, Gangrene, Sepsis, Poisoning }
 
     [System.Serializable]
     public struct DiseaseData

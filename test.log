@@ -5,8 +5,8 @@ OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 3236
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
 System  architecture: x64
 Process architecture: x64
-Date: 2026-06-21T15:43:20Z
-[Licensing::Module] Successfully launched the LicensingClient (PId: 10140)
+Date: 2026-06-21T15:45:27Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 8368)
 
 COMMAND LINE ARGUMENTS:
 C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Unity.exe
@@ -57,35 +57,35 @@ C:/Users/Administrator/Desktop/12/Wildhaven-main
     "memorysetup-job-temp-allocator-block-size=2097152"
     "memorysetup-job-temp-allocator-block-size-background=1048576"
     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
-Logging is directed to a specific file, skipping project log.Player connection [6984]  Target information:
+Logging is directed to a specific file, skipping project log.Player connection [2620]  Target information:
 
-Player connection [6984]  * "[IP] 192.168.1.102 [Port] 55504 [Flags] 2 [Guid] 3144258262 [EditorId] 3144258262 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [2620]  * "[IP] 192.168.1.102 [Port] 55504 [Flags] 2 [Guid] 1332535359 [EditorId] 1332535359 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [6984]  * "[IP] 172.24.240.1 [Port] 55504 [Flags] 2 [Guid] 3144258262 [EditorId] 3144258262 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [2620]  * "[IP] 172.24.240.1 [Port] 55504 [Flags] 2 [Guid] 1332535359 [EditorId] 1332535359 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [6984]  * "[IP] 10.0.0.1 [Port] 55504 [Flags] 2 [Guid] 3144258262 [EditorId] 3144258262 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [2620]  * "[IP] 10.0.0.1 [Port] 55504 [Flags] 2 [Guid] 1332535359 [EditorId] 1332535359 [Version] 1048832 [Id] WindowsEditor(7,WIN-BNPMHOVU48D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [6984] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [6984] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [2620] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [2620] Host joined alternative multi-casting on [225.0.0.222:34997]...
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
 Starting IPC server.
 Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-Administrator, press Ctrl-C to exit.
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-06-21T15:43:21.1327746Z"
-[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 10140, path: "C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-06-21T15:45:27.9863378Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 8368, path: "C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
 [Licensing::Module] LicensingClient has failed validation; ignoring
-[Package Manager] Connected to IPC stream "Upm-7376" after 0.2 seconds.
+[Package Manager] Connected to IPC stream "Upm-3036" after 0.2 seconds.
 [Licensing::Module] Licensing is not yet initialized.
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.18.1+9fbee8e
-  Session Id:              0d42226eb0df4965a68a269e1ae15a5f
-  Correlation Id:          f9c939cb8f76915a73d084f528499688
-  External correlation Id: 3770535124231112792
+  Session Id:              fee5698019394ad38f6af5c3e03f7aed
+  Correlation Id:          4a7803a8ce6a985c5d4c36c641cf706d
+  External correlation Id: 4211265728998710916
   Machine Id:              EwKEM0X19wSmmqlbBWpgTKNwbwM=
 [Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator" (connect: 0.24s, validation: 0.12s, handshake: 0.02s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-notifications" at "2026-06-21T15:43:21.267131Z"
-[Licensing::Module] Connected to LicensingClient (PId: 10140, launch time: 0.00, total connection time: 0.38s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-notifications" at "2026-06-21T15:45:28.124088Z"
+[Licensing::Module] Connected to LicensingClient (PId: 8368, launch time: 0.00, total connection time: 0.38s)
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -120,7 +120,7 @@ Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/Managed
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
 Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56376
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56036
 CodeReloadManager initialized
 ImportWorker Server TCP listen port: 0
 AcceleratorClientConnectionCallback - disconnected - :0
@@ -128,29 +128,28 @@ Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001187 seconds.
+Registered in 0.001219 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Package Manager log level set to [2]
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.273 seconds
-Domain Reload Profiling: 622ms
-	BeginReloadAssembly (88ms)
-		CreateAndSetChildDomain (5ms)
+- Finished resetting the current domain, in  0.286 seconds
+Domain Reload Profiling: 634ms
+	BeginReloadAssembly (86ms)
 	RebuildCommonClasses (4ms)
 	RebuildNativeTypeToScriptingClass (12ms)
-	initialDomainReloadingComplete (40ms)
+	initialDomainReloadingComplete (41ms)
 	LoadAllAssembliesAndSetupDomain (203ms)
-		LoadAssemblies (82ms)
+		LoadAssemblies (83ms)
 		AnalyzeDomain (147ms)
 			TypeCache.Refresh (146ms)
-				TypeCache.ScanAssembly (136ms)
-	FinalizeReload (275ms)
+				TypeCache.ScanAssembly (135ms)
+	FinalizeReload (288ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (63ms)
+			BeforeProcessingInitializeOnLoad (66ms)
 			ProcessInitializeOnLoadAttributes (71ms)
-			ProcessInitializeOnLoadMethodAttributes (82ms)
+			ProcessInitializeOnLoadMethodAttributes (90ms)
 [Licensing::Client] Successfully resolved entitlement details
 Application.AssetDatabase Initial Refresh Start
 [Package Manager] Restoring resolved packages state from cache
@@ -233,7 +232,7 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 21.0053ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 21.6407ms
 Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
 WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
@@ -251,8 +250,27 @@ info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 26.4246ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 26.9022ms
 DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 0s890ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[720/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (0.87 seconds), 2 items updated, 719 evaluated
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
+ExitCode: 0 Duration: 0s774ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Administrator/Desktop/12/Wildhaven-main
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Current configuration matches the requested one, skipping
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 1.1537ms
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
@@ -290,25 +308,27 @@ info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 112.4943ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 108.9262ms
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 269.9602ms
-ExitCode: 0 Duration: 1s320ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 281.6831ms
+ExitCode: 0 Duration: 0s937ms
+Finished compiling graph: 919 nodes, 17532 flattened edges (14666 ToBuild, 140 ToUse), maximum node priority 967
+[511/915    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp
 [720/915    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
 [907/915    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
-Assets\Scripts\Colonists\NeedsSystem.cs(66,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\NeedsSystem.cs(67,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\BuildBlocker.cs(18,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistGravity.cs(17,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
 Assets\Scripts\Colonists\FamilySystem.cs(22,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Colonists\FamilySystem.cs(23,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ColonistGravity.cs(17,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\BuildBlocker.cs(18,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\NeedsSystem.cs(66,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\NeedsSystem.cs(67,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Colonists\ColonistAI.cs(42,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
@@ -316,39 +336,31 @@ Assets\Scripts\Colonists\ColonistAI.cs(62,16): warning CS0618: 'Object.FindObjec
 
 Assets\Scripts\Colonists\ColonistAI.cs(63,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
+Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\FamilySystem.cs(76,25): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\ReligionSystem.cs(21,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\WaterInteraction.cs(15,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Colonists\MentalState.cs(136,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Core\CentralIntegration.cs(10,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
 Assets\Scripts\Colonists\NeedsSystem.cs(165,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Colonists\NeedsSystem.cs(175,35): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\Colonists\ReligionSystem.cs(21,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\MentalState.cs(136,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\WaterInteraction.cs(15,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Core\CentralIntegration.cs(10,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\Core\CentralIntegration.cs(24,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\Core\CentralIntegration.cs(25,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\Core\GameManager.cs(36,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\Core\GameManager.cs(37,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
 Assets\Scripts\Research\ResearchEffects.cs(8,32): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Events\QuestManager.cs(58,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Events\EventManager.cs(28,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
@@ -356,17 +368,29 @@ Assets\Scripts\Events\EventManager.cs(29,24): warning CS0618: 'Object.FindObject
 
 Assets\Scripts\Events\EventManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\Events\QuestManager.cs(69,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
 Assets\Scripts\Farming\PlantGrowth.cs(26,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Farming\PlantGrowth.cs(27,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
+Assets\Scripts\Core\CentralIntegration.cs(24,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\Core\CentralIntegration.cs(25,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
 Assets\Scripts\Resources\BlockDropManager.cs(23,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\Colonists\ColonistAI.cs(256,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Events\QuestManager.cs(58,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(69,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Resources\FoodSpoilage.cs(12,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Resources\FoodSpoilage.cs(13,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Resources\FoodSpoilage.cs(22,23): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Core\CentralIntegration.cs(38,22): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
@@ -386,7 +410,15 @@ Assets\Scripts\Core\CentralIntegration.cs(76,19): warning CS0618: 'Object.FindFi
 
 Assets\Scripts\Core\CentralIntegration.cs(82,24): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\Colonists\FamilySystem.cs(76,25): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(96,35): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Events\QuestManager.cs(111,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Events\QuestManager.cs(127,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\Core\CentralIntegration.cs(99,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
@@ -398,37 +430,17 @@ Assets\Scripts\Core\CentralIntegration.cs(104,22): warning CS0618: 'Object.FindF
 
 Assets\Scripts\Core\CentralIntegration.cs(109,25): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\Events\QuestManager.cs(96,35): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Events\QuestManager.cs(111,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Events\QuestManager.cs(127,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\FoodSpoilage.cs(12,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\FoodSpoilage.cs(13,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Resources\FoodSpoilage.cs(22,23): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
 Assets\Scripts\UI\GameHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\UI\GameHUD.cs(16,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\UI\GameHUD.cs(17,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\UI\GameSettings.cs(15,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\Colonists\ColonistAI.cs(256,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
 
-Assets\Scripts\UI\GameSettings.cs(18,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\UI\GameHUD.cs(24,9): warning CS0162: Unreachable code detected
 
-Assets\Scripts\UI\GameSettings.cs(22,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\Colonists\ColonistAI.cs(344,9): warning CS0162: Unreachable code detected
+Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\UI\CanvasHUD.cs(28,16): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
@@ -438,17 +450,25 @@ Assets\Scripts\UI\CanvasHUD.cs(30,18): warning CS0618: 'Object.FindFirstObjectBy
 
 Assets\Scripts\UI\CanvasHUD.cs(31,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
+Assets\Scripts\UI\GameBar.cs(30,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\GameBar.cs(31,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\ColonistPanel.cs(17,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\GameSettings.cs(15,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\UI\GameSettings.cs(18,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\UI\GameSettings.cs(22,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
 Assets\Scripts\UI\SelectionManager.cs(27,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\UI\SelectionManager.cs(29,34): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\UI\GameHUD.cs(24,9): warning CS0162: Unreachable code detected
-
-Assets\Scripts\World\BlueprintManager.cs(18,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
 Assets\Scripts\UI\WorkPanel.cs(18,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\UI\ColonistPanel.cs(17,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(344,9): warning CS0162: Unreachable code detected
 
 Assets\Scripts\UI\TradeUI.cs(20,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
@@ -456,29 +476,29 @@ Assets\Scripts\UI\TradeUI.cs(22,20): warning CS0618: 'Object.FindFirstObjectByTy
 
 Assets\Scripts\UI\TradeUI.cs(24,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\UI\GameBar.cs(30,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\UI\GameBar.cs(31,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
 Assets\Scripts\UI\SelectionManager.cs(85,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\UI\MainMenu.cs(90,27): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\World\ColonyServices.cs(20,36): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\World\ColonyServices.cs(21,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\World\FireAndSeasons.cs(13,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\World\EnergyNetwork.cs(12,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\World\FireAndSeasons.cs(21,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
 Assets\Scripts\UI\MainMenu.cs(119,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\UI\MainMenu.cs(133,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
+Assets\Scripts\World\AnimalManager.cs(28,36): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\World\BlueprintManager.cs(18,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\MainMenu.cs(157,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\World\ColonyServices.cs(20,36): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\World\ColonyServices.cs(21,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\World\EnergyNetwork.cs(12,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
 Assets\Scripts\World\ForageSpawner.cs(21,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\UI\SelectionManager.cs(167,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\World\GameSaveManager.cs(16,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
@@ -486,37 +506,39 @@ Assets\Scripts\World\GameSaveManager.cs(17,16): warning CS0618: 'Object.FindObje
 
 Assets\Scripts\World\GameSaveManager.cs(18,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\UI\MainMenu.cs(157,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\World\RepairSystem.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\World\RepairSystem.cs(19,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
 Assets\Scripts\World\RoomQuality.cs(8,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\World\StabilitySystem.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\FireAndSeasons.cs(13,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\World\StructureClipboard.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-
-Assets\Scripts\World\TemperatureLight.cs(11,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-
-Assets\Scripts\World\FireAndSeasons.cs(67,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
-
-Assets\Scripts\World\FireAndSeasons.cs(73,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
+Assets\Scripts\World\FireAndSeasons.cs(21,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
 Assets\Scripts\World\BuildManager.cs(34,69): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
 Assets\Scripts\World\BuildManager.cs(35,69): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
-Assets\Scripts\World\TemperatureLight.cs(33,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\StabilitySystem.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\World\StructureClipboard.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\World\RepairSystem.cs(19,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\World\TemperatureLight.cs(11,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\WorldMap\Caravan.cs(45,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\World\TemperatureLight.cs(45,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\World\TemperatureLight.cs(33,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
 Assets\Scripts\WorldMap\FactionManager.cs(33,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
-Assets\Scripts\UI\SelectionManager.cs(167,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\World\FireAndSeasons.cs(67,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
+
+Assets\Scripts\World\FireAndSeasons.cs(73,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
+
+Assets\Scripts\World\TemperatureLight.cs(45,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 
 Assets\Scripts\World\ColonyServices.cs(11,32): warning UAC1009: Field 'medicalBeds' uses an unsupported type 'System.Collections.Generic.HashSet<UnityEngine.Vector3Int>'. Refer to the Serialization rules analyzer reference. (https://docs.unity3d.com/6000.5/Documentation/Manual/script-serialization-analyzer.html#uac1009)
 
@@ -527,15 +549,7 @@ Assets\Scripts\Editor\TestRunner.cs(25,18): warning CS0618: 'Object.FindFirstObj
 Assets\Scripts\Editor\IntegrationTest.cs(80,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 
 Assets\Scripts\Editor\IntegrationTest.cs(81,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-[909/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
-Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 142 defines and 337 references
-
-processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
-
-running Unity.Jobs.CodeGen.JobsILPostProcessor
-
-running zzzUnity.Burst.CodeGen.BurstILPostProcessor
-[910/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+[909/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
 Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 140 defines and 360 references
 
 processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
@@ -543,46 +557,56 @@ processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.Burst
 running Unity.Jobs.CodeGen.JobsILPostProcessor
 
 running zzzUnity.Burst.CodeGen.BurstILPostProcessor
-[911/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
-[912/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-[913/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
-[914/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
-*** Tundra build success (1.30 seconds), 9 items updated, 915 evaluated
-Assets\Scripts\Colonists\NeedsSystem.cs(66,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\NeedsSystem.cs(67,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\BuildBlocker.cs(18,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistGravity.cs(17,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+[910/915    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 142 defines and 337 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[911/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[912/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[913/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[914/915    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (0.92 seconds), 10 items updated, 915 evaluated
 Assets\Scripts\Colonists\FamilySystem.cs(22,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Colonists\FamilySystem.cs(23,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistGravity.cs(17,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\BuildBlocker.cs(18,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\NeedsSystem.cs(66,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\NeedsSystem.cs(67,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Colonists\ColonistAI.cs(42,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Colonists\ColonistAI.cs(62,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Colonists\ColonistAI.cs(63,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\FamilySystem.cs(76,25): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ReligionSystem.cs(21,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\WaterInteraction.cs(15,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\MentalState.cs(136,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Core\CentralIntegration.cs(10,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Colonists\NeedsSystem.cs(165,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Colonists\NeedsSystem.cs(175,35): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ReligionSystem.cs(21,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\UnitPhysics.cs(22,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\MentalState.cs(136,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Combat\Enemy.cs(42,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\WaterInteraction.cs(15,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Combat\RaidManager.cs(33,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistSpawner.cs(27,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Core\CentralIntegration.cs(10,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Core\CentralIntegration.cs(24,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Core\CentralIntegration.cs(25,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Core\GameManager.cs(36,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\Core\GameManager.cs(37,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Research\ResearchEffects.cs(8,32): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\QuestManager.cs(58,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Events\EventManager.cs(28,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Events\EventManager.cs(29,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Events\EventManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\QuestManager.cs(69,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Farming\PlantGrowth.cs(26,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Farming\PlantGrowth.cs(27,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Core\CentralIntegration.cs(24,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\Core\CentralIntegration.cs(25,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\Research\ResearchManager.cs(29,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Research\ResearchManager.cs(30,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Resources\BlockDropManager.cs(23,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Colonists\ColonistAI.cs(256,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
-Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(58,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(69,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\FoodSpoilage.cs(12,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\FoodSpoilage.cs(13,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\FoodSpoilage.cs(22,23): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Core\CentralIntegration.cs(38,22): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(39,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(40,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
@@ -592,178 +616,177 @@ Assets\Scripts\Core\CentralIntegration.cs(64,26): warning CS0618: 'Object.FindFi
 Assets\Scripts\Core\CentralIntegration.cs(69,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(76,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(82,24): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Colonists\FamilySystem.cs(76,25): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(96,35): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(111,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Events\QuestManager.cs(127,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\Core\CentralIntegration.cs(99,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(100,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(103,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(104,22): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Core\CentralIntegration.cs(109,25): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Events\QuestManager.cs(96,35): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\QuestManager.cs(111,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Events\QuestManager.cs(127,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\FoodSpoilage.cs(12,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\FoodSpoilage.cs(13,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Resources\FoodSpoilage.cs(22,23): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Social\SocialSystem.cs(27,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\Social\SocialSystem.cs(28,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\GameHUD.cs(15,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\GameHUD.cs(16,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\GameHUD.cs(17,15): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\GameSettings.cs(15,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\UI\GameSettings.cs(18,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\UI\GameSettings.cs(22,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\Colonists\ColonistAI.cs(344,9): warning CS0162: Unreachable code detected
+Assets\Scripts\Colonists\ColonistAI.cs(256,27): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\UI\GameHUD.cs(24,9): warning CS0162: Unreachable code detected
+Assets\Scripts\Resources\BlockDropManager.cs(61,44): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\CanvasHUD.cs(28,16): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\CanvasHUD.cs(29,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\CanvasHUD.cs(30,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\CanvasHUD.cs(31,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\UI\GameBar.cs(30,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\GameBar.cs(31,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\ColonistPanel.cs(17,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\GameSettings.cs(15,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\UI\GameSettings.cs(18,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\UI\GameSettings.cs(22,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\SelectionManager.cs(27,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\SelectionManager.cs(29,34): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\GameHUD.cs(24,9): warning CS0162: Unreachable code detected
-Assets\Scripts\World\BlueprintManager.cs(18,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\WorkPanel.cs(18,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\ColonistPanel.cs(17,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Colonists\ColonistAI.cs(344,9): warning CS0162: Unreachable code detected
 Assets\Scripts\UI\TradeUI.cs(20,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\TradeUI.cs(22,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\TradeUI.cs(24,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\UI\GameBar.cs(30,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\GameBar.cs(31,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\SelectionManager.cs(85,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\MainMenu.cs(90,27): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\World\ColonyServices.cs(20,36): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\ColonyServices.cs(21,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\FireAndSeasons.cs(13,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\EnergyNetwork.cs(12,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\World\FireAndSeasons.cs(21,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\UI\MainMenu.cs(119,18): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\UI\MainMenu.cs(133,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\AnimalManager.cs(28,36): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\BlueprintManager.cs(18,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\MainMenu.cs(157,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\World\ColonyServices.cs(20,36): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\ColonyServices.cs(21,20): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\EnergyNetwork.cs(12,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\World\ForageSpawner.cs(21,36): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\UI\SelectionManager.cs(167,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\World\GameSaveManager.cs(16,17): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\World\GameSaveManager.cs(17,16): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\World\GameSaveManager.cs(18,20): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\MainMenu.cs(157,19): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\Resources\BlockDropManager.cs(177,32): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\World\RepairSystem.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\RepairSystem.cs(19,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\World\RoomQuality.cs(8,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\World\StabilitySystem.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\StructureClipboard.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\TemperatureLight.cs(11,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\World\FireAndSeasons.cs(67,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
-Assets\Scripts\World\FireAndSeasons.cs(73,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
+Assets\Scripts\World\FireAndSeasons.cs(13,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\FireAndSeasons.cs(21,19): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\World\BuildManager.cs(34,69): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\World\BuildManager.cs(35,69): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-Assets\Scripts\World\TemperatureLight.cs(33,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\StabilitySystem.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\StructureClipboard.cs(11,84): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\RepairSystem.cs(19,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\World\TemperatureLight.cs(11,84): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\WorldMap\Caravan.cs(45,21): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\World\TemperatureLight.cs(45,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\World\TemperatureLight.cs(33,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\WorldMap\FactionManager.cs(33,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
-Assets\Scripts\UI\SelectionManager.cs(167,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\World\FireAndSeasons.cs(67,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
+Assets\Scripts\World\FireAndSeasons.cs(73,30): warning CS8509: The switch expression does not handle all possible values of its input type (it is not exhaustive). For example, the pattern '4' is not covered.
+Assets\Scripts\World\TemperatureLight.cs(45,28): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
 Assets\Scripts\World\ColonyServices.cs(11,32): warning UAC1009: Field 'medicalBeds' uses an unsupported type 'System.Collections.Generic.HashSet<UnityEngine.Vector3Int>'. Refer to the Serialization rules analyzer reference. (https://docs.unity3d.com/6000.5/Documentation/Manual/script-serialization-analyzer.html#uac1009)
 Assets\Scripts\World\ColonyServices.cs(13,32): warning UAC1009: Field 'stockpilePositions' uses an unsupported type 'System.Collections.Generic.HashSet<UnityEngine.Vector3Int>'. Refer to the Serialization rules analyzer reference. (https://docs.unity3d.com/6000.5/Documentation/Manual/script-serialization-analyzer.html#uac1009)
 Assets\Scripts\Editor\TestRunner.cs(25,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Editor\IntegrationTest.cs(80,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
 Assets\Scripts\Editor\IntegrationTest.cs(81,18): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
-AssetDatabase: script compilation time: 1.625258s
+AssetDatabase: script compilation time: 2.916207s
 Total cache size 64320372
-Total cache size after purge 64320372, took 00:00:00.0343642
+Total cache size after purge 64320372, took 00:00:00.0346836
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.288 seconds
-Domain Reload Profiling: 2912ms
-	BeginReloadAssembly (160ms)
+- Finished resetting the current domain, in  2.118 seconds
+Domain Reload Profiling: 2778ms
+	BeginReloadAssembly (169ms)
 		DisableScriptedObjects (17ms)
-		CreateAndSetChildDomain (36ms)
+		CreateAndSetChildDomain (45ms)
 	RebuildCommonClasses (7ms)
 	RebuildNativeTypeToScriptingClass (13ms)
 	initialDomainReloadingComplete (37ms)
-	LoadAllAssembliesAndSetupDomain (407ms)
-		LoadAssemblies (223ms)
-		AnalyzeDomain (172ms)
-			TypeCache.Refresh (117ms)
-				TypeCache.ScanAssembly (108ms)
+	LoadAllAssembliesAndSetupDomain (434ms)
+		LoadAssemblies (240ms)
+		AnalyzeDomain (174ms)
+			TypeCache.Refresh (118ms)
+				TypeCache.ScanAssembly (110ms)
 			BuildScriptInfoCaches (48ms)
 			ResolveRequiredComponents (6ms)
-	FinalizeReload (2289ms)
+	FinalizeReload (2119ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (62ms)
-			ProcessInitializeOnLoadAttributes (1763ms)
-			ProcessInitializeOnLoadMethodAttributes (217ms)
+			BeforeProcessingInitializeOnLoad (63ms)
+			ProcessInitializeOnLoadAttributes (1647ms)
+			ProcessInitializeOnLoadMethodAttributes (153ms)
 			AfterProcessingInitializeOnLoad (3ms)
-		AwakeInstancesAfterBackupRestoration (15ms)
+		AwakeInstancesAfterBackupRestoration (16ms)
 Starting new worker id: 0 with log in C:/Users/Administrator/Desktop/12/Wildhaven-main/Logs/AssetImportWorkerHW0.log
 
-Asset Pipeline Refresh (id=3061b5beafdf3dd449896d99ca35cf73): Total: 5.137 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+Asset Pipeline Refresh (id=e72bf9d9045a48547bf213b55b786bbd): Total: 6.535 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	(Values over 0.05ms)
 	Summary:
 		Imports: total=0 (actual=0, local cache=0, cache server=0)
-		Asset DB Process Time: managed=0 ms, native=2633 ms
-		Asset DB Callback time: managed=168 ms, native=17 ms
-		Scripting: domain reloads=1, domain reload time=652 ms, compile time=1626 ms, other=38 ms
+		Asset DB Process Time: managed=0 ms, native=2497 ms
+		Asset DB Callback time: managed=370 ms, native=19 ms
+		Scripting: domain reloads=1, domain reload time=688 ms, compile time=2917 ms, other=40 ms
 		Project Asset Count: scripts=1326, non-scripts=2262
-		Asset File Changes: new=0, changed=2, moved=0, deleted=0
+		Asset File Changes: new=1, changed=3, moved=0, deleted=0
 		Scan Filter Count: 0
-	InvokePackagesCallback: 13.984ms
-	ApplyChangesToAssetFolders: 0.581ms
-	Scan: 79.707ms
-	Collect global state as custom dependencies: 2.800ms
-	OnSourceAssetsModified: 0.692ms
-	CategorizeScriptCompilationAssets: 33.212ms
-	ProcessAssetsWithTransientArtifactChanges: 60.159ms
-	CategorizeAssets: 38.717ms
-	CompileScripts: 1626.296ms
-	ImportOutOfDateAssets: 2335.423ms (2302.973ms without children)
-		UnloadImportedAssets: 0.677ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.413ms
-		ImportSchedulerStart: 31.324ms
-	PostProcessAllAssets: 170.390ms
-		VCAutoAddAssetPostprocess 1.175ms
-		XRBuildSystem.XRAssetImported 0.339ms
-		MonoPostProcessAllAssets: 168.390ms
-			AssetPostprocessor.OnPostprocessAllAssets 79.169ms
-			BuilderAssetPostprocessor.OnPostprocessAllAssets 24.659ms
-			StyleCatalogPostProcessor.OnPostprocessAllAssets 13.505ms
-			SyncVS.PostprocessSyncProject 8.267ms
-			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 8.199ms
-			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.202ms
-			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.623ms
-			AssetChangedListener.OnPostprocessAllAssets 1.583ms
-			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.381ms
-			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.150ms
-			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.641ms
-			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.545ms
-			MaterialPostprocessor.OnPostprocessAllAssets 0.525ms
-			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.485ms
-			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.451ms
-			TextAssetPostProcessor.OnPostprocessAllAssets 0.438ms
-			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.370ms
-			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.341ms
-			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.275ms
-			AudioMixerPostprocessor.OnPostprocessAllAssets 0.272ms
-			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.264ms
-			PostProcessor.OnPostprocessAllAssets 0.260ms
-			ConfigAssetsTracker.OnPostprocessAllAssets 0.238ms
-			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.205ms
-			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.200ms
-			AssetEvents.OnPostprocessAllAssets 0.190ms
-			SamplePostprocessor.OnPostprocessAllAssets 0.157ms
-			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.153ms
-			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.129ms
-			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.129ms
-			SpeedTreePostProcessor.OnPostprocessAllAssets 0.111ms
-			AudioContainerPostProcessor.OnPostprocessAllAssets 0.064ms
-	PostAssetChangesProfiler: 2.926ms
-	UnloadStreamsBegin: 2.362ms
-	PersistCurrentRevisions: 0.094ms
-	GenerateScriptTypeHashes: 1.085ms
-	GenerateScriptTypeSerializationHashes: 1.864ms
-	Untracked: 765.498ms
+	InvokePackagesCallback: 15.200ms
+	ApplyChangesToAssetFolders: 0.461ms
+	Scan: 109.336ms
+	Collect global state as custom dependencies: 3.222ms
+	OnSourceAssetsModified: 0.693ms
+	CategorizeScriptCompilationAssets: 34.328ms
+	ProcessAssetsWithTransientArtifactChanges: 63.208ms
+	CategorizeAssets: 37.809ms
+	CompileScripts: 2917.498ms
+	ImportOutOfDateAssets: 2162.720ms (2133.780ms without children)
+		UnloadImportedAssets: 0.749ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.439ms
+		ImportSchedulerStart: 27.713ms
+	PostProcessAllAssets: 371.187ms
+		VCAutoAddAssetPostprocess 1.344ms
+		XRBuildSystem.XRAssetImported 0.354ms
+		MonoPostProcessAllAssets: 369.000ms
+			SyncVS.PostprocessSyncProject 150.321ms
+			AssetPostprocessor.OnPostprocessAllAssets 88.710ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 78.367ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 14.182ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 7.467ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.887ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.301ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.247ms
+			AssetChangedListener.OnPostprocessAllAssets 0.978ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.897ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.595ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.516ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.485ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.480ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.424ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.398ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.322ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.319ms
+			AssetEvents.OnPostprocessAllAssets 0.296ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.268ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.262ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.258ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.229ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.223ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.222ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.203ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.197ms
+			PostProcessor.OnPostprocessAllAssets 0.179ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.122ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.117ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.114ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.067ms
+	PostAssetChangesProfiler: 4.299ms
+	UnloadStreamsBegin: 2.123ms
+	PersistCurrentRevisions: 0.096ms
+	GenerateScriptTypeHashes: 1.242ms
+	GenerateScriptTypeSerializationHashes: 2.265ms
+	Untracked: 808.935ms
 
 Application.AssetDatabase Initial Refresh End
 Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
-Scanning for USB devices : 15.352ms
+Scanning for USB devices : 13.178ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
@@ -807,9 +830,9 @@ GetVirtualKey: Could not map char: b (98) to any virtual key
 GetVirtualKey: Could not map char: c (99) to any virtual key
 GetVirtualKey: Could not map char: u (117) to any virtual key
 Unloading 25 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6519 unused Assets / (3.2 MB). Loaded Objects now: 7422.
-Memory consumption went from 404.7 MB to 401.4 MB.
-Total: 11.417300 ms (FindLiveObjects: 0.691100 ms CreateObjectMapping: 2.341200 ms MarkObjects: 5.921400 ms  DeleteObjects: 2.460600 ms)
+Unloading 6520 unused Assets / (3.3 MB). Loaded Objects now: 7423.
+Memory consumption went from 407.4 MB to 404.1 MB.
+Total: 11.513400 ms (FindLiveObjects: 0.861500 ms CreateObjectMapping: 2.035300 ms MarkObjects: 6.222200 ms  DeleteObjects: 2.391500 ms)
 
 GetVirtualKey: Could not map char: z (122) to any virtual key
 GetVirtualKey: Could not map char: y (121) to any virtual key
@@ -952,6 +975,7 @@ TestRunner:RunAllTests () (at Assets/Scripts/Editor/TestRunner.cs:18)
 
 Batchmode quit successfully invoked - shutting down!
 Curl error 42: Callback aborted
+Worker ready: AssetImportWorkerHW0 0
 [Physics::Module] Cleanup current backend.
 [Physics::Module] Id: 0xf2b8ea05
 Input System module state changed to: ShutdownInProgress.
@@ -960,16 +984,17 @@ Input System module state changed to: Shutdown.
 [Licensing::IpcConnector] LicenseClient-Administrator-notifications channel disconnected successfully.
 [Licensing::IpcConnector] LicenseClient-Administrator channel disconnected successfully.
 AcceleratorClientConnectionCallback - disconnected - :0
+Shut down.
 Cleanup mono
 CodeReloadManager destroyed
-Shut down.
-abort_threads: Failed aborting id: 0000000000003A0C, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000002B4C, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 00000000000022DC, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000003C38, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 0000000000003A0C, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000002B4C, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 00000000000022DC, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 0000000000003C38, mono_thread_manage will ignore it
 
+debugger-agent: Unable to listen on 3300
 Exiting batchmode successfully now!
 Exiting without the bug reporter. Application will terminate with return code 0
