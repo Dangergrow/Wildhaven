@@ -16,6 +16,15 @@ public class FactionManager : MonoBehaviour
     /// <summary>Player's reputation with each faction. Key = factionId.</summary>
     public Dictionary<int, int> Reputation { get; private set; } = new Dictionary<int, int>();
 
+    /// <summary>Average reputation across all factions (-100 to +100).</summary>
+    public float GetAverageReputation()
+    {
+        if (Reputation.Count == 0) return 0;
+        float sum = 0;
+        foreach (var r in Reputation.Values) sum += r;
+        return sum / Reputation.Count;
+    }
+
     void Awake()
     {
         if (factions == null || factions.Length == 0)
