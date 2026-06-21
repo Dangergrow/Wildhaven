@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 /// <summary>
 /// B = toggle build/select mode.
@@ -12,6 +13,14 @@ public class SelectionManager : MonoBehaviour
     private BuildManager _build;
     private Camera _cam;
     private bool _buildMode = true;
+    // Context menu state
+    private bool _showMenu;
+    private GameObject _menuTarget;
+    private bool _isDragging;
+    private Vector2 _dragStart;
+    private List<Colonist> _selectedColonists = new();
+
+    // Context menu state already declared above
 
     void Start()
     {
@@ -128,9 +137,6 @@ public class SelectionManager : MonoBehaviour
             }
         }
     }
-
-    private bool _showMenu;
-    private GameObject _menuTarget;
 
     // RMB on colonist opens context menu
     void HandleColonistRMB()

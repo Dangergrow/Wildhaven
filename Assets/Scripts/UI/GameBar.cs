@@ -1,0 +1,166 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using System.Collections.Generic;
+
+/// <summary>Going Medieval-style bottom bar with mode tabs + block categories.</summary>
+public class GameBar : MonoBehaviour
+{
+    public enum Mode { Architect, Work, Zone, Orders }
+    public Mode currentMode = Mode.Architect;
+
+    private Canvas _canvas;
+    private Text _modeText, _categoryText, _infoText;
+    private List<Button> _tabButtons = new();
+    private List<Button> _blockButtons = new();
+    private BuildManager _build;
+    private SelectionManager _select;
+
+    // Architect subcategories
+    private int _architectPage;
+    private BlockType[][] _architectBlocks = new[] {
+        new[]{BlockType.Wood, BlockType.WoodPlanks, BlockType.Stone, BlockType.StoneBrick, BlockType.Dirt, BlockType.Grass, BlockType.Sand, BlockType.Gravel, BlockType.Clay},
+        new[]{BlockType.Marble, BlockType.Obsidian, BlockType.Glass, BlockType.IronOre, BlockType.CopperOre, BlockType.GoldOre, BlockType.Coal, BlockType.Ice, BlockType.Snow},
+    };
+
+    void Start()
+    {
+        _build = FindObjectOfType<BuildManager>();
+        _select = FindObjectOfType<SelectionManager>();
+
+        // Canvas anchored to bottom
+        var go = new GameObject("GameBarCanvas");
+        _canvas = go.AddComponent<Canvas>();
+        _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        go.AddComponent<GraphicRaycaster>();
+
+        // Bottom bar background
+        var bg = new GameObject("BarBg").AddComponent<Image>();
+        bg.transform.SetParent(_canvas.transform);
+        bg.rectTransform.anchorMin = new Vector2(0, 0); bg.rectTransform.anchorMax = new Vector2(1, 0);
+        bg.rectTransform.pivot = new Vector2(0.5f, 0); bg.rectTransform.sizeDelta = new Vector2(0, 80);
+        bg.color = new Color(0.1f, 0.1f, 0.12f, 0.9f);
+
+        // Mode tabs
+        CreateTab("Architect [F1]", 40, 0, () => SetMode(Mode.Architect));
+        CreateTab("Work [F2]", 140, 1, () => SetMode(Mode.Work));
+        CreateTab("Zone [F3]", 240, 2, () => SetMode(Mode.Zone));
+        CreateTab("Orders [F4]", 340, 3, () => SetMode(Mode.Orders));
+
+        // Info text
+        _modeText = MakeText("Mode", _canvas.transform, new Vector2(0.01f, 0.06f), 13, TextAnchor.LowerLeft);
+        _categoryText = MakeText("Category", _canvas.transform, new Vector2(0.01f, 0.035f), 11, TextAnchor.LowerLeft);
+        _infoText = MakeText("Info", _canvas.transform, new Vector2(0.99f, 0.06f), 11, TextAnchor.LowerRight);
+
+        SetMode(Mode.Architect);
+    }
+
+    void Update()
+    {
+        if (Keyboard.current == null) return;
+        if (Keyboard.current.f1Key.wasPressedThisFrame) SetMode(Mode.Architect);
+        if (Keyboard.current.f2Key.wasPressedThisFrame) SetMode(Mode.Work);
+        if (Keyboard.current.f3Key.wasPressedThisFrame) SetMode(Mode.Zone);
+        if (Keyboard.current.f4Key.wasPressedThisFrame) SetMode(Mode.Orders);
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            int m = ((int)currentMode + 1) % 4;
+            SetMode((Mode)m);
+        }
+        // Page switching for architect blocks
+        if (currentMode == Mode.Architect)
+        {
+            if (Keyboard.current.leftBracketKey.wasPressedThisFrame) { _architectPage = (_architectPage + 1) % _architectBlocks.Length; ShowArchitectBlocks(); }
+            if (Keyboard.current.rightBracketKey.wasPressedThisFrame) { _architectPage = (_architectPage + _architectBlocks.Length - 1) % _architectBlocks.Length; ShowArchitectBlocks(); }
+        }
+
+        _infoText.text = "F5 Save  F9 Load  Space Pause  1/2/3 Speed";
+    }
+
+    void SetMode(Mode m)
+    {
+        currentMode = m;
+        _modeText.text = $"[{m}]  < > change page";
+        ClearBlockButtons();
+
+        // Highlight active tab
+        for (int i = 0; i < _tabButtons.Count; i++)
+        {
+            var c = _tabButtons[i].colors;
+            c.normalColor = i == (int)m ? new Color(0.3f, 0.5f, 0.3f, 0.9f) : new Color(0.2f, 0.2f, 0.2f, 0.8f);
+            _tabButtons[i].colors = c;
+        }
+
+        if (_select != null) _select.gameObject.SetActive(m != Mode.Architect);
+        if (_build != null) _build.enabled = (m == Mode.Architect);
+
+        switch (m)
+        {
+            case Mode.Architect: ShowArchitectBlocks(); _categoryText.text = "[1-9] blocks  [ ] page  Shift+LMB blueprint"; break;
+            case Mode.Work: _categoryText.text = "F = prioritize  R = combat  C = cancel"; break;
+            case Mode.Zone: _categoryText.text = "Stockpile  Dump  Farm  Room  Hospital  Temple"; break;
+            case Mode.Orders: _categoryText.text = "Chop  Mine  Harvest  Hunt  Haul  Deconstruct"; break;
+        }
+    }
+
+    void ShowArchitectBlocks()
+    {
+        ClearBlockButtons();
+        var blocks = _architectBlocks[_architectPage];
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            int idx = i; BlockType bt = blocks[i];
+            var btn = new GameObject($"Block_{bt}").AddComponent<Button>();
+            btn.transform.SetParent(_canvas.transform);
+            var rt = btn.GetComponent<RectTransform>();
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0);
+            rt.anchoredPosition = new Vector2(-200 + i * 48, 52);
+            rt.sizeDelta = new Vector2(44, 24);
+
+            var txt = new GameObject("Label").AddComponent<Text>();
+            txt.transform.SetParent(btn.transform);
+            txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
+            txt.rectTransform.sizeDelta = new Vector2(44, 24);
+            txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            txt.fontSize = 9; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
+            txt.text = $"{i+1}\n{bt}";
+
+            btn.onClick.AddListener(() => { if (_build != null) _build.SetSelectedType(bt); });
+            _blockButtons.Add(btn);
+        }
+    }
+
+    void ClearBlockButtons() { foreach (var b in _blockButtons) if (b != null) Destroy(b.gameObject); _blockButtons.Clear(); }
+
+    void CreateTab(string label, float x, int idx, System.Action onClick)
+    {
+        var btn = new GameObject($"Tab_{label}").AddComponent<Button>();
+        btn.transform.SetParent(_canvas.transform);
+        var rt = btn.GetComponent<RectTransform>();
+        rt.anchorMin = rt.anchorMax = new Vector2(0, 0);
+        rt.anchoredPosition = new Vector2(x + 20, 8);
+        rt.sizeDelta = new Vector2(130, 28);
+
+        var txt = new GameObject("Label").AddComponent<Text>();
+        txt.transform.SetParent(btn.transform);
+        txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
+        txt.rectTransform.sizeDelta = new Vector2(130, 28);
+        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.fontSize = 12; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white; txt.text = label;
+
+        btn.onClick.AddListener(() => onClick());
+        _tabButtons.Add(btn);
+    }
+
+    Text MakeText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
+    {
+        var t = new GameObject(name).AddComponent<Text>();
+        t.transform.SetParent(parent);
+        t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
+        t.rectTransform.pivot = anchor; t.rectTransform.sizeDelta = new Vector2(500, 20);
+        t.rectTransform.anchoredPosition = Vector2.zero;
+        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.fontSize = size; t.alignment = align; t.color = Color.white; return t;
+    }
+}
