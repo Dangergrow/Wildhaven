@@ -68,6 +68,19 @@ public class SelectionManager : MonoBehaviour
         {
             var ai = selectedColonist.GetComponent<ColonistAI>();
             if (ai == null) return;
+
+            // Check if clicking on an enemy — attack order
+            Ray ray2 = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray2, out RaycastHit hitE, 300f))
+            {
+                Enemy enemy = hitE.collider.GetComponentInParent<Enemy>();
+                if (enemy != null)
+                {
+                    ai.GiveOrder(ColonistAI.OrderType.Attack, enemy.transform.position);
+                    return;
+                }
+            }
+
             Vector3 worldPos = GetMouseWorldPosition();
             GridManager gm = FindObjectOfType<GridManager>();
             if (gm != null)

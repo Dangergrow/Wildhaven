@@ -38,6 +38,23 @@ public class BuildManager : MonoBehaviour
         var hit = _gridManager.RaycastGrid(ray);
         if (hit == null) return;
 
+        // Ctrl+C copy, Ctrl+V paste
+        if (Keyboard.current.leftCtrlKey.isPressed)
+        {
+            if (Keyboard.current.cKey.wasPressedThisFrame)
+            {
+                var clip = _gridManager.GetComponent<StructureClipboard>();
+                if (clip == null) clip = _gridManager.gameObject.AddComponent<StructureClipboard>();
+                clip.Copy(new Vector3Int(hit.Value.x, hit.Value.y, hit.Value.z));
+            }
+            if (Keyboard.current.vKey.wasPressedThisFrame)
+            {
+                var clip = _gridManager.GetComponent<StructureClipboard>();
+                if (clip != null && clip.HasCopy)
+                    clip.Paste(new Vector3Int(hit.Value.x, hit.Value.y, hit.Value.z));
+            }
+        }
+
         Vector3 hw = _gridManager.GridToWorld(hit.Value.x, hit.Value.y, hit.Value.z);
         Vector3 dir = (_cam.transform.position - hw).normalized;
         Vector3Int[] offs = { new(0,1,0), new(0,-1,0), new(1,0,0), new(-1,0,0), new(0,0,1), new(0,0,-1) };
