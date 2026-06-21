@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<ColonyServices>("Services");
         EnsureSystem<StabilitySystem>("Stability");
         EnsureSystem<FireAndSeasons>("FireSeasons");
+        EnsureSystem<RepairSystem>("Repair");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");

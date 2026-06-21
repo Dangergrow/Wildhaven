@@ -11,10 +11,12 @@ public class CharacterCreator : MonoBehaviour
         public string colonistName = "Settler";
         public int age = 25;
         public bool isMale = true;
-        public int[] skills = new int[14]; // 0-20
+        public int[] skills = new int[14];
         public Perk perk;
         public Flaw flaw;
         public string backstory = "Farmer";
+        public string hairColor = "Brown";
+        public string bodyType = "Average";
     }
 
     public ColonistTemplate[] colonists = new ColonistTemplate[3];
@@ -146,13 +148,36 @@ public class CharacterCreator : MonoBehaviour
         Refresh();
     }
 
+    string[] _hairColors = { "Brown", "Black", "Blonde", "Red", "Gray", "White" };
+    string[] _bodyTypes = { "Average", "Thin", "Muscular", "Heavy" };
+
+    void CycleHairColor(int dir)
+    {
+        var c = colonists[_currentColonist];
+        int idx = System.Array.IndexOf(_hairColors, c.hairColor);
+        if (idx < 0) idx = 0;
+        idx = (idx + dir + _hairColors.Length) % _hairColors.Length;
+        c.hairColor = _hairColors[idx];
+        Refresh();
+    }
+
+    void CycleBodyType(int dir)
+    {
+        var c = colonists[_currentColonist];
+        int idx = System.Array.IndexOf(_bodyTypes, c.bodyType);
+        if (idx < 0) idx = 0;
+        idx = (idx + dir + _bodyTypes.Length) % _bodyTypes.Length;
+        c.bodyType = _bodyTypes[idx];
+        Refresh();
+    }
+
     void Refresh()
     {
         var c = colonists[_currentColonist];
         _titleText.text = $"Colonist {_currentColonist + 1}: {c.colonistName}";
         _pointsText.text = $"Points: {_skillPoints}";
         for (int i = 0; i < 14; i++) _skillLabels[i].text = $"{_skillNames[i]}: {c.skills[i]}";
-        _infoText.text = $"Age: {c.age} | Perk: {c.perk} | Flaw: {c.flaw} | {c.backstory} | Click START GAME when ready";
+        _infoText.text = $"Age:{c.age} | Hair:{c.hairColor} | Body:{c.bodyType} | Perk:{c.perk} | Flaw:{c.flaw} | {c.backstory}";
     }
 
     Text MakeText(string name, Vector2 anchor, int size, TextAnchor align)

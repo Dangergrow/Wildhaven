@@ -90,7 +90,26 @@ public class ColonistPanel : MonoBehaviour
                       $"Fatigue: {c.fatigue:F0}\nComfort: {c.comfort:F0}\nSocial: {c.social:F0}\nRecreation: {c.recreation:F0}\nFaith: {c.faith:F0}\nState: {c.currentState}";
                 break;
             case 4: // Schedule
-                txt = "Schedule: 0-6 Sleep | 6-8 Eat | 8-18 Work | 18-22 Recreation | 22-24 Sleep\n(Simplified — full schedule editor later)";
+                var sched = c.GetComponent<ColonistSchedule>();
+                if (sched != null)
+                {
+                    txt = "Schedule (24h):\n";
+                    string[] colors = { "■", "■", "■", "■" }; // Sleep=blue, Work=yellow, Rec=green, Any=gray
+                    for (int h = 0; h < 24; h++)
+                    {
+                        var block = sched.schedule[h];
+                        txt += block switch
+                        {
+                            ColonistSchedule.Block.Sleep => "<color=#4488ff>█</color>",
+                            ColonistSchedule.Block.Work => "<color=#ffff44>█</color>",
+                            ColonistSchedule.Block.Recreation => "<color=#44ff44>█</color>",
+                            _ => "<color=#666666>█</color>",
+                        };
+                        if (h == 11) txt += "\n";
+                    }
+                    txt += "\n<color=#4488ff>Sleep</color> <color=#ffff44>Work</color> <color=#44ff44>Rec</color> <color=#666666>Any</color>";
+                }
+                else txt = "No schedule component";
                 break;
         }
         _content.text = txt;
