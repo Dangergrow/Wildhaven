@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2045.6
     height: 1052.8
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Console
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -663,7 +663,7 @@ MonoBehaviour:
       m_rawData: 568105584918839102
     m_ExpandedIDs:
     - m_rawData: 0
-    - m_rawData: 568105584918839146
+    - m_rawData: 568105584918839140
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -697,7 +697,7 @@ MonoBehaviour:
       m_rawData: 0
     m_ExpandedIDs:
     - m_rawData: 0
-    - m_rawData: 568105584918839146
+    - m_rawData: 568105584918839140
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -857,11 +857,12 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: []
+      m_SelectedIDs:
+      - m_rawData: 568105589213755772
       m_LastClickedID:
-        m_rawData: 0
+        m_rawData: 568105589213755772
       m_ExpandedIDs:
-      - m_rawData: 568105589213755756
+      - m_rawData: 568105589213755772
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

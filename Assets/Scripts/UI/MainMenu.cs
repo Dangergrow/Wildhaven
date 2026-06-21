@@ -29,10 +29,13 @@ public class MainMenu : MonoBehaviour
         scaler.matchWidthOrHeight = 0.5f;
         go.AddComponent<GraphicRaycaster>();
 
-        // Create EventSystem — REQUIRED for UI buttons to work
-        var esGo = new GameObject("EventSystem");
-        esGo.AddComponent<UnityEngine.EventSystems.EventSystem>();
-        esGo.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        // EventSystem — only create if none exists
+        if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+        {
+            var esGo = new GameObject("EventSystem");
+            esGo.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            esGo.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        }
 
         // Dark background filling entire screen
         var bgGo = new GameObject("__Bg__");
