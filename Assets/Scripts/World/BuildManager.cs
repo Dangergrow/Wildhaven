@@ -31,8 +31,8 @@ public class BuildManager : MonoBehaviour
         if (Keyboard.current.digit8Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Clay : BlockType.Sand;
         if (Keyboard.current.digit9Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Gravel : BlockType.Snow;
 
-        if (Keyboard.current.f5Key.wasPressedThisFrame) _gridManager.SaveWorld();
-        if (Keyboard.current.f9Key.wasPressedThisFrame) _gridManager.LoadWorld();
+        if (Keyboard.current.f5Key.wasPressedThisFrame) { var gsm = FindFirstObjectByType<GameSaveManager>(); if (gsm != null) gsm.SaveGame(); }
+        if (Keyboard.current.f9Key.wasPressedThisFrame) { var gsm = FindFirstObjectByType<GameSaveManager>(); if (gsm != null) gsm.LoadGame(); }
 
         Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         var hit = _gridManager.RaycastGrid(ray);

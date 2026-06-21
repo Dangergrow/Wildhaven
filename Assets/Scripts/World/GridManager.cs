@@ -79,6 +79,8 @@ public class GridManager : MonoBehaviour
         GenerateTerrain();
         if (HasSave) LoadWorld(false);
         BuildAllChunks();
+        // Add forage spawner
+        if (GetComponent<ForageSpawner>() == null) gameObject.AddComponent<ForageSpawner>();
     }
 
     #endregion
