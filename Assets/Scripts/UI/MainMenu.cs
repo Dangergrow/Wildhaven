@@ -2,46 +2,66 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-/// <summary>Main menu overlay — appears on start. Hides when game starts.</summary>
+/// <summary>Fullscreen main menu. Blocks all game input until dismissed.</summary>
 public class MainMenu : MonoBehaviour
 {
     private Canvas _canvas;
     private bool _started;
+    private DayCycle _day;
+
+    void Awake()
+    {
+        _day = FindFirstObjectByType<DayCycle>();
+        if (_day != null) _day.gameSpeed = 0f; // pause immediately
+    }
 
     void Start()
     {
-        var go = new GameObject("MenuCanvas");
-        var goRT = go.AddComponent<RectTransform>();
-        goRT.anchorMin = Vector2.zero;
-        goRT.anchorMax = Vector2.one;
-        goRT.sizeDelta = Vector2.zero;
+        // Create fullscreen Canvas
+        var go = new GameObject("__MainMenuCanvas__");
+        var rt = go.AddComponent<RectTransform>();
         _canvas = go.AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        _canvas.sortingOrder = 100;
+        _canvas.sortingOrder = 999;
         var scaler = go.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
+        scaler.matchWidthOrHeight = 0.5f;
         go.AddComponent<GraphicRaycaster>();
 
-        // Background
-        var bgGo = new GameObject("Bg");
+        // Dark background filling entire screen
+        var bgGo = new GameObject("__Bg__");
         bgGo.AddComponent<RectTransform>();
         var bg = bgGo.AddComponent<Image>();
-        bg.transform.SetParent(_canvas.transform);
-        bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
-        bg.color = new Color(0.05f, 0.05f, 0.1f, 1f);
+        bg.rectTransform.SetParent(_canvas.transform, false);
+        bg.rectTransform.anchorMin = Vector2.zero;
+        bg.rectTransform.anchorMax = Vector2.one;
+        bg.rectTransform.offsetMin = Vector2.zero;
+        bg.rectTransform.offsetMax = Vector2.zero;
+        bg.color = new Color(0.03f, 0.03f, 0.06f, 1f);
 
         // Title
-        CreateText("WILDHAVEN", 0.8f, 48, Color.white);
-        CreateText("Colony Simulator", 0.73f, 18, new Color(0.7f, 0.7f, 0.7f));
+        MakeText("WILDHAVEN", 44, new Vector2(0.5f, 0.75f), Color.white);
+        MakeText("Colony Simulator", 18, new Vector2(0.5f, 0.69f), new Color(0.6f, 0.6f, 0.6f));
 
         // Buttons
-        AddBtn("New Game", 0.55f, OnNewGame);
-        AddBtn("Continue", 0.45f, OnContinue);
-        AddBtn("Quit", 0.35f, () => Application.Quit());
+        MakeButton("New Game", new Vector2(0.5f, 0.55f), () => {
+            var savePath = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
+            if (System.IO.File.Exists(savePath)) System.IO.File.Delete(savePath);
+            StartGame();
+        });
+        MakeButton("Continue", new Vector2(0.5f, 0.45f), () => {
+            var gsm = FindFirstObjectByType<GameSaveManager>();
+            if (gsm != null && gsm.HasSave) gsm.LoadGame();
+            StartGame();
+        });
+        MakeButton("Quit", new Vector2(0.5f, 0.35f), () => Application.Quit());
 
-        var day = FindObjectOfType<DayCycle>();
-        if (day != null) day.gameSpeed = 0f;
+        // Disable all game input until menu closes
+        var bm = FindFirstObjectByType<BuildManager>();
+        var sm = FindFirstObjectByType<SelectionManager>();
+        if (bm != null) bm.enabled = false;
+        if (sm != null) sm.enabled = false;
     }
 
     void Update()
@@ -51,134 +71,72 @@ public class MainMenu : MonoBehaviour
             Application.Quit();
     }
 
-    void CreateText(string msg, float y, int size, Color color)
+    void MakeText(string msg, int size, Vector2 anchor, Color color)
     {
-        var tGo = new GameObject("Text");
+        var tGo = new GameObject("__Txt__");
         tGo.AddComponent<RectTransform>();
-        var t = tGo.AddComponent<Text>();
-        t.transform.SetParent(_canvas.transform);
-        t.rectTransform.anchorMin = t.rectTransform.anchorMax = new Vector2(0.5f, y);
-        t.rectTransform.sizeDelta = new Vector2(500, 60);
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        t.fontSize = size; t.alignment = TextAnchor.MiddleCenter;
-        t.color = color; t.text = msg;
+        var txt = tGo.AddComponent<Text>();
+        txt.rectTransform.SetParent(_canvas.transform, false);
+        txt.rectTransform.anchorMin = anchor;
+        txt.rectTransform.anchorMax = anchor;
+        txt.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        txt.rectTransform.sizeDelta = new Vector2(400, 50);
+        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.fontSize = size;
+        txt.alignment = TextAnchor.MiddleCenter;
+        txt.color = color;
+        txt.text = msg;
     }
 
-    void AddBtn(string label, float y, System.Action onClick)
+    void MakeButton(string label, Vector2 anchor, System.Action onClick)
     {
-        var btnGo = new GameObject($"Btn_{label}");
+        var btnGo = new GameObject("__Btn__");
         btnGo.AddComponent<RectTransform>();
+        var img = btnGo.AddComponent<Image>();
+        img.rectTransform.SetParent(_canvas.transform, false);
+        img.rectTransform.anchorMin = anchor;
+        img.rectTransform.anchorMax = anchor;
+        img.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        img.rectTransform.sizeDelta = new Vector2(220, 50);
+
         var btn = btnGo.AddComponent<Button>();
-        btn.transform.SetParent(_canvas.transform);
-        var rt = btn.GetComponent<RectTransform>();
-        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, y);
-        rt.sizeDelta = new Vector2(220, 44);
+        btn.targetGraphic = img;
+        var colors = btn.colors;
+        colors.normalColor = new Color(0.15f, 0.15f, 0.2f, 1f);
+        colors.highlightedColor = new Color(0.3f, 0.4f, 0.3f, 1f);
+        colors.pressedColor = new Color(0.1f, 0.2f, 0.1f, 1f);
+        btn.colors = colors;
 
-        var txtGo = new GameObject("Label");
-        txtGo.AddComponent<RectTransform>();
-        var txt = txtGo.AddComponent<Text>();
-        txt.transform.SetParent(btn.transform);
-        txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
-        txt.rectTransform.sizeDelta = new Vector2(220, 44);
+        var tGo = new GameObject("__Lbl__");
+        tGo.AddComponent<RectTransform>();
+        var txt = tGo.AddComponent<Text>();
+        txt.rectTransform.SetParent(btnGo.transform, false);
+        txt.rectTransform.anchorMin = Vector2.zero;
+        txt.rectTransform.anchorMax = Vector2.one;
+        txt.rectTransform.offsetMin = Vector2.zero;
+        txt.rectTransform.offsetMax = Vector2.zero;
         txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        txt.fontSize = 20; txt.alignment = TextAnchor.MiddleCenter;
-        txt.color = Color.white; txt.text = label;
-
-        var c = btn.colors;
-        c.normalColor = new Color(0.25f, 0.25f, 0.3f, 0.9f);
-        c.highlightedColor = new Color(0.4f, 0.4f, 0.5f, 1f);
-        btn.colors = c;
+        txt.fontSize = 22;
+        txt.alignment = TextAnchor.MiddleCenter;
+        txt.color = Color.white;
+        txt.text = label;
 
         btn.onClick.AddListener(() => onClick());
-    }
-
-    void OnNewGame()
-    {
-        var savePath = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
-        if (System.IO.File.Exists(savePath)) System.IO.File.Delete(savePath);
-
-        // Show character creator, then start game
-        var cc = gameObject.AddComponent<CharacterCreator>();
-        cc.OnComplete = (templates) =>
-        {
-            var spawner = FindObjectOfType<ColonistSpawner>();
-            if (spawner != null)
-            {
-                // Clear existing colonists
-                foreach (var c in spawner.Colonists.ToArray())
-                    Destroy(c.gameObject);
-                spawner.Colonists.Clear();
-
-                // Spawn from templates
-                foreach (var t in templates)
-                {
-                    Vector3 pos = FindSpawnPos();
-                    var go = Instantiate(spawner.colonistPrefab, pos, Quaternion.identity);
-                    var col = go.GetComponent<Colonist>();
-                    if (col == null) continue;
-                    col.colonistName = t.colonistName;
-                    col.age = t.age; col.isMale = t.isMale;
-                    for (int i = 0; i < 14; i++) SetSkill(col, i, t.skills[i]);
-                    col.perk = t.perk; col.flaw = t.flaw;
-                    spawner.Colonists.Add(col);
-                }
-            }
-            StartGame();
-        };
-        _canvas.gameObject.SetActive(false);
-    }
-
-    Vector3 FindSpawnPos()
-    {
-        var gm = FindObjectOfType<GridManager>();
-        if (gm == null) return new Vector3(50, 15, 50);
-        for (int x = 45; x < 55; x++)
-        for (int z = 45; z < 55; z++)
-        for (int y = gm.Height - 1; y > 5; y--)
-        {
-            if (gm.GetBlock(x, y, z) == BlockType.Air && gm.GetBlock(x, y - 1, z) == BlockType.Grass)
-                return gm.GridToWorld(x, y, z);
-        }
-        return new Vector3(50, 15, 50);
-    }
-
-    void OnContinue()
-    {
-        var gsm = FindFirstObjectByType<GameSaveManager>();
-        if (gsm != null && gsm.HasSave) gsm.LoadGame();
-        StartGame();
-    }
-
-    void SetSkill(Colonist c, int idx, int val)
-    {
-        switch (idx)
-        {
-            case 0: c.constructionSkill = val; break; case 1: c.miningSkill = val; break;
-            case 2: c.cookingSkill = val; break; case 3: c.intellectualSkill = val; break;
-            case 4: c.medicineSkill = val; break; case 5: c.meleeSkill = val; break;
-            case 6: c.rangedSkill = val; break; case 7: c.craftingSkill = val; break;
-            case 8: c.farmingSkill = val; break; case 9: c.socialSkill = val; break;
-            case 10: c.animalHandlingSkill = val; break; case 11: c.huntingSkill = val; break;
-            case 12: c.tradingSkill = val; break; case 13: c.artisticSkill = val; break;
-        }
     }
 
     void StartGame()
     {
         _started = true;
-        _canvas.gameObject.SetActive(false);
-
-        var day = FindObjectOfType<DayCycle>();
-        if (day != null) day.gameSpeed = 1f;
-
-        var hud = FindObjectOfType<CanvasHUD>();
+        Destroy(_canvas.gameObject);
+        if (_day != null) _day.gameSpeed = 1f;
+        var bm = FindFirstObjectByType<BuildManager>();
+        var sm = FindFirstObjectByType<SelectionManager>();
+        if (bm != null) bm.enabled = true;
+        if (sm != null) sm.enabled = true;
+        // Show game UI
+        var hud = FindFirstObjectByType<CanvasHUD>();
         if (hud != null) hud.Show();
-
-        var bar = FindObjectOfType<GameBar>();
+        var bar = FindFirstObjectByType<GameBar>();
         if (bar != null) bar.Show();
-
-        var spawner = FindObjectOfType<ColonistSpawner>();
-        if (spawner != null) spawner.gameStarted = true;
     }
 }
-
