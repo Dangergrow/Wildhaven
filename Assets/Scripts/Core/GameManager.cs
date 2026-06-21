@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<FireAndSeasons>("FireSeasons");
         EnsureSystem<RepairSystem>("Repair");
         EnsureSystem<AnimalManager>("Animals");
+        EnsureSystem<PrisonerSystem>("Prisoners");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");

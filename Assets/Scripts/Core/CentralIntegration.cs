@@ -77,6 +77,12 @@ public class CentralIntegration : MonoBehaviour
             if (animals != null && gm != null && c.animalHandlingSkill >= 3)
                 animals.Tame(gm.WorldToGrid(c.transform.position), c);
 
+            // Prisoner recruitment (warden with social skill)
+            var prison = FindFirstObjectByType<PrisonerSystem>();
+            if (prison != null && c.socialSkill >= 5 && prison.PrisonerCount > 0)
+                for (int i = 0; i < prison.PrisonerCount; i++)
+                    if (prison.TryRecruit(c, i)) break;
+
             // Cooking
             var cooking = FindFirstObjectByType<CookingSystem>();
             if (cooking != null && inv != null)
