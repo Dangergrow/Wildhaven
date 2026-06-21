@@ -56,6 +56,8 @@ public class NeedsSystem : MonoBehaviour
     private Colonist _colonist;
     private DayCycle _day;
     private float _cachedRoomQuality = 50f;
+    private float _cachedTemp = 20f;
+    private float _cachedLight = 1f;
     private GridManager _grid;
 
     private void Awake()
@@ -166,6 +168,17 @@ public class NeedsSystem : MonoBehaviour
         }
         if (_cachedRoomQuality < 30) moodDelta -= 0.03f * dt;
         else if (_cachedRoomQuality > 70) moodDelta += 0.02f * dt;
+
+        // Temperature — check every 30 frames
+        if (Time.frameCount % 30 == 0)
+        {
+            TemperatureLight tl = FindObjectOfType<TemperatureLight>();
+            if (tl == null && _grid != null) tl = _grid.gameObject.AddComponent<TemperatureLight>();
+            if (tl != null) { _cachedTemp = tl.GetTemperature(transform.position); _cachedLight = tl.GetLightLevel(transform.position); }
+        }
+        if (_cachedTemp < 5f) moodDelta -= 0.08f * dt; // freezing
+        else if (_cachedTemp > 35f) moodDelta -= 0.05f * dt; // too hot
+        if (_cachedLight < 0.3f) moodDelta -= 0.03f * dt; // darkness penalty
 
         // Trait modifiers
         if (IsFlawActive(Flaw.Depressive))
