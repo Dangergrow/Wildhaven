@@ -101,9 +101,15 @@ public class GridManager : MonoBehaviour
         if (z % CHUNK == CHUNK - 1 && z < worldDepth - 1) DirtyChunkAt(x, y, z + 1);
         RebuildDirtyChunks();
         OnBlockChanged?.Invoke(x, y, z);
-        // Recalculate power grid
+        // Recalculate power grid and check crafting station spawn
         EnergyNetwork en = GetComponent<EnergyNetwork>();
         if (en != null) en.Recalculate();
+        // Spawn crafting station if workstation block placed
+        if (t == BlockType.StoneBrick || t == BlockType.IronOre || t == BlockType.WoodPlanks)
+        {
+            var cs = GetComponent<CraftingStation>();
+            if (cs == null) cs = gameObject.AddComponent<CraftingStation>();
+        }
     }
 
     public void RemoveBlock(int x, int y, int z)

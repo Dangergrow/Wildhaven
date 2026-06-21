@@ -84,9 +84,13 @@ public class CharacterCreator : MonoBehaviour
         AddButton("Backstory >", new Vector2(0.75f, 0.55f), () => CycleBackstory(1));
 
         // Name and age
-        AddButton("Name", new Vector2(0.65f, 0.45f), () => { });
+        AddButton("Name", new Vector2(0.65f, 0.45f), () => { string[] rn = {"Ivan","Anna","Boris","Olga","Dmitri","Elena","Sergei","Natasha","Viktor","Maria"}; colonists[_currentColonist].colonistName = rn[Random.Range(0, rn.Length)]; Refresh(); });
         AddButton("Age -", new Vector2(0.65f, 0.4f), () => { colonists[_currentColonist].age = Mathf.Max(16, colonists[_currentColonist].age - 1); Refresh(); });
         AddButton("Age +", new Vector2(0.75f, 0.4f), () => { colonists[_currentColonist].age = Mathf.Min(70, colonists[_currentColonist].age + 1); Refresh(); });
+        AddButton("< Hair", new Vector2(0.65f, 0.33f), () => CycleHairColor(-1));
+        AddButton("Hair >", new Vector2(0.75f, 0.33f), () => CycleHairColor(1));
+        AddButton("< Body", new Vector2(0.65f, 0.28f), () => CycleBodyType(-1));
+        AddButton("Body >", new Vector2(0.75f, 0.28f), () => CycleBodyType(1));
 
         // Random + Done
         AddButton("Random Colonist", new Vector2(0.5f, 0.25f), Randomize);

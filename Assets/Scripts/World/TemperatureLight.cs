@@ -27,9 +27,11 @@ public class TemperatureLight : MonoBehaviour
         float temp = baseTemp;
         if (underground) temp += 5f;
         if (hasCeiling) temp += 3f;
-        temp += walls * 2f; // each wall adds 2 degrees
-        // Height-based cooling
+        temp += walls * 2f;
         temp -= p.y * 0.3f;
+        // Seasonal temperature modifier
+        var seasons = FindFirstObjectByType<FireAndSeasons>();
+        if (seasons != null) temp += seasons.GetSeasonTempMod();
         return Mathf.Clamp(temp, -10f, 50f);
     }
 
