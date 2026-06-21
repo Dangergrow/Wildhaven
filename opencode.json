@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["SETUP.md", "HANDSHAKE.md", ".docs/MonoBehaviour.md", ".docs/GameObject.md", ".docs/Camera.md", ".docs/Transform.md", ".docs/Mesh.md", ".docs/Physics.md", ".docs/InputSystem.md", ".docs/ScriptableObject.md", ".docs/Prefabs.md"],
+  "instructions": ["SETUP.md", "HANDSHAKE.md", "SETUP_GUIDE.md", "PLAYER_GUIDE.md", ".docs/DEVELOPER_GUIDE.md", ".docs/MonoBehaviour.md", ".docs/GameObject.md", ".docs/Camera.md", ".docs/Mesh.md", ".docs/Physics.md", ".docs/InputSystem.md", ".docs/ScriptableObject.md", ".docs/Prefabs.md", ".docs/IMPLEMENTATION_PLAN.md", ".docs/FINAL_PLAN.md", ".docs/GM_COMPARISON.md"],
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
