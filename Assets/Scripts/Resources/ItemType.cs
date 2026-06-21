@@ -65,6 +65,20 @@ public enum ItemType
     SteelHelmet,
     SteelChest,
     SteelLegs,
+    LeatherBoots,
+    IronBoots,
+    SteelBoots,
+    Shield,
+
+    // Throwing weapons
+    ThrowingKnife,
+    ThrowingDart,
+    Grenade,
+
+    // Ammunition
+    Arrow,
+    Bolt,
+    Bullet,
 
     // Tools
     StonePickaxe,
@@ -78,9 +92,18 @@ public enum ItemType
     Shovel,
     Hammer,
     Knife,
+    Scythe,
+    Hoe,
     FishingRod,
     ResearchKit,
     AlchemyKit,
+
+    // Brewing
+    Ale,
+    Wine,
+    Mead,
+    Beer,
+    Cider,
 
     // Medicine
     Bandage,
@@ -96,4 +119,7 @@ public enum ItemType
     OrganKidney,
     OrganLiver,
     OrganLung,
+    Rope,
+    GlassPane,
+    Brick,
 }

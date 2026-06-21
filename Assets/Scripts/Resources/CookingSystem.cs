@@ -43,6 +43,12 @@ public class CookingSystem : MonoBehaviour
             new() { name = "Potato Bake", ingredients = new[]{ItemType.Potato, ItemType.MedicalHerb}, amounts = new[]{3,1}, result = ItemType.RationPack, resultCount = 2, nutritionValue = 45, moodBonus = 7, cookTime = 5, requiredStation = "Oven" },
             new() { name = "Trail Mix", ingredients = new[]{ItemType.Berries, ItemType.Mushroom, ItemType.Wheat}, amounts = new[]{2,1,1}, result = ItemType.RationPack, resultCount = 1, nutritionValue = 35, moodBonus = 3, cookTime = 2, requiredStation = "Campfire" },
             new() { name = "Herbal Remedy", ingredients = new[]{ItemType.MedicalHerb, ItemType.MedicalHerb}, amounts = new[]{3,1}, result = ItemType.RationPack, resultCount = 1, nutritionValue = 10, moodBonus = 5, cookTime = 4, requiredStation = "Campfire" },
+            // Brewing
+            new() { name = "Beer", ingredients = new[]{ItemType.Wheat}, amounts = new[]{5}, result = ItemType.Beer, resultCount = 1, nutritionValue = 5, moodBonus = 12, cookTime = 8, requiredStation = "Brewery" },
+            new() { name = "Ale", ingredients = new[]{ItemType.Wheat, ItemType.Berries}, amounts = new[]{3,1}, result = ItemType.Ale, resultCount = 1, nutritionValue = 5, moodBonus = 15, cookTime = 10, requiredStation = "Brewery" },
+            new() { name = "Wine", ingredients = new[]{ItemType.Berries}, amounts = new[]{10}, result = ItemType.Wine, resultCount = 1, nutritionValue = 5, moodBonus = 18, cookTime = 15, requiredStation = "Brewery" },
+            new() { name = "Cider", ingredients = new[]{ItemType.Berries}, amounts = new[]{5}, result = ItemType.Cider, resultCount = 1, nutritionValue = 3, moodBonus = 10, cookTime = 6, requiredStation = "Brewery" },
+            new() { name = "Mead", ingredients = new[]{ItemType.Wheat, ItemType.Berries}, amounts = new[]{5,3}, result = ItemType.Mead, resultCount = 1, nutritionValue = 5, moodBonus = 20, cookTime = 20, requiredStation = "Brewery" },
         };
     }
 

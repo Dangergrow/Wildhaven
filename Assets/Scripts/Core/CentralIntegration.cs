@@ -65,6 +65,18 @@ public class CentralIntegration : MonoBehaviour
             if (plants != null && gm != null && c.farmingSkill >= 2)
                 plants.TryHarvestAt(gm.WorldToGrid(c.transform.position), inv);
 
+            // Hunting
+            var animals = FindFirstObjectByType<AnimalManager>();
+            if (animals != null && gm != null && c.huntingSkill >= 2)
+            {
+                var loot = animals.Hunt(gm.WorldToGrid(c.transform.position), c);
+                if (loot != null && inv != null) inv.AddItem(loot.Value.Item1, loot.Value.Item2);
+            }
+
+            // Taming
+            if (animals != null && gm != null && c.animalHandlingSkill >= 3)
+                animals.Tame(gm.WorldToGrid(c.transform.position), c);
+
             // Cooking
             var cooking = FindFirstObjectByType<CookingSystem>();
             if (cooking != null && inv != null)
