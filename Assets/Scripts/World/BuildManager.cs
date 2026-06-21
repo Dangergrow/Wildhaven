@@ -44,7 +44,16 @@ public class BuildManager : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame
             && _gridManager.InBounds(ap.x, ap.y, ap.z)
             && _gridManager.GetBlock(ap.x, ap.y, ap.z) == BlockType.Air)
-            _gridManager.SetBlock(ap.x, ap.y, ap.z, _selectedType);
+        {
+            if (Keyboard.current.leftShiftKey.isPressed)
+            {
+                // Blueprint mode — colonist builds later
+                BlueprintManager bpm = _gridManager.GetComponent<BlueprintManager>();
+                if (bpm == null) bpm = _gridManager.gameObject.AddComponent<BlueprintManager>();
+                bpm.AddBlueprint(ap, _selectedType);
+            }
+            else _gridManager.SetBlock(ap.x, ap.y, ap.z, _selectedType);
+        }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
             _gridManager.RemoveBlock(hit.Value.x, hit.Value.y, hit.Value.z);
