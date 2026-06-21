@@ -15,6 +15,9 @@ public static class TestRunner
         Log(TestBlocks() ? "Blocks: PASS" : "Blocks: FAIL");
         Log(TestEconomy() ? "Econ: PASS" : "Econ: FAIL");
         Log(TestColonist() ? "Colonist: PASS" : "Colonist: FAIL");
+        Log(TestMainMenu() ? "Menu: PASS" : "Menu: FAIL");
+        Log(TestSpawner() ? "Spawner: PASS" : "Spawner: FAIL");
+        Log(TestUI() ? "UI: PASS" : "UI: FAIL");
         Log("=== Done ===");
     }
 
@@ -87,4 +90,51 @@ public static class TestRunner
 
     static void CallAwake(object o) { o.GetType().GetMethod("Awake", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.Invoke(o, null); }
     static void CallUpdate(object o) { o.GetType().GetMethod("Update", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.Invoke(o, null); }
+
+    static bool TestMainMenu()
+    {
+        var go = new GameObject("__TestMenu__");
+        var menu = go.AddComponent<MainMenu>();
+        // MainMenu.Start() creates Canvas in Start, which Editor mode doesn't call
+        CallAwake(menu);
+        CallMethod(menu, "Start");
+        // Check that Canvas was created
+        var canvas = Object.FindAnyObjectByType<Canvas>();
+        bool ok = canvas != null && canvas.sortingOrder == 999;
+        Object.DestroyImmediate(go);
+        if (canvas != null) Object.DestroyImmediate(canvas.gameObject);
+        return ok;
+    }
+
+    static bool TestSpawner()
+    {
+        var go = new GameObject("__TestSpawner__");
+        var spawner = go.AddComponent<ColonistSpawner>();
+        spawner.gameStarted = true;
+        // Spawn a colonist without prefab
+        var col = spawner.SpawnColonist(Vector3.zero);
+        bool ok = col != null && col.colonistName != null;
+        if (col != null) Object.DestroyImmediate(col.gameObject);
+        Object.DestroyImmediate(go);
+        return ok;
+    }
+
+    static bool TestUI()
+    {
+        var go = new GameObject("__TestUI__");
+        var hud = go.AddComponent<CanvasHUD>();
+        CallAwake(hud);
+        CallMethod(hud, "Start");
+        hud.Show();
+        var canvas = Object.FindAnyObjectByType<Canvas>();
+        bool ok = canvas != null;
+        Object.DestroyImmediate(go);
+        if (canvas != null) Object.DestroyImmediate(canvas.gameObject);
+        return ok;
+    }
+
+    static void CallMethod(object o, string name)
+    {
+        o.GetType().GetMethod(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)?.Invoke(o, null);
+    }
 }
