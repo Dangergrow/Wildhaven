@@ -64,8 +64,26 @@ public class ColonistSpawner : MonoBehaviour
 
     public Colonist SpawnColonist(Vector3 pos)
     {
-        if (colonistPrefab == null) { Debug.LogError("No prefab!"); return null; }
-        GameObject go = Instantiate(colonistPrefab, pos, Quaternion.identity);
+        GameObject go;
+        if (colonistPrefab != null)
+        {
+            go = Instantiate(colonistPrefab, pos, Quaternion.identity);
+        }
+        else
+        {
+            // Prefab unavailable (GUID mismatch across PCs) — create programmatically
+            go = new GameObject("Colonist");
+            go.transform.position = pos;
+            go.AddComponent<Colonist>();
+            go.AddComponent<ColonistAI>();
+            go.AddComponent<NeedsSystem>();
+            go.AddComponent<ColonistSchedule>();
+            go.AddComponent<Inventory>();
+            go.AddComponent<MentalState>();
+            go.AddComponent<BuildBlocker>();
+            go.AddComponent<WaterInteraction>();
+            go.AddComponent<ColonistGravity>();
+        }
         go.transform.localScale = Vector3.one * 0.8f;
         // Ensure collider for selection raycasts
         if (go.GetComponent<Collider>() == null)
