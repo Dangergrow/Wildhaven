@@ -18,23 +18,30 @@ public class StabilitySystem : MonoBehaviour
         CheckStability();
     }
 
-    /// <summary>Check all blocks — unsupported ones collapse.</summary>
+    /// <summary>Check all blocks — unsupported ones collapse. Multi-pass for correct chains.</summary>
     void CheckStability()
     {
         if (_grid == null) return;
         _supported.Clear();
 
-        // Mark blocks with ground support (direct or via supported chain)
+        // Mark bedrock as always supported
         for (int x = 0; x < _grid.Width; x++)
         for (int z = 0; z < _grid.Depth; z++)
+            _supported.Add(new(x, 0, z));
+
+        // Multi-pass BFS: keep expanding support until no new blocks are added
+        bool changed = true;
+        while (changed)
         {
-            // BFS from ground up
-            for (int y = 0; y < _grid.Height; y++)
+            changed = false;
+            for (int x = 0; x < _grid.Width; x++)
+            for (int y = 1; y < _grid.Height; y++)
+            for (int z = 0; z < _grid.Depth; z++)
             {
                 Vector3Int p = new(x, y, z);
+                if (_supported.Contains(p)) continue;
                 if (_grid.GetBlock(x, y, z) == BlockType.Air) continue;
-                if (y == 0) { _supported.Add(p); continue; } // bedrock is always supported
-                if (HasSupport(x, y, z)) _supported.Add(p);
+                if (HasSupport(x, y, z)) { _supported.Add(p); changed = true; }
             }
         }
 

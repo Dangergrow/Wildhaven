@@ -19,6 +19,8 @@ public class GameHUD : MonoBehaviour
 
     void OnGUI()
     {
+        // GameHUD disabled — use CanvasHUD + GameBar instead
+        return;
         if (_day == null || _sp == null) return;
 
         if (_label == null)
