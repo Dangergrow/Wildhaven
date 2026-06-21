@@ -46,7 +46,7 @@ public class MainMenu : MonoBehaviour
         bg.rectTransform.anchorMax = Vector2.one;
         bg.rectTransform.offsetMin = Vector2.zero;
         bg.rectTransform.offsetMax = Vector2.zero;
-        bg.color = new Color(0.03f, 0.03f, 0.06f, 1f);
+        bg.color = new Color(0.03f, 0.03f, 0.06f, 0.85f);
 
         // Title
         MakeText("WILDHAVEN", 44, new Vector2(0.5f, 0.75f), Color.white);
