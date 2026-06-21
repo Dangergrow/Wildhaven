@@ -16,15 +16,16 @@ public class BuildManager : MonoBehaviour
     {
         if (Keyboard.current == null || Mouse.current == null || _gridManager == null || _cam == null) return;
 
-        if (Keyboard.current.digit1Key.wasPressedThisFrame) _selectedType = BlockType.Dirt;
-        if (Keyboard.current.digit2Key.wasPressedThisFrame) _selectedType = BlockType.Grass;
-        if (Keyboard.current.digit3Key.wasPressedThisFrame) _selectedType = BlockType.Stone;
-        if (Keyboard.current.digit4Key.wasPressedThisFrame) _selectedType = BlockType.Wood;
-        if (Keyboard.current.digit5Key.wasPressedThisFrame) _selectedType = BlockType.Glass;
-        if (Keyboard.current.digit6Key.wasPressedThisFrame) _selectedType = BlockType.StoneBrick;
-        if (Keyboard.current.digit7Key.wasPressedThisFrame) _selectedType = BlockType.WoodPlanks;
-        if (Keyboard.current.digit8Key.wasPressedThisFrame) _selectedType = BlockType.Sand;
-        if (Keyboard.current.digit9Key.wasPressedThisFrame) _selectedType = BlockType.Snow;
+        // Block selection: 1-9 basic, Shift+1-9 advanced
+        if (Keyboard.current.digit1Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Marble : BlockType.Dirt;
+        if (Keyboard.current.digit2Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Obsidian : BlockType.Grass;
+        if (Keyboard.current.digit3Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.CopperOre : BlockType.Stone;
+        if (Keyboard.current.digit4Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.GoldOre : BlockType.Wood;
+        if (Keyboard.current.digit5Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.IronOre : BlockType.Glass;
+        if (Keyboard.current.digit6Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Coal : BlockType.StoneBrick;
+        if (Keyboard.current.digit7Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Ice : BlockType.WoodPlanks;
+        if (Keyboard.current.digit8Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Clay : BlockType.Sand;
+        if (Keyboard.current.digit9Key.wasPressedThisFrame) _selectedType = Keyboard.current.leftShiftKey.isPressed ? BlockType.Gravel : BlockType.Snow;
 
         if (Keyboard.current.f5Key.wasPressedThisFrame) _gridManager.SaveWorld();
         if (Keyboard.current.f9Key.wasPressedThisFrame) _gridManager.LoadWorld();

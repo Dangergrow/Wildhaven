@@ -11,8 +11,13 @@ public class CanvasHUD : MonoBehaviour
     private Text _timeText, _colonistText, _modeText;
     private GameObject _buildPanel;
     private Text[] _blockBtns;
-    private int _btnCount = 9;
-    private BlockType[] _btnTypes = { BlockType.Dirt, BlockType.Grass, BlockType.Stone, BlockType.Wood, BlockType.Glass, BlockType.StoneBrick, BlockType.WoodPlanks, BlockType.Sand, BlockType.Snow };
+    private int _btnCount = 18;
+    private BlockType[] _btnTypes = {
+        BlockType.Dirt, BlockType.Grass, BlockType.Stone, BlockType.Wood, BlockType.Glass,
+        BlockType.StoneBrick, BlockType.WoodPlanks, BlockType.Sand, BlockType.Snow,
+        BlockType.Marble, BlockType.Obsidian, BlockType.CopperOre, BlockType.GoldOre,
+        BlockType.IronOre, BlockType.Coal, BlockType.Ice, BlockType.Clay, BlockType.Gravel,
+    };
 
     void Start()
     {
@@ -36,7 +41,7 @@ public class CanvasHUD : MonoBehaviour
         var bpRT = _buildPanel.AddComponent<RectTransform>();
         bpRT.anchorMin = bpRT.anchorMax = new Vector2(0.99f, 0.5f);
         bpRT.pivot = new Vector2(1, 0.5f);
-        bpRT.sizeDelta = new Vector2(80, _btnCount * 32 + 30);
+        bpRT.sizeDelta = new Vector2(90, _btnCount * 30 + 30);
         bpRT.anchoredPosition = Vector2.zero;
 
         var bg = _buildPanel.AddComponent<Image>();
@@ -63,7 +68,7 @@ public class CanvasHUD : MonoBehaviour
             txt.fontSize = 12;
             txt.alignment = TextAnchor.MiddleCenter;
             txt.color = Color.white;
-            txt.text = $"{i + 1}:{_btnTypes[i]}";
+            txt.text = i < 9 ? $"{i+1}:{_btnTypes[i]}" : $"⇧{i-8}:{_btnTypes[i]}";
             _blockBtns[i] = txt;
 
             var c = btn.colors;
