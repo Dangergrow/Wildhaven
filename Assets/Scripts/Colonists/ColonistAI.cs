@@ -246,8 +246,13 @@ public class ColonistAI : MonoBehaviour
     {
         if (_colonist.currentState == ColonistState.Dead || _colonist.currentState == ColonistState.Sleeping) return;
 
+        // Check if colonist has ranged weapon
+        Equipment eq = GetComponent<Equipment>();
+        bool hasRanged = eq != null && eq.HasRangedWeapon();
+
         Enemy nearest = null;
-        float minDist = 3f;
+        float range = hasRanged ? 10f : 3f;
+        float minDist = range;
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (Enemy e in enemies)
         {
@@ -261,16 +266,24 @@ public class ColonistAI : MonoBehaviour
             _colonist.currentState = ColonistState.Fighting;
             _colonist.isDrafted = true;
 
-            // Face enemy
             Vector3 dir = (nearest.transform.position - transform.position).normalized;
             transform.forward = dir;
 
-            // Attack
-            Equipment eq = GetComponent<Equipment>();
+            float dist = Vector3.Distance(transform.position, nearest.transform.position);
             float dmg = 5f + (_colonist.meleeSkill * 0.5f);
-            if (eq != null) dmg += eq.GetAttackBonus();
 
-            nearest.TakeDamage(dmg * Time.deltaTime, DamageType.Slash);
+            if (hasRanged && dist > 2f)
+            {
+                // Ranged attack
+                dmg = 8f + (_colonist.meleeSkill * 0.3f); // ranged uses melee skill for now
+                nearest.TakeDamage(dmg * Time.deltaTime * 0.5f, DamageType.Pierce);
+            }
+            else if (dist <= 2f)
+            {
+                // Melee attack
+                if (eq != null) dmg += eq.GetAttackBonus();
+                nearest.TakeDamage(dmg * Time.deltaTime, DamageType.Slash);
+            }
         }
         else if (_colonist.isDrafted)
         {

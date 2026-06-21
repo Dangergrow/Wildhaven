@@ -96,9 +96,16 @@ public class Equipment : MonoBehaviour
     public float GetAttackBonus()
     {
         float bonus = 0f;
-        if (weapon.itemType != 0) bonus += 5f; // placeholder — should read from ItemData
+        if (weapon.itemType != 0) bonus += 5f;
         if (tool.itemType != 0) bonus += 2f;
         return bonus;
+    }
+
+    /// <summary>Check if equipped weapon is ranged.</summary>
+    public bool HasRangedWeapon()
+    {
+        ItemType w = weapon.itemType;
+        return w == ItemType.Bow || w == ItemType.Crossbow || w == ItemType.Musket;
     }
 
     public float GetDefenseBonus()
