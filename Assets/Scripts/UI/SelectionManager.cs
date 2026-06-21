@@ -54,7 +54,8 @@ public class SelectionManager : MonoBehaviour
         }
 
         // RMB — direct order: ground = move, block = mine
-        if (Mouse.current.rightButton.wasPressedThisFrame && selectedColonist != null)
+        HandleColonistRMB(); // context menu on selected colonist
+        if (Mouse.current.rightButton.wasPressedThisFrame && selectedColonist != null && !_showMenu)
         {
             var ai = selectedColonist.GetComponent<ColonistAI>();
             if (ai == null) return;
@@ -109,9 +110,37 @@ public class SelectionManager : MonoBehaviour
         if (selectedColonist != null)
         {
             Colonist c = selectedColonist;
-            GUI.Box(new Rect(Screen.width - 230, Screen.height / 2 - 45, 220, 80),
-                $"{c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
+            GUI.Box(new Rect(Screen.width - 230, Screen.height / 2 - 45, 220, 100),
+                $"{c.colonistName}\nHP:{c.health:F0}/{c.maxHealth:F0} Mood:{c.mood:F0}\nHunger:{c.hunger:F0} Sleep:{c.fatigue:F0}\nState:{c.currentState}");
+
+            // Right-click context menu on selected colonist
+            if (_showMenu && _menuTarget == c.gameObject)
+            {
+                Vector2 mp = Event.current.mousePosition;
+                Rect r = new Rect(mp.x, Screen.height - mp.y, 120, 66);
+                GUI.Box(r, "");
+                if (GUI.Button(new Rect(r.x + 4, r.y + 4, 112, 18), "Prioritize Work"))
+                { c.currentState = ColonistState.Working; _showMenu = false; }
+                if (GUI.Button(new Rect(r.x + 4, r.y + 26, 112, 18), "Force Rest"))
+                { c.currentState = ColonistState.Sleeping; _showMenu = false; }
+                if (GUI.Button(new Rect(r.x + 4, r.y + 48, 112, 18), "Draft (Combat)"))
+                { c.currentState = ColonistState.Fighting; _showMenu = false; }
+            }
         }
+    }
+
+    private bool _showMenu;
+    private GameObject _menuTarget;
+
+    // RMB on colonist opens context menu
+    void HandleColonistRMB()
+    {
+        if (!Mouse.current.rightButton.wasPressedThisFrame) return;
+        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) return;
+        Colonist c = hit.collider.GetComponentInParent<Colonist>();
+        if (c != null && c == selectedColonist) { _showMenu = true; _menuTarget = c.gameObject; }
+        else _showMenu = false;
     }
 
     Vector3 GetMouseWorldPosition()
