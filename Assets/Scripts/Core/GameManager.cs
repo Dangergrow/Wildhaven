@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
+        EnsureSystem<CentralIntegration>("Integration");
         EnsureSystem<WorkPanel>("WorkPanel");
         EnsureSystem<ColonistPanel>("ColPanel");
         EnsureSystem<TradeUI>("TradeUI");
