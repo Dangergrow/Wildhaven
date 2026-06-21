@@ -98,10 +98,14 @@ public static class Pathfinder
     static bool IsWalkable(GridManager grid, Vector3Int p)
     {
         if (!grid.InBounds(p.x, p.y, p.z)) return false;
-        // Walkable = air block with solid ground below
-        if (grid.GetBlock(p.x, p.y, p.z) != BlockType.Air) return false;
+        BlockType here = grid.GetBlock(p.x, p.y, p.z);
+        if (here != BlockType.Air) return false;
         BlockType below = grid.GetBlock(p.x, p.y - 1, p.z);
-        return below != BlockType.Air && below != BlockType.Water;
+        // Walkable: solid ground below OR stairs adjacent
+        if (below != BlockType.Air && below != BlockType.Water) return true;
+        // Allow stepping onto stairs blocks
+        if (here == BlockType.WoodPlanks) return true; // stairs
+        return false;
     }
 
     static int Heuristic(Vector3Int a, Vector3Int b)
