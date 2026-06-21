@@ -99,6 +99,9 @@ public class GridManager : MonoBehaviour
         if (z % CHUNK == CHUNK - 1 && z < worldDepth - 1) DirtyChunkAt(x, y, z + 1);
         RebuildDirtyChunks();
         OnBlockChanged?.Invoke(x, y, z);
+        // Recalculate power grid
+        EnergyNetwork en = GetComponent<EnergyNetwork>();
+        if (en != null) en.Recalculate();
     }
 
     public void RemoveBlock(int x, int y, int z)

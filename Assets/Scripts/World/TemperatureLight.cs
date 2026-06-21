@@ -38,6 +38,23 @@ public class TemperatureLight : MonoBehaviour
     {
         if (_grid == null) return outdoorLight;
         Vector3Int p = _grid.WorldToGrid(pos);
+
+        // Check powered lights nearby
+        EnergyNetwork en = FindObjectOfType<EnergyNetwork>();
+        if (en == null && _grid != null) en = _grid.gameObject.AddComponent<EnergyNetwork>();
+        if (en != null)
+        {
+            // Search radius 5 for powered lamps
+            for (int dx = -5; dx <= 5; dx++)
+            for (int dy = -5; dy <= 5; dy++)
+            for (int dz = -5; dz <= 5; dz++)
+            {
+                Vector3Int lp = new(p.x + dx, p.y + dy, p.z + dz);
+                int radius = en.GetLightRadius(lp);
+                if (radius > 0 && Mathf.Abs(dx) + Mathf.Abs(dy) + Mathf.Abs(dz) <= radius)
+                    return 1f; // powered light
+            }
+        }
         // Count how many sides are open to sky
         int openSides = 0;
         if (_grid.GetBlock(p.x + 1, p.y, p.z) == BlockType.Air) openSides++;
