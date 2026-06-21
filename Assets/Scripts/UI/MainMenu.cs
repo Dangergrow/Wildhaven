@@ -11,10 +11,16 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         var go = new GameObject("MenuCanvas");
+        var goRT = go.AddComponent<RectTransform>();
+        goRT.anchorMin = Vector2.zero;
+        goRT.anchorMax = Vector2.one;
+        goRT.sizeDelta = Vector2.zero;
         _canvas = go.AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        _canvas.sortingOrder = 100; // on top of everything
-        go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        _canvas.sortingOrder = 100;
+        var scaler = go.AddComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920, 1080);
         go.AddComponent<GraphicRaycaster>();
 
         // Background
