@@ -336,7 +336,7 @@ public class ColonistAI : MonoBehaviour
     /// <summary>
     /// Finds a nearby solid block and mines it. Runs every ~2 seconds.
     /// </summary>
-    void TryAutoWork()
+    public void TryAutoWork()
     {
         TransitionTo(ColonistState.Idle); // Auto-work disabled — use player RMB orders
         return;
