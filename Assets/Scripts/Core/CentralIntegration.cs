@@ -1,9 +1,18 @@
 using UnityEngine;
 
-/// <summary>Master integrator — calls ALL systems on timers. Fixes dead code.</summary>
+/// <summary>Master integrator — auto-creates on game start. No scene setup needed.</summary>
 public class CentralIntegration : MonoBehaviour
 {
     private float _t1, _t5, _t30;
+
+    /// <summary>Auto-create on game start — no manual scene setup required.</summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void AutoCreate()
+    {
+        var go = new GameObject("__CentralIntegration__");
+        go.AddComponent<CentralIntegration>();
+        DontDestroyOnLoad(go);
+    }
 
     void Awake()
     {
