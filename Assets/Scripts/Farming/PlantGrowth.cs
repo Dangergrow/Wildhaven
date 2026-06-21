@@ -36,6 +36,12 @@ public class PlantGrowth : MonoBehaviour
                 new CropDef { cropType = CropType.MedicalHerb, growDays = 5f, yieldAmount = 3, yieldItem = ItemType.MedicalHerb, requiresLight = false },
                 new CropDef { cropType = CropType.Berry, growDays = 4f, yieldAmount = 6, yieldItem = ItemType.Berries, requiresLight = false },
                 new CropDef { cropType = CropType.Cotton, growDays = 5f, yieldAmount = 4, yieldItem = ItemType.Cotton, requiresLight = false },
+                new CropDef { cropType = CropType.Tobacco, growDays = 5f, yieldAmount = 3, yieldItem = ItemType.TobaccoLeaf, requiresLight = false },
+                new CropDef { cropType = CropType.Hop, growDays = 4f, yieldAmount = 4, yieldItem = ItemType.Wheat, requiresLight = false },
+                new CropDef { cropType = CropType.Rice, growDays = 3f, yieldAmount = 6, yieldItem = ItemType.Wheat, requiresLight = false },
+                new CropDef { cropType = CropType.Aloe, growDays = 6f, yieldAmount = 2, yieldItem = ItemType.Aloe, requiresLight = true },
+                new CropDef { cropType = CropType.Ginseng, growDays = 8f, yieldAmount = 2, yieldItem = ItemType.Ginseng, requiresLight = false },
+                new CropDef { cropType = CropType.MushroomFarm, growDays = 5f, yieldAmount = 4, yieldItem = ItemType.Mushroom, requiresLight = false },
             };
         }
     }
@@ -232,4 +238,7 @@ public enum CropType
     Tobacco,
     Hop,
     Rice,
+    Aloe,
+    Ginseng,
+    MushroomFarm,
 }
