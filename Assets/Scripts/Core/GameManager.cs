@@ -28,6 +28,14 @@ public class GameManager : MonoBehaviour
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
         EnsureSystem<CentralIntegration>("Integration");
+
+        // Ensure EventSystem exists for ALL UI
+        if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+        {
+            var es = new GameObject("EventSystem");
+            es.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            es.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        }
         EnsureSystem<WorkPanel>("WorkPanel");
         EnsureSystem<ColonistPanel>("ColPanel");
         EnsureSystem<TradeUI>("TradeUI");
