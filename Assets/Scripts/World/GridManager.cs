@@ -397,7 +397,7 @@ public class GridManager : MonoBehaviour
 
     #region Save/Load
 
-    string SavePath => System.IO.Path.Combine(Application.persistentDataPath, "world.sav");
+    string SavePath => System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
     public bool HasSave => System.IO.File.Exists(SavePath);
 
     /// <summary>Save world blocks to stream (for GameSaveManager).</summary>

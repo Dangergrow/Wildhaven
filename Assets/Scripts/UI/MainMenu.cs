@@ -80,7 +80,7 @@ public class MainMenu : MonoBehaviour
 
     void OnNewGame()
     {
-        var savePath = System.IO.Path.Combine(Application.persistentDataPath, "world.sav");
+        var savePath = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
         if (System.IO.File.Exists(savePath)) System.IO.File.Delete(savePath);
 
         // Show character creator, then start game

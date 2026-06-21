@@ -17,10 +17,13 @@ public class TradeUI : MonoBehaviour
 
     void Start()
     {
-        _econ = FindObjectOfType<EconomyManager>();
+        _econ = FindFirstObjectByType<EconomyManager>();
         if (_econ == null) _econ = gameObject.AddComponent<EconomyManager>();
-        _faction = FindObjectOfType<FactionManager>();
-        _playerInv = GetComponent<Inventory>();
+        _faction = FindFirstObjectByType<FactionManager>();
+        // Find ANY colonist inventory (not this GameObject)
+        var spawner = FindFirstObjectByType<ColonistSpawner>();
+        if (spawner != null && spawner.Colonists.Count > 0)
+            _playerInv = spawner.Colonists[0].GetComponent<Inventory>();
 
         var go = new GameObject("TradeCanvas");
         _canvas = go.AddComponent<Canvas>();
@@ -54,6 +57,8 @@ public class TradeUI : MonoBehaviour
         _traderStock = _econ.GenerateTraderStock();
         Refresh();
     }
+
+    public bool IsVisible() => _visible;
 
     public void Hide() { _visible = false; _canvas.gameObject.SetActive(false); }
 
