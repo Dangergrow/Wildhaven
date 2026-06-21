@@ -58,6 +58,8 @@ public class GameBar : MonoBehaviour
         _infoText = MakeText("Info", _canvas.transform, new Vector2(0.99f, 0.06f), 11, TextAnchor.LowerRight);
 
         SetMode(Mode.Architect);
+
+        _canvas.gameObject.SetActive(false);
     }
 
     void Update()
@@ -177,4 +179,6 @@ public class GameBar : MonoBehaviour
         t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         t.fontSize = size; t.alignment = align; t.color = Color.white; return t;
     }
+
+    public void Show() { if (_canvas != null) _canvas.gameObject.SetActive(true); }
 }

@@ -34,8 +34,8 @@ public class MainMenu : MonoBehaviour
         AddBtn("Continue", 0.45f, OnContinue);
         AddBtn("Quit", 0.35f, () => Application.Quit());
 
-        // ESC to show/hide
-        // Handled in Update
+        var day = FindObjectOfType<DayCycle>();
+        if (day != null) day.gameSpeed = 0f;
     }
 
     void Update()
@@ -161,9 +161,18 @@ public class MainMenu : MonoBehaviour
     {
         _started = true;
         _canvas.gameObject.SetActive(false);
-        // Unpause if needed
+
         var day = FindObjectOfType<DayCycle>();
         if (day != null) day.gameSpeed = 1f;
+
+        var hud = FindObjectOfType<CanvasHUD>();
+        if (hud != null) hud.Show();
+
+        var bar = FindObjectOfType<GameBar>();
+        if (bar != null) bar.Show();
+
+        var spawner = FindObjectOfType<ColonistSpawner>();
+        if (spawner != null) spawner.gameStarted = true;
     }
 }
 

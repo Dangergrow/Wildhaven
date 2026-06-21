@@ -5,6 +5,7 @@ using System.Collections.Generic;
 /// <summary>Going Medieval-style HUD: resource bar, colonist portraits, architect categories, notifications.</summary>
 public class CanvasHUD : MonoBehaviour
 {
+    private Canvas _canvas;
     private DayCycle _day; private ColonistSpawner _spawner; private BuildManager _build; private SelectionManager _select;
     private Text _timeText, _resourceText, _modeText;
     private GameObject _buildPanel;
@@ -30,25 +31,25 @@ public class CanvasHUD : MonoBehaviour
         _build = FindFirstObjectByType<BuildManager>();
         _select = FindFirstObjectByType<SelectionManager>();
 
-        var canvas = new GameObject("HUDCanvas").AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvas.gameObject.AddComponent<GraphicRaycaster>();
+        _canvas = new GameObject("HUDCanvas").AddComponent<Canvas>();
+        _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        _canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        _canvas.gameObject.AddComponent<GraphicRaycaster>();
 
-        _timeText = MakeText("Time", canvas.transform, new Vector2(0.5f, 0.97f), 20, TextAnchor.UpperCenter);
-        _resourceText = MakeText("Resources", canvas.transform, new Vector2(0.01f, 0.94f), 12, TextAnchor.UpperLeft);
-        _modeText = MakeText("Mode", canvas.transform, new Vector2(0.01f, 0.02f), 12, TextAnchor.LowerLeft);
+        _timeText = MakeText("Time", _canvas.transform, new Vector2(0.5f, 0.97f), 20, TextAnchor.UpperCenter);
+        _resourceText = MakeText("Resources", _canvas.transform, new Vector2(0.01f, 0.94f), 12, TextAnchor.UpperLeft);
+        _modeText = MakeText("Mode", _canvas.transform, new Vector2(0.01f, 0.02f), 12, TextAnchor.LowerLeft);
 
         // Colonist portrait bar (top-left, under resource bar)
         // Created dynamically in Update based on colonist count
 
         // Notification window (top-right)
-        _notifText = MakeText("Notifs", canvas.transform, new Vector2(0.99f, 0.92f), 11, TextAnchor.UpperRight);
+        _notifText = MakeText("Notifs", _canvas.transform, new Vector2(0.99f, 0.92f), 11, TextAnchor.UpperRight);
         _notifText.rectTransform.sizeDelta = new Vector2(250, 100);
 
         // Build panel — right side with categories
         _buildPanel = new GameObject("BuildPanel");
-        _buildPanel.transform.SetParent(canvas.transform);
+        _buildPanel.transform.SetParent(_canvas.transform);
         var bpRT = _buildPanel.AddComponent<RectTransform>();
         bpRT.anchorMin = bpRT.anchorMax = new Vector2(0.99f, 0.4f);
         bpRT.pivot = new Vector2(1, 0.5f);
@@ -58,9 +59,11 @@ public class CanvasHUD : MonoBehaviour
         bg.color = new Color(0.1f, 0.1f, 0.12f, 0.85f);
 
         // Category tabs
-        for (int i = 0; i < 6; i++) { int idx = i; AddCatTab(canvas.transform, idx); }
+        for (int i = 0; i < 6; i++) { int idx = i; AddCatTab(_canvas.transform, idx); }
 
         ShowArchBlocks();
+
+        _canvas.gameObject.SetActive(false);
     }
 
     void AddCatTab(Transform parent, int idx)
@@ -169,6 +172,8 @@ public class CanvasHUD : MonoBehaviour
         _notifications.Add(msg);
         if (_notifications.Count > 10) _notifications.RemoveAt(0);
     }
+
+    public void Show() { if (_canvas != null) _canvas.gameObject.SetActive(true); }
 
     Text MakeText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
     {

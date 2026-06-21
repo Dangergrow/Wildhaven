@@ -12,6 +12,7 @@ public class ColonistSpawner : MonoBehaviour
     public string[] maleNames = { "Ivan", "Boris", "Dmitri" };
     public string[] femaleNames = { "Anna", "Maria", "Elena" };
     public string[] surnames = { "Petrov", "Ivanov", "Sidorov" };
+    public bool gameStarted;
 
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
@@ -23,6 +24,8 @@ public class ColonistSpawner : MonoBehaviour
 
     void DoSpawn()
     {
+        if (!gameStarted) return;
+
         Debug.Log("[ColonistSpawner] DoSpawn called");
         GridManager grid = FindObjectOfType<GridManager>();
         if (grid == null) { Debug.LogError("[ColonistSpawner] No GridManager!"); return; }
