@@ -1,115 +1,123 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
-/// <summary>Full Canvas HUD: time, colonists, block selection panel, mode.</summary>
+/// <summary>Going Medieval-style HUD: resource bar, colonist portraits, architect categories, notifications.</summary>
 public class CanvasHUD : MonoBehaviour
 {
-    private DayCycle _day;
-    private ColonistSpawner _spawner;
-    private BuildManager _build;
-    private SelectionManager _select;
-    private Text _timeText, _colonistText, _modeText, _resourceText;
+    private DayCycle _day; private ColonistSpawner _spawner; private BuildManager _build; private SelectionManager _select;
+    private Text _timeText, _resourceText, _modeText;
     private GameObject _buildPanel;
     private Text[] _blockBtns;
-    private int _btnCount = 18;
-    private BlockType[] _btnTypes = {
-        BlockType.Dirt, BlockType.Grass, BlockType.Stone, BlockType.Wood, BlockType.Glass,
-        BlockType.StoneBrick, BlockType.WoodPlanks, BlockType.Sand, BlockType.Snow,
-        BlockType.Marble, BlockType.Obsidian, BlockType.CopperOre, BlockType.GoldOre,
-        BlockType.IronOre, BlockType.Coal, BlockType.Ice, BlockType.Clay, BlockType.Gravel,
+    private int _archCategory; // 0=Walls, 1=Floors, 2=Furniture, 3=Production, 4=Defense, 5=Misc
+    private string[] _catNames = { "Walls", "Floors", "Furniture", "Production", "Defense", "Misc" };
+    private BlockType[][] _catBlocks = {
+        new[]{BlockType.Wood, BlockType.WoodPlanks, BlockType.Stone, BlockType.StoneBrick, BlockType.Dirt, BlockType.Sand, BlockType.Gravel, BlockType.Clay, BlockType.Marble, BlockType.Obsidian},
+        new[]{BlockType.Wood, BlockType.Stone, BlockType.StoneBrick, BlockType.WoodPlanks, BlockType.Gravel, BlockType.Marble},
+        new[]{BlockType.Wood, BlockType.WoodPlanks, BlockType.StoneBrick, BlockType.Marble, BlockType.Glass},
+        new[]{BlockType.IronOre, BlockType.CopperOre, BlockType.Coal, BlockType.GoldOre, BlockType.StoneBrick},
+        new[]{BlockType.Wood, BlockType.Stone, BlockType.StoneBrick, BlockType.IronOre},
+        new[]{BlockType.Snow, BlockType.Ice, BlockType.Glass, BlockType.Obsidian, BlockType.Sand},
     };
+    private List<GameObject> _portraitIcons = new();
+    private List<string> _notifications = new();
+    private Text _notifText;
 
     void Start()
     {
-        _day = FindObjectOfType<DayCycle>();
-        _spawner = FindObjectOfType<ColonistSpawner>();
-        _build = FindObjectOfType<BuildManager>();
-        _select = FindObjectOfType<SelectionManager>();
+        _day = FindFirstObjectByType<DayCycle>();
+        _spawner = FindFirstObjectByType<ColonistSpawner>();
+        _build = FindFirstObjectByType<BuildManager>();
+        _select = FindFirstObjectByType<SelectionManager>();
 
-        var canvas = new GameObject("CanvasHUD").AddComponent<Canvas>();
+        var canvas = new GameObject("HUDCanvas").AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         canvas.gameObject.AddComponent<GraphicRaycaster>();
 
-        _timeText = CreateText("Time", canvas.transform, new Vector2(0.5f, 0.97f), 20, TextAnchor.UpperCenter);
-        _colonistText = CreateText("Colonists", canvas.transform, new Vector2(0.01f, 0.96f), 14, TextAnchor.UpperLeft);
-        _resourceText = CreateText("Resources", canvas.transform, new Vector2(0.01f, 0.92f), 12, TextAnchor.UpperLeft);
-        _modeText = CreateText("Mode", canvas.transform, new Vector2(0.01f, 0.02f), 13, TextAnchor.LowerLeft);
+        _timeText = MakeText("Time", canvas.transform, new Vector2(0.5f, 0.97f), 20, TextAnchor.UpperCenter);
+        _resourceText = MakeText("Resources", canvas.transform, new Vector2(0.01f, 0.94f), 12, TextAnchor.UpperLeft);
+        _modeText = MakeText("Mode", canvas.transform, new Vector2(0.01f, 0.02f), 12, TextAnchor.LowerLeft);
 
-        // Build panel — right side, vertical buttons
+        // Colonist portrait bar (top-left, under resource bar)
+        // Created dynamically in Update based on colonist count
+
+        // Notification window (top-right)
+        _notifText = MakeText("Notifs", canvas.transform, new Vector2(0.99f, 0.92f), 11, TextAnchor.UpperRight);
+        _notifText.rectTransform.sizeDelta = new Vector2(250, 100);
+
+        // Build panel — right side with categories
         _buildPanel = new GameObject("BuildPanel");
         _buildPanel.transform.SetParent(canvas.transform);
         var bpRT = _buildPanel.AddComponent<RectTransform>();
-        bpRT.anchorMin = bpRT.anchorMax = new Vector2(0.99f, 0.5f);
+        bpRT.anchorMin = bpRT.anchorMax = new Vector2(0.99f, 0.4f);
         bpRT.pivot = new Vector2(1, 0.5f);
-        bpRT.sizeDelta = new Vector2(90, _btnCount * 30 + 30);
-        bpRT.anchoredPosition = Vector2.zero;
+        bpRT.sizeDelta = new Vector2(120, 260);
 
         var bg = _buildPanel.AddComponent<Image>();
-        bg.color = new Color(0, 0, 0, 0.5f);
+        bg.color = new Color(0.1f, 0.1f, 0.12f, 0.85f);
 
-        CreateLabel("Build", _buildPanel.transform, 0);
-        _blockBtns = new Text[_btnCount];
-        for (int i = 0; i < _btnCount; i++)
+        // Category tabs
+        for (int i = 0; i < 6; i++) { int idx = i; AddCatTab(canvas.transform, idx); }
+
+        ShowArchBlocks();
+    }
+
+    void AddCatTab(Transform parent, int idx)
+    {
+        var btn = new GameObject($"Cat_{_catNames[idx]}").AddComponent<Button>();
+        btn.transform.SetParent(parent);
+        var rt = btn.GetComponent<RectTransform>();
+        rt.anchorMin = rt.anchorMax = new Vector2(0.99f, 0.85f - idx * 0.055f);
+        rt.pivot = new Vector2(1, 0.5f);
+        rt.anchoredPosition = Vector2.zero; rt.sizeDelta = new Vector2(110, 20);
+
+        var txt = new GameObject("Lbl").AddComponent<Text>();
+        txt.transform.SetParent(btn.transform);
+        txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
+        txt.rectTransform.sizeDelta = new Vector2(110, 20);
+        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.fontSize = 11; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
+        txt.text = _catNames[idx];
+
+        var c = btn.colors;
+        c.normalColor = new Color(0.2f, 0.2f, 0.25f, 0.9f);
+        c.highlightedColor = new Color(0.4f, 0.5f, 0.4f, 1f);
+        btn.colors = c;
+        btn.onClick.AddListener(() => { _archCategory = idx; ShowArchBlocks(); });
+    }
+
+    void ShowArchBlocks()
+    {
+        // Clear old block buttons
+        if (_blockBtns != null) foreach (var b in _blockBtns) if (b != null) Destroy(b.transform.parent.gameObject);
+        var blocks = _catBlocks[_archCategory];
+        _blockBtns = new Text[blocks.Length];
+        for (int i = 0; i < blocks.Length; i++)
         {
-            int idx = i;
-            var btn = new GameObject($"Btn_{_btnTypes[i]}").AddComponent<Button>();
-            btn.transform.SetParent(_buildPanel.transform);
-            var rt = btn.GetComponent<RectTransform>();
-            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0);
-            rt.pivot = new Vector2(0.5f, 0);
-            rt.anchoredPosition = new Vector2(0, 30 + i * 30);
-            rt.sizeDelta = new Vector2(70, 26);
+            int idx = i; BlockType bt = blocks[i];
+            var go = new GameObject($"Blk_{bt}");
+            go.transform.SetParent(_buildPanel.transform);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchorMin = rt.anchorMax = new Vector2(0.1f, 0.75f - i * 0.075f);
+            rt.sizeDelta = new Vector2(100, 22);
 
-            var txt = new GameObject("Label").AddComponent<Text>();
-            txt.transform.SetParent(btn.transform);
+            var btn = go.AddComponent<Button>();
+            var txt = new GameObject("Lbl").AddComponent<Text>();
+            txt.transform.SetParent(go.transform);
             txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
-            txt.rectTransform.sizeDelta = new Vector2(70, 26);
+            txt.rectTransform.sizeDelta = new Vector2(100, 22);
             txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            txt.fontSize = 12;
-            txt.alignment = TextAnchor.MiddleCenter;
-            txt.color = Color.white;
-            txt.text = i < 9 ? $"{i+1}:{_btnTypes[i]}" : $"⇧{i-8}:{_btnTypes[i]}";
+            txt.fontSize = 10; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
+            txt.text = $"{bt}";
             _blockBtns[i] = txt;
 
-            var c = btn.colors;
-            c.normalColor = new Color(0.3f, 0.3f, 0.3f, 0.8f);
-            c.highlightedColor = new Color(0.5f, 0.5f, 0.5f, 0.9f);
-            btn.colors = c;
-
-            btn.onClick.AddListener(() => {
-                if (_build != null) _build.SetSelectedType(_btnTypes[idx]);
-            });
+            var c2 = btn.colors;
+            c2.normalColor = new Color(0.25f, 0.25f, 0.3f, 0.8f);
+            c2.highlightedColor = new Color(0.5f, 0.5f, 0.2f, 1f);
+            btn.colors = c2;
+            btn.onClick.AddListener(() => { if (_build != null) _build.SetSelectedType(bt); });
         }
-    }
-
-    void CreateLabel(string text, Transform parent, float y)
-    {
-        var go = new GameObject("Label").AddComponent<Text>();
-        go.transform.SetParent(parent);
-        var rt = go.rectTransform;
-        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0);
-        rt.pivot = new Vector2(0.5f, 0);
-        rt.anchoredPosition = new Vector2(0, y + 5);
-        rt.sizeDelta = new Vector2(70, 20);
-        go.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        go.fontSize = 11;
-        go.alignment = TextAnchor.MiddleCenter;
-        go.color = Color.yellow;
-        go.text = text;
-    }
-
-    Text CreateText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
-    {
-        var go = new GameObject(name).AddComponent<Text>();
-        go.transform.SetParent(parent);
-        go.rectTransform.anchorMin = anchor; go.rectTransform.anchorMax = anchor;
-        go.rectTransform.pivot = anchor; go.rectTransform.sizeDelta = new Vector2(500, 30);
-        go.rectTransform.anchoredPosition = Vector2.zero;
-        go.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        go.fontSize = size; go.alignment = align;
-        go.color = Color.white;
-        return go;
     }
 
     void Update()
@@ -122,37 +130,48 @@ public class CanvasHUD : MonoBehaviour
 
         if (_spawner != null)
         {
-            int c = 0, a = 0; int wood = 0, stone = 0, food = 0, metal = 0;
+            int c = 0, a = 0, wood = 0, stone = 0, food = 0, metal = 0;
             foreach (var col in _spawner.Colonists)
             {
                 c++; if (col.currentState != ColonistState.Dead) a++;
                 var inv = col.GetComponent<Inventory>();
                 if (inv != null)
-                {
                     foreach (var s in inv.Slots)
                     {
                         if (s.itemType == ItemType.WoodLog) wood += s.amount;
-                        if (s.itemType == ItemType.StoneBlock) stone += s.amount;
-                        if (s.itemType == ItemType.IronIngot || s.itemType == ItemType.CopperIngot || s.itemType == ItemType.SteelIngot) metal += s.amount;
-                        if (s.itemType == ItemType.RawMeat || s.itemType == ItemType.CookedMeat || s.itemType == ItemType.Bread || s.itemType == ItemType.Berries || s.itemType == ItemType.RationPack) food += s.amount;
+                        else if (s.itemType == ItemType.StoneBlock) stone += s.amount;
+                        else if ((int)s.itemType >= (int)ItemType.IronIngot && (int)s.itemType <= (int)ItemType.GoldIngot) metal += s.amount;
+                        else if (s.itemType == ItemType.RawMeat || s.itemType == ItemType.CookedMeat || s.itemType == ItemType.Bread || s.itemType == ItemType.Berries || s.itemType == ItemType.RationPack || s.itemType == ItemType.Fish) food += s.amount;
                     }
-                }
             }
-            _colonistText.text = $"Colonists: {a}/{c}";
-            _resourceText.text = $"Wood:{wood}  Stone:{stone}  Food:{food}  Metal:{metal}";
+            _resourceText.text = $"W:{wood} S:{stone} F:{food} M:{metal}  Colonists: {a}/{c}";
         }
 
         if (_select != null)
-            _modeText.text = $"B=Build/Select  F5 Save  F9 Load  Space Pause  1/2/3 Speed";
+            _modeText.text = "F1-Architect F2-Work F3-Zone F4-Orders | R-Draft | B-Select | F5 Save";
 
-        // Highlight active block button
-        if (_build != null && _blockBtns != null)
+        // Notifications
+        if (_notifications.Count > 0)
         {
-            for (int i = 0; i < _btnCount; i++)
-            {
-                bool active = _btnTypes[i] == _build.SelectedType;
-                _blockBtns[i].color = active ? Color.yellow : Color.white;
-            }
+            _notifText.text = string.Join("\n", _notifications);
+            if (_notifications.Count > 5) _notifications.RemoveAt(0); // keep last 5
         }
+    }
+
+    public void AddNotification(string msg)
+    {
+        _notifications.Add(msg);
+        if (_notifications.Count > 10) _notifications.RemoveAt(0);
+    }
+
+    Text MakeText(string name, Transform parent, Vector2 anchor, int size, TextAnchor align)
+    {
+        var t = new GameObject(name).AddComponent<Text>();
+        t.transform.SetParent(parent);
+        t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
+        t.rectTransform.sizeDelta = new Vector2(500, 30);
+        t.rectTransform.anchoredPosition = Vector2.zero;
+        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.fontSize = size; t.alignment = align; t.color = Color.white; return t;
     }
 }
