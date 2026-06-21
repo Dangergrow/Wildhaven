@@ -1,35 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
-/// <summary>Fullscreen main menu. Blocks all game input until dismissed.</summary>
+/// <summary>Simple menu overlay. Does NOT pause or disable anything.</summary>
 public class MainMenu : MonoBehaviour
 {
     private Canvas _canvas;
-    private bool _started;
-    private DayCycle _day;
-
-    void Awake()
-    {
-        _day = FindFirstObjectByType<DayCycle>();
-        if (_day != null) _day.gameSpeed = 0f; // pause immediately
-    }
 
     void Start()
     {
-        // Create fullscreen Canvas
-        var go = new GameObject("__MainMenuCanvas__");
-        var rt = go.AddComponent<RectTransform>();
+        var go = new GameObject("__MenuCanvas__");
+        go.AddComponent<RectTransform>();
         _canvas = go.AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _canvas.sortingOrder = 999;
-        var scaler = go.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
-        scaler.matchWidthOrHeight = 0.5f;
+        go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         go.AddComponent<GraphicRaycaster>();
 
-        // EventSystem — only create if none exists
         if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
         {
             var esGo = new GameObject("EventSystem");
@@ -37,114 +23,65 @@ public class MainMenu : MonoBehaviour
             esGo.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
         }
 
-        // Dark background filling entire screen
-        var bgGo = new GameObject("__Bg__");
-        bgGo.AddComponent<RectTransform>();
+        // Background
+        var bgGo = new GameObject("__Bg__"); bgGo.AddComponent<RectTransform>();
         var bg = bgGo.AddComponent<Image>();
         bg.rectTransform.SetParent(_canvas.transform, false);
-        bg.rectTransform.anchorMin = Vector2.zero;
-        bg.rectTransform.anchorMax = Vector2.one;
-        bg.rectTransform.offsetMin = Vector2.zero;
-        bg.rectTransform.offsetMax = Vector2.zero;
-        bg.color = new Color(0.03f, 0.03f, 0.06f, 0.85f);
+        bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
+        bg.rectTransform.offsetMin = bg.rectTransform.offsetMax = Vector2.zero;
+        bg.color = new Color(0.03f, 0.03f, 0.06f, 0.9f);
 
-        // Title
-        MakeText("WILDHAVEN", 44, new Vector2(0.5f, 0.75f), Color.white);
-        MakeText("Colony Simulator", 18, new Vector2(0.5f, 0.69f), new Color(0.6f, 0.6f, 0.6f));
+        Txt("WILDHAVEN", 46, 0.75f, Color.white);
+        Txt("Colony Simulator", 18, 0.69f, new Color(0.6f, 0.6f, 0.6f));
 
-        // Buttons
-        MakeButton("New Game", new Vector2(0.5f, 0.55f), () => {
-            var savePath = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
-            if (System.IO.File.Exists(savePath)) System.IO.File.Delete(savePath);
-            StartGame();
-        });
-        MakeButton("Continue", new Vector2(0.5f, 0.45f), () => {
-            var gsm = FindFirstObjectByType<GameSaveManager>();
-            if (gsm != null && gsm.HasSave) gsm.LoadGame();
-            StartGame();
-        });
-        MakeButton("Quit", new Vector2(0.5f, 0.35f), () => Application.Quit());
-
-        // Disable all game input until menu closes
-        var bm = FindFirstObjectByType<BuildManager>();
-        var sm = FindFirstObjectByType<SelectionManager>();
-        if (bm != null) bm.enabled = false;
-        if (sm != null) sm.enabled = false;
+        Btn("New Game", 0.55f, () => { DeleteSave(); StartGame(); });
+        Btn("Continue", 0.45f, () => StartGame());
+        Btn("Quit", 0.35f, () => Application.Quit());
     }
 
-    void Update()
+    void DeleteSave()
     {
-        if (_started) return;
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-            Application.Quit();
-    }
-
-    void MakeText(string msg, int size, Vector2 anchor, Color color)
-    {
-        var tGo = new GameObject("__Txt__");
-        tGo.AddComponent<RectTransform>();
-        var txt = tGo.AddComponent<Text>();
-        txt.rectTransform.SetParent(_canvas.transform, false);
-        txt.rectTransform.anchorMin = anchor;
-        txt.rectTransform.anchorMax = anchor;
-        txt.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        txt.rectTransform.sizeDelta = new Vector2(400, 50);
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        txt.fontSize = size;
-        txt.alignment = TextAnchor.MiddleCenter;
-        txt.color = color;
-        txt.text = msg;
-    }
-
-    void MakeButton(string label, Vector2 anchor, System.Action onClick)
-    {
-        var btnGo = new GameObject("__Btn__");
-        btnGo.AddComponent<RectTransform>();
-        var img = btnGo.AddComponent<Image>();
-        img.rectTransform.SetParent(_canvas.transform, false);
-        img.rectTransform.anchorMin = anchor;
-        img.rectTransform.anchorMax = anchor;
-        img.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        img.rectTransform.sizeDelta = new Vector2(220, 50);
-
-        var btn = btnGo.AddComponent<Button>();
-        btn.targetGraphic = img;
-        var colors = btn.colors;
-        colors.normalColor = new Color(0.15f, 0.15f, 0.2f, 1f);
-        colors.highlightedColor = new Color(0.3f, 0.4f, 0.3f, 1f);
-        colors.pressedColor = new Color(0.1f, 0.2f, 0.1f, 1f);
-        btn.colors = colors;
-
-        var tGo = new GameObject("__Lbl__");
-        tGo.AddComponent<RectTransform>();
-        var txt = tGo.AddComponent<Text>();
-        txt.rectTransform.SetParent(btnGo.transform, false);
-        txt.rectTransform.anchorMin = Vector2.zero;
-        txt.rectTransform.anchorMax = Vector2.one;
-        txt.rectTransform.offsetMin = Vector2.zero;
-        txt.rectTransform.offsetMax = Vector2.zero;
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        txt.fontSize = 22;
-        txt.alignment = TextAnchor.MiddleCenter;
-        txt.color = Color.white;
-        txt.text = label;
-
-        btn.onClick.AddListener(() => onClick());
+        var p = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
+        if (System.IO.File.Exists(p)) System.IO.File.Delete(p);
     }
 
     void StartGame()
     {
-        _started = true;
         Destroy(_canvas.gameObject);
-        if (_day != null) _day.gameSpeed = 1f;
-        var bm = FindFirstObjectByType<BuildManager>();
-        var sm = FindFirstObjectByType<SelectionManager>();
-        if (bm != null) bm.enabled = true;
-        if (sm != null) sm.enabled = true;
-        // Show game UI
-        var hud = FindFirstObjectByType<CanvasHUD>();
-        if (hud != null) hud.Show();
-        var bar = FindFirstObjectByType<GameBar>();
-        if (bar != null) bar.Show();
+        Destroy(this);
+    }
+
+    void Txt(string msg, int size, float y, Color c)
+    {
+        var go = new GameObject("__T__"); go.AddComponent<RectTransform>();
+        var t = go.AddComponent<Text>();
+        t.rectTransform.SetParent(_canvas.transform, false);
+        t.rectTransform.anchorMin = t.rectTransform.anchorMax = new Vector2(0.5f, y);
+        t.rectTransform.sizeDelta = new Vector2(400, 50);
+        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.fontSize = size; t.alignment = TextAnchor.MiddleCenter; t.color = c; t.text = msg;
+    }
+
+    void Btn(string label, float y, System.Action onClick)
+    {
+        var go = new GameObject("__B__"); go.AddComponent<RectTransform>();
+        go.AddComponent<Image>().rectTransform.SetParent(_canvas.transform, false);
+        var rt = go.GetComponent<RectTransform>();
+        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, y);
+        rt.sizeDelta = new Vector2(220, 50);
+        var btn = go.AddComponent<Button>();
+        var c = btn.colors;
+        c.normalColor = new Color(0.15f, 0.15f, 0.2f, 1f);
+        c.highlightedColor = new Color(0.3f, 0.4f, 0.3f, 1f);
+        btn.colors = c;
+
+        var lg = new GameObject("__L__"); lg.AddComponent<RectTransform>();
+        var lt = lg.AddComponent<Text>();
+        lt.rectTransform.SetParent(go.transform, false);
+        lt.rectTransform.anchorMin = Vector2.zero; lt.rectTransform.anchorMax = Vector2.one;
+        lt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        lt.fontSize = 22; lt.alignment = TextAnchor.MiddleCenter; lt.color = Color.white; lt.text = label;
+
+        btn.onClick.AddListener(() => onClick());
     }
 }
