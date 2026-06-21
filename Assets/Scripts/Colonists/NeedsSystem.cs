@@ -55,11 +55,14 @@ public class NeedsSystem : MonoBehaviour
 
     private Colonist _colonist;
     private DayCycle _day;
+    private float _cachedRoomQuality = 50f;
+    private GridManager _grid;
 
     private void Awake()
     {
         _colonist = GetComponent<Colonist>();
         _day = FindObjectOfType<DayCycle>();
+        _grid = FindObjectOfType<GridManager>();
     }
 
     private void Update()
@@ -153,6 +156,16 @@ public class NeedsSystem : MonoBehaviour
         // Faith effect
         if (_colonist.faith < 10f)
             moodDelta -= 0.02f * dt;
+
+        // Room quality — check every 30 frames
+        if (Time.frameCount % 30 == 0)
+        {
+            RoomQuality rq = FindObjectOfType<RoomQuality>();
+            if (rq == null && _grid != null) rq = _grid.gameObject.AddComponent<RoomQuality>();
+            if (rq != null) _cachedRoomQuality = rq.GetRoomQuality(transform.position);
+        }
+        if (_cachedRoomQuality < 30) moodDelta -= 0.03f * dt;
+        else if (_cachedRoomQuality > 70) moodDelta += 0.02f * dt;
 
         // Trait modifiers
         if (IsFlawActive(Flaw.Depressive))
