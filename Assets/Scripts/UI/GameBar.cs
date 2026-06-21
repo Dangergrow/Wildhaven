@@ -18,6 +18,8 @@ public class GameBar : MonoBehaviour
 
     // Architect subcategories
     private int _architectPage;
+    private string[] _archCategories = { "Walls", "Floors", "Furniture", "Production", "Defense", "Misc" };
+    private int _archCategory;
     private BlockType[][] _architectBlocks = new[] {
         new[]{BlockType.Wood, BlockType.WoodPlanks, BlockType.Stone, BlockType.StoneBrick, BlockType.Dirt, BlockType.Grass, BlockType.Sand, BlockType.Gravel, BlockType.Clay},
         new[]{BlockType.Marble, BlockType.Obsidian, BlockType.Glass, BlockType.IronOre, BlockType.CopperOre, BlockType.GoldOre, BlockType.Coal, BlockType.Ice, BlockType.Snow},

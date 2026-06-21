@@ -8,7 +8,7 @@ public class CanvasHUD : MonoBehaviour
     private ColonistSpawner _spawner;
     private BuildManager _build;
     private SelectionManager _select;
-    private Text _timeText, _colonistText, _modeText;
+    private Text _timeText, _colonistText, _modeText, _resourceText;
     private GameObject _buildPanel;
     private Text[] _blockBtns;
     private int _btnCount = 18;
@@ -33,6 +33,7 @@ public class CanvasHUD : MonoBehaviour
 
         _timeText = CreateText("Time", canvas.transform, new Vector2(0.5f, 0.97f), 20, TextAnchor.UpperCenter);
         _colonistText = CreateText("Colonists", canvas.transform, new Vector2(0.01f, 0.96f), 14, TextAnchor.UpperLeft);
+        _resourceText = CreateText("Resources", canvas.transform, new Vector2(0.01f, 0.92f), 12, TextAnchor.UpperLeft);
         _modeText = CreateText("Mode", canvas.transform, new Vector2(0.01f, 0.02f), 13, TextAnchor.LowerLeft);
 
         // Build panel — right side, vertical buttons
@@ -121,9 +122,24 @@ public class CanvasHUD : MonoBehaviour
 
         if (_spawner != null)
         {
-            int c = 0, a = 0;
-            foreach (var col in _spawner.Colonists) { c++; if (col.currentState != ColonistState.Dead) a++; }
+            int c = 0, a = 0; int wood = 0, stone = 0, food = 0, metal = 0;
+            foreach (var col in _spawner.Colonists)
+            {
+                c++; if (col.currentState != ColonistState.Dead) a++;
+                var inv = col.GetComponent<Inventory>();
+                if (inv != null)
+                {
+                    foreach (var s in inv.Slots)
+                    {
+                        if (s.itemType == ItemType.WoodLog) wood += s.amount;
+                        if (s.itemType == ItemType.StoneBlock) stone += s.amount;
+                        if (s.itemType == ItemType.IronIngot || s.itemType == ItemType.CopperIngot || s.itemType == ItemType.SteelIngot) metal += s.amount;
+                        if (s.itemType == ItemType.RawMeat || s.itemType == ItemType.CookedMeat || s.itemType == ItemType.Bread || s.itemType == ItemType.Berries || s.itemType == ItemType.RationPack) food += s.amount;
+                    }
+                }
+            }
             _colonistText.text = $"Colonists: {a}/{c}";
+            _resourceText.text = $"Wood:{wood}  Stone:{stone}  Food:{food}  Metal:{metal}";
         }
 
         if (_select != null)
