@@ -1,147 +1,110 @@
 using UnityEngine;
 
-/// <summary>Master integrator — calls ALL orphaned systems every frame. Makes dead code alive.</summary>
+/// <summary>Master integrator — calls ALL systems on timers. Fixes dead code.</summary>
 public class CentralIntegration : MonoBehaviour
 {
-    private float _timer1s, _timer5s, _timer30s;
+    private float _t1, _t5, _t30;
 
     void Awake()
     {
-        // Auto-create GameManager if missing
         if (FindFirstObjectByType<GameManager>() == null)
             gameObject.AddComponent<GameManager>();
     }
 
     void Update()
     {
-        float dt = Time.unscaledDeltaTime;
-        _timer1s += dt; _timer5s += dt; _timer30s += dt;
-
-        if (_timer1s > 1f) { _timer1s = 0f; EverySecond(); }
-        if (_timer5s > 5f) { _timer5s = 0f; Every5Seconds(); }
-        if (_timer30s > 30f) { _timer30s = 0f; Every30Seconds(); }
+        _t1 += Time.unscaledDeltaTime; _t5 += Time.unscaledDeltaTime; _t30 += Time.unscaledDeltaTime;
+        if (_t1 > 1f) { _t1 = 0f; Tick1s(); }
+        if (_t5 > 5f) { _t5 = 0f; Tick5s(); }
+        if (_t30 > 30f) { _t30 = 0f; Tick30s(); }
     }
 
-    void EverySecond()
+    void Tick1s()
     {
         var spawner = FindFirstObjectByType<ColonistSpawner>();
         var day = FindFirstObjectByType<DayCycle>();
-
-        // Apply schedule to all colonists
-        if (spawner != null && day != null)
+        if (spawner == null || day == null) return;
+        foreach (var c in spawner.Colonists)
         {
-            foreach (var c in spawner.Colonists)
-            {
-                if (c.currentState == ColonistState.Dead) continue;
-                var sched = c.GetComponent<ColonistSchedule>();
-                if (sched == null) sched = c.gameObject.AddComponent<ColonistSchedule>();
-                sched.ApplySchedule(c, day.hour);
-            }
+            if (c == null || c.currentState == ColonistState.Dead) continue;
+            var sched = c.GetComponent<ColonistSchedule>();
+            if (sched == null) sched = c.gameObject.AddComponent<ColonistSchedule>();
+            sched.ApplySchedule(c, day.hour);
         }
     }
 
-    void Every5Seconds()
+    void Tick5s()
     {
-        // Auto-heal wounded colonists
         var colony = FindFirstObjectByType<ColonyServices>();
-        if (colony != null) colony.AutoHeal();
-
-        // Auto-roof
-        if (colony != null) colony.AutoRoof();
-
-        // Try to complete quests near colonists
-        var quests = FindFirstObjectByType<QuestManager>();
         var spawner = FindFirstObjectByType<ColonistSpawner>();
-        if (quests != null && spawner != null)
+        var gm = FindFirstObjectByType<GridManager>();
+        if (spawner == null) return;
+
+        if (colony != null) { colony.AutoHeal(); colony.AutoRoof(); }
+
+        foreach (var c in spawner.Colonists)
         {
-            foreach (var c in spawner.Colonists)
+            if (c == null || c.currentState == ColonistState.Dead) continue;
+            var inv = c.GetComponent<Inventory>();
+
+            // Quest completion
+            var quests = FindFirstObjectByType<QuestManager>();
+            if (quests != null && gm != null)
+                quests.TryCompleteAt(gm.WorldToGrid(c.transform.position), c);
+
+            // Forage harvest
+            var forage = FindFirstObjectByType<ForageSpawner>();
+            if (forage != null && gm != null)
             {
-                if (c.currentState == ColonistState.Dead) continue;
-                var gm = FindFirstObjectByType<GridManager>();
-                if (gm != null)
-                {
-                    Vector3Int p = gm.WorldToGrid(c.transform.position);
-                    quests.TryCompleteAt(p, c);
-                }
+                var r = forage.TryHarvest(gm.WorldToGrid(c.transform.position));
+                if (r != null && inv != null) inv.AddItem(r.Value.Item1, r.Value.Item2);
             }
+
+            // Plant harvest
+            var plants = FindFirstObjectByType<PlantGrowth>();
+            if (plants != null && gm != null && c.farmingSkill >= 2)
+                plants.TryHarvestAt(gm.WorldToGrid(c.transform.position), inv);
+
+            // Cooking
+            var cooking = FindFirstObjectByType<CookingSystem>();
+            if (cooking != null && inv != null)
+                foreach (var rec in cooking.recipes)
+                    if (cooking.TryCook(rec, inv, out _)) break;
         }
 
-        // Try to harvest forage near colonists
-        var forage = FindFirstObjectByType<ForageSpawner>();
-        if (forage != null && spawner != null)
-        {
-            foreach (var c in spawner.Colonists)
-            {
-                if (c.currentState == ColonistState.Dead) continue;
-                var gm = FindFirstObjectByType<GridManager>();
-                if (gm != null)
-                {
-                    Vector3Int p = gm.WorldToGrid(c.transform.position);
-                    var result = forage.TryHarvest(p);
-                    if (result != null)
-                    {
-                        var inv = c.GetComponent<Inventory>();
-                        if (inv != null) inv.AddItem(result.Value.Item1, result.Value.Item2);
-                    }
-                }
-            }
-        }
+        // Religion
+        var rel = FindFirstObjectByType<ReligionSystem>();
+        if (rel != null) rel.PerformRitual(ReligionSystem.RitualType.Prayer, Vector3Int.zero, ReligionSystem.Belief.NatureWorship);
 
-        // Try cooking if near campfire
-        var cooking = FindFirstObjectByType<CookingSystem>();
-        if (cooking != null && spawner != null)
-        {
-            foreach (var c in spawner.Colonists)
-            {
-                if (c.currentState == ColonistState.Dead) continue;
-                var inv = c.GetComponent<Inventory>();
-                if (inv == null) continue;
-                foreach (var recipe in cooking.recipes)
-                {
-                    if (cooking.TryCook(recipe, inv, out float _)) break; // cook one recipe
-                }
-            }
-        }
-
-        // Try religion rituals near altars
-        var religion = FindFirstObjectByType<ReligionSystem>();
-        if (religion != null)
-        {
-            religion.PerformRitual(ReligionSystem.RitualType.Prayer, Vector3Int.zero, ReligionSystem.Belief.NatureWorship);
-        }
-
-        // Ignite random fires (rare)
-        if (Random.value < 0.01f && spawner != null)
+        // Fire
+        if (Random.value < 0.01f && gm != null)
         {
             var fire = FindFirstObjectByType<FireAndSeasons>();
             if (fire != null)
             {
-                var gm = FindFirstObjectByType<GridManager>();
-                if (gm != null)
-                {
-                    int rx = Random.Range(0, gm.Width), rz = Random.Range(0, gm.Depth);
-                    for (int y = gm.Height - 1; y > 0; y--)
-                        if (gm.GetBlock(rx, y, rz) != BlockType.Air) { fire.Ignite(new(rx, y, rz)); break; }
-                }
+                int rx = Random.Range(0, gm.Width), rz = Random.Range(0, gm.Depth);
+                for (int y = gm.Height - 1; y > 0; y--)
+                    if (gm.GetBlock(rx, y, rz) != BlockType.Air) { fire.Ignite(new(rx, y, rz)); break; }
             }
         }
+
+        // Dead cleanup
+        for (int i = spawner.Colonists.Count - 1; i >= 0; i--)
+            if (spawner.Colonists[i] == null || spawner.Colonists[i].currentState == ColonistState.Dead)
+                spawner.Colonists.RemoveAt(i);
     }
 
-    void Every30Seconds()
+    void Tick30s()
     {
-        // Scale raid difficulty with wealth
         var econ = FindFirstObjectByType<EconomyManager>();
         var raids = FindFirstObjectByType<RaidManager>();
         if (econ != null && raids != null) raids.UpdateWealth(econ.TotalCopper);
 
-        // Apply seasonal modifiers to farming
         var seasons = FindFirstObjectByType<FireAndSeasons>();
         var plants = FindFirstObjectByType<PlantGrowth>();
-        if (seasons != null && plants != null)
-            plants.growthMultiplier = seasons.GetSeasonFarmMod();
+        if (seasons != null && plants != null) plants.growthMultiplier = seasons.GetSeasonFarmMod();
 
-        // Trade caravan chance
-        if (Random.value < 0.3f) // 30% chance every 30s
+        if (Random.value < 0.3f)
         {
             var trade = FindFirstObjectByType<TradeUI>();
             if (trade != null && !trade.IsVisible()) trade.Show();
