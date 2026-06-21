@@ -59,12 +59,16 @@ public class NeedsSystem : MonoBehaviour
     private float _cachedTemp = 20f;
     private float _cachedLight = 1f;
     private GridManager _grid;
+    private RoomQuality _roomQuality;
+    private TemperatureLight _tempLight;
 
     private void Awake()
     {
         _colonist = GetComponent<Colonist>();
         _day = FindObjectOfType<DayCycle>();
         _grid = FindObjectOfType<GridManager>();
+        _roomQuality = FindObjectOfType<RoomQuality>();
+        _tempLight = FindObjectOfType<TemperatureLight>();
     }
 
     private void Update()
@@ -162,9 +166,8 @@ public class NeedsSystem : MonoBehaviour
         // Room quality — check every 30 frames
         if (Time.frameCount % 30 == 0)
         {
-            RoomQuality rq = FindObjectOfType<RoomQuality>();
-            if (rq == null && _grid != null) rq = _grid.gameObject.AddComponent<RoomQuality>();
-            if (rq != null) _cachedRoomQuality = rq.GetRoomQuality(transform.position);
+            if (_roomQuality == null && _grid != null) _roomQuality = _grid.gameObject.AddComponent<RoomQuality>();
+            if (_roomQuality != null) _cachedRoomQuality = _roomQuality.GetRoomQuality(transform.position);
         }
         if (_cachedRoomQuality < 30) moodDelta -= 0.03f * dt;
         else if (_cachedRoomQuality > 70) moodDelta += 0.02f * dt;
@@ -172,9 +175,8 @@ public class NeedsSystem : MonoBehaviour
         // Temperature — check every 30 frames
         if (Time.frameCount % 30 == 0)
         {
-            TemperatureLight tl = FindObjectOfType<TemperatureLight>();
-            if (tl == null && _grid != null) tl = _grid.gameObject.AddComponent<TemperatureLight>();
-            if (tl != null) { _cachedTemp = tl.GetTemperature(transform.position); _cachedLight = tl.GetLightLevel(transform.position); }
+            if (_tempLight == null && _grid != null) _tempLight = _grid.gameObject.AddComponent<TemperatureLight>();
+            if (_tempLight != null) { _cachedTemp = _tempLight.GetTemperature(transform.position); _cachedLight = _tempLight.GetLightLevel(transform.position); }
         }
         if (_cachedTemp < 5f) moodDelta -= 0.08f * dt; // freezing
         else if (_cachedTemp > 35f) moodDelta -= 0.05f * dt; // too hot
@@ -234,6 +236,5 @@ public class NeedsSystem : MonoBehaviour
         _colonist.ModifyMood(3f);
     }
 
-    private bool IsPerkActive(Perk perk) => _colonist.perk == perk;
     private bool IsFlawActive(Flaw flaw) => _colonist.flaw == flaw;
 }

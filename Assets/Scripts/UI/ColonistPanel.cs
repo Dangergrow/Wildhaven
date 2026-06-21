@@ -73,7 +73,7 @@ public class ColonistPanel : MonoBehaviour
                 break;
             case 1: // Equipment
                 var eq = c.GetComponent<Equipment>();
-                txt = eq != null ? $"Weapon: {eq.weapon.itemType}\nHead: {eq.armorHead.itemType}\nBody: {eq.armorBody.itemType}\nLegs: {eq.armorLegs.itemType}\nTool: {eq.tool.itemType}" : "No equipment";
+                txt = eq != null ? $"Weapon: {(eq.weapon.itemType == 0 ? "None" : eq.weapon.itemType.ToString())}\nHead: {(eq.armorHead.itemType == 0 ? "None" : eq.armorHead.itemType.ToString())}\nBody: {(eq.armorBody.itemType == 0 ? "None" : eq.armorBody.itemType.ToString())}\nLegs: {(eq.armorLegs.itemType == 0 ? "None" : eq.armorLegs.itemType.ToString())}\nTool: {(eq.tool.itemType == 0 ? "None" : eq.tool.itemType.ToString())}" : "No equipment";
                 break;
             case 2: // Inventory
                 var inv = c.GetComponent<Inventory>();

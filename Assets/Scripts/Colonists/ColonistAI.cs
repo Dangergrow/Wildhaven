@@ -184,7 +184,6 @@ public class ColonistAI : MonoBehaviour
     /// Checks if the character's bounding box can move to the target position.
     /// Tests 5 points (center + 4 corners at half-width) against grid.
     /// </summary>
-    static int _blockLogFrame;
     bool CanMoveTo(Vector3 pos, float halfW = 0.35f, bool checkGround = true)
     {
         if (_grid == null) return true;
@@ -307,6 +306,7 @@ public class ColonistAI : MonoBehaviour
                 if (inv.Has(food, 1))
                 {
                     inv.RemoveItem(food, 1);
+                    if (_needs == null) return;
                     _needs.Eat(30f, 5f);
                     TransitionTo(ColonistState.Eating);
                     return;

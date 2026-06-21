@@ -27,6 +27,8 @@ public class Trap : MonoBehaviour
     public float lastTriggerTime;
     public bool isArmed = true;
 
+    private Enemy _slowedEnemy;
+
     void OnTriggerEnter(Collider other)
     {
         if (!isArmed) return;
@@ -53,6 +55,7 @@ public class Trap : MonoBehaviour
                 break;
 
             case TrapType.Pit:
+                _slowedEnemy = enemy;
                 enemy.moveSpeed *= slowAmount;
                 Invoke(nameof(RestoreSpeed), slowDuration);
                 Debug.Log($"[Trap] Pit slowed {enemy.enemyName} for {slowDuration}s");
@@ -79,6 +82,10 @@ public class Trap : MonoBehaviour
 
     void RestoreSpeed()
     {
-        // TODO: track which enemy was slowed and restore
+        if (_slowedEnemy != null)
+        {
+            _slowedEnemy.moveSpeed /= slowAmount;
+            _slowedEnemy = null;
+        }
     }
 }

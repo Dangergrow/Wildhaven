@@ -5,6 +5,23 @@ public class CentralIntegration : MonoBehaviour
 {
     private float _t1, _t5, _t30;
 
+    private GameManager _gameManager;
+    private ColonistSpawner _colonistSpawner;
+    private DayCycle _dayCycle;
+    private ColonyServices _colonyServices;
+    private GridManager _gridManager;
+    private QuestManager _questManager;
+    private ForageSpawner _forageSpawner;
+    private PlantGrowth _plantGrowth;
+    private AnimalManager _animalManager;
+    private PrisonerSystem _prisonSystem;
+    private CookingSystem _cookingSystem;
+    private ReligionSystem _religionSystem;
+    private FireAndSeasons _fireAndSeasons;
+    private EconomyManager _economyManager;
+    private RaidManager _raidManager;
+    private TradeUI _tradeUI;
+
     /// <summary>Auto-create on game start — no manual scene setup required.</summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void AutoCreate()
@@ -30,111 +47,112 @@ public class CentralIntegration : MonoBehaviour
 
     void Tick1s()
     {
-        var spawner = FindFirstObjectByType<ColonistSpawner>();
-        var day = FindFirstObjectByType<DayCycle>();
-        if (spawner == null || day == null) return;
-        foreach (var c in spawner.Colonists)
+        if (_colonistSpawner == null) _colonistSpawner = FindFirstObjectByType<ColonistSpawner>();
+        if (_dayCycle == null) _dayCycle = FindFirstObjectByType<DayCycle>();
+        if (_colonistSpawner == null || _dayCycle == null) return;
+        foreach (var c in _colonistSpawner.Colonists)
         {
             if (c == null || c.currentState == ColonistState.Dead) continue;
             var sched = c.GetComponent<ColonistSchedule>();
             if (sched == null) sched = c.gameObject.AddComponent<ColonistSchedule>();
-            sched.ApplySchedule(c, day.hour);
+            sched.ApplySchedule(c, _dayCycle.hour);
         }
     }
 
     void Tick5s()
     {
-        var colony = FindFirstObjectByType<ColonyServices>();
-        var spawner = FindFirstObjectByType<ColonistSpawner>();
-        var gm = FindFirstObjectByType<GridManager>();
-        if (spawner == null) return;
+        if (_colonyServices == null) _colonyServices = FindFirstObjectByType<ColonyServices>();
+        if (_colonistSpawner == null) _colonistSpawner = FindFirstObjectByType<ColonistSpawner>();
+        if (_gridManager == null) _gridManager = FindFirstObjectByType<GridManager>();
+        if (_colonistSpawner == null) return;
 
-        if (colony != null) { colony.AutoHeal(); colony.AutoRoof(); }
+        if (_colonyServices != null) { _colonyServices.AutoHeal(); _colonyServices.AutoRoof(); }
 
-        foreach (var c in spawner.Colonists)
+        foreach (var c in _colonistSpawner.Colonists)
         {
             if (c == null || c.currentState == ColonistState.Dead) continue;
             var inv = c.GetComponent<Inventory>();
 
             // Quest completion
-            var quests = FindFirstObjectByType<QuestManager>();
-            if (quests != null && gm != null)
-                quests.TryCompleteAt(gm.WorldToGrid(c.transform.position), c);
+            if (_questManager == null) _questManager = FindFirstObjectByType<QuestManager>();
+            if (_questManager != null && _gridManager != null)
+                _questManager.TryCompleteAt(_gridManager.WorldToGrid(c.transform.position), c);
 
             // Forage harvest
-            var forage = FindFirstObjectByType<ForageSpawner>();
-            if (forage != null && gm != null)
+            if (_forageSpawner == null) _forageSpawner = FindFirstObjectByType<ForageSpawner>();
+            if (_forageSpawner != null && _gridManager != null)
             {
-                var r = forage.TryHarvest(gm.WorldToGrid(c.transform.position));
+                var r = _forageSpawner.TryHarvest(_gridManager.WorldToGrid(c.transform.position));
                 if (r != null && inv != null) inv.AddItem(r.Value.Item1, r.Value.Item2);
             }
 
             // Plant harvest
-            var plants = FindFirstObjectByType<PlantGrowth>();
-            if (plants != null && gm != null && c.farmingSkill >= 2)
-                plants.TryHarvestAt(gm.WorldToGrid(c.transform.position), inv);
+            if (_plantGrowth == null) _plantGrowth = FindFirstObjectByType<PlantGrowth>();
+            if (_plantGrowth != null && _gridManager != null && c.farmingSkill >= 2)
+                _plantGrowth.TryHarvestAt(_gridManager.WorldToGrid(c.transform.position), inv);
 
             // Hunting
-            var animals = FindFirstObjectByType<AnimalManager>();
-            if (animals != null && gm != null && c.huntingSkill >= 2)
+            if (_animalManager == null) _animalManager = FindFirstObjectByType<AnimalManager>();
+            if (_animalManager != null && _gridManager != null && c.huntingSkill >= 2)
             {
-                var loot = animals.Hunt(gm.WorldToGrid(c.transform.position), c);
+                var loot = _animalManager.Hunt(_gridManager.WorldToGrid(c.transform.position), c);
                 if (loot != null && inv != null) inv.AddItem(loot.Value.Item1, loot.Value.Item2);
             }
 
             // Taming
-            if (animals != null && gm != null && c.animalHandlingSkill >= 3)
-                animals.Tame(gm.WorldToGrid(c.transform.position), c);
+            if (_animalManager == null) _animalManager = FindFirstObjectByType<AnimalManager>();
+            if (_animalManager != null && _gridManager != null && c.animalHandlingSkill >= 3)
+                _animalManager.Tame(_gridManager.WorldToGrid(c.transform.position), c);
 
             // Prisoner recruitment (warden with social skill)
-            var prison = FindFirstObjectByType<PrisonerSystem>();
-            if (prison != null && c.socialSkill >= 5 && prison.PrisonerCount > 0)
-                for (int i = 0; i < prison.PrisonerCount; i++)
-                    if (prison.TryRecruit(c, i)) break;
+            if (_prisonSystem == null) _prisonSystem = FindFirstObjectByType<PrisonerSystem>();
+            if (_prisonSystem != null && c.socialSkill >= 5 && _prisonSystem.PrisonerCount > 0)
+                for (int i = 0; i < _prisonSystem.PrisonerCount; i++)
+                    if (_prisonSystem.TryRecruit(c, i)) break;
 
             // Cooking
-            var cooking = FindFirstObjectByType<CookingSystem>();
-            if (cooking != null && inv != null)
-                foreach (var rec in cooking.recipes)
-                    if (cooking.TryCook(rec, inv, out _)) break;
+            if (_cookingSystem == null) _cookingSystem = FindFirstObjectByType<CookingSystem>();
+            if (_cookingSystem != null && inv != null)
+                foreach (var rec in _cookingSystem.recipes)
+                    if (_cookingSystem.TryCook(rec, inv, out _)) break;
         }
 
         // Religion
-        var rel = FindFirstObjectByType<ReligionSystem>();
-        if (rel != null) rel.PerformRitual(ReligionSystem.RitualType.Prayer, Vector3Int.zero, ReligionSystem.Belief.NatureWorship);
+        if (_religionSystem == null) _religionSystem = FindFirstObjectByType<ReligionSystem>();
+        if (_religionSystem != null) _religionSystem.PerformRitual(ReligionSystem.RitualType.Prayer, Vector3Int.zero, ReligionSystem.Belief.NatureWorship);
 
         // Fire
-        if (Random.value < 0.01f && gm != null)
+        if (Random.value < 0.01f && _gridManager != null)
         {
-            var fire = FindFirstObjectByType<FireAndSeasons>();
-            if (fire != null)
+            if (_fireAndSeasons == null) _fireAndSeasons = FindFirstObjectByType<FireAndSeasons>();
+            if (_fireAndSeasons != null)
             {
-                int rx = Random.Range(0, gm.Width), rz = Random.Range(0, gm.Depth);
-                for (int y = gm.Height - 1; y > 0; y--)
-                    if (gm.GetBlock(rx, y, rz) != BlockType.Air) { fire.Ignite(new(rx, y, rz)); break; }
+                int rx = Random.Range(0, _gridManager.Width), rz = Random.Range(0, _gridManager.Depth);
+                for (int y = _gridManager.Height - 1; y > 0; y--)
+                    if (_gridManager.GetBlock(rx, y, rz) != BlockType.Air) { _fireAndSeasons.Ignite(new(rx, y, rz)); break; }
             }
         }
 
         // Dead cleanup
-        for (int i = spawner.Colonists.Count - 1; i >= 0; i--)
-            if (spawner.Colonists[i] == null || spawner.Colonists[i].currentState == ColonistState.Dead)
-                spawner.Colonists.RemoveAt(i);
+        for (int i = _colonistSpawner.Colonists.Count - 1; i >= 0; i--)
+            if (_colonistSpawner.Colonists[i] == null || _colonistSpawner.Colonists[i].currentState == ColonistState.Dead)
+                _colonistSpawner.Colonists.RemoveAt(i);
     }
 
     void Tick30s()
     {
-        var econ = FindFirstObjectByType<EconomyManager>();
-        var raids = FindFirstObjectByType<RaidManager>();
-        if (econ != null && raids != null) raids.UpdateWealth(econ.TotalCopper);
+        if (_economyManager == null) _economyManager = FindFirstObjectByType<EconomyManager>();
+        if (_raidManager == null) _raidManager = FindFirstObjectByType<RaidManager>();
+        if (_economyManager != null && _raidManager != null) _raidManager.UpdateWealth(_economyManager.TotalCopper);
 
-        var seasons = FindFirstObjectByType<FireAndSeasons>();
-        var plants = FindFirstObjectByType<PlantGrowth>();
-        if (seasons != null && plants != null) plants.growthMultiplier = seasons.GetSeasonFarmMod();
+        if (_fireAndSeasons == null) _fireAndSeasons = FindFirstObjectByType<FireAndSeasons>();
+        if (_plantGrowth == null) _plantGrowth = FindFirstObjectByType<PlantGrowth>();
+        if (_fireAndSeasons != null && _plantGrowth != null) _plantGrowth.growthMultiplier = _fireAndSeasons.GetSeasonFarmMod();
 
         if (Random.value < 0.3f)
         {
-            var trade = FindFirstObjectByType<TradeUI>();
-            if (trade != null && !trade.IsVisible()) trade.Show();
+            if (_tradeUI == null) _tradeUI = FindFirstObjectByType<TradeUI>();
+            if (_tradeUI != null && !_tradeUI.IsVisible()) _tradeUI.Show();
         }
     }
 }

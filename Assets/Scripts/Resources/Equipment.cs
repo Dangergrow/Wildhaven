@@ -71,20 +71,29 @@ public class Equipment : MonoBehaviour
     /// </summary>
     public bool Unequip(EquipSlot slot)
     {
-        EquippedItem item = slot switch
+        EquippedItem item;
+        switch (slot)
         {
-            EquipSlot.Weapon => weapon,
-            EquipSlot.Head => armorHead,
-            EquipSlot.Body => armorBody,
-            EquipSlot.Legs => armorLegs,
-            EquipSlot.Tool => tool,
-            _ => null
-        };
+            case EquipSlot.Weapon: item = weapon; break;
+            case EquipSlot.Head: item = armorHead; break;
+            case EquipSlot.Body: item = armorBody; break;
+            case EquipSlot.Legs: item = armorLegs; break;
+            case EquipSlot.Tool: item = tool; break;
+            default: return false;
+        }
 
-        if (item == null || item.itemType == 0) return false;
+        if (item.itemType == 0) return false;
 
         _inventory.AddItem(item.itemType, 1);
-        item.itemType = 0;
+
+        switch (slot)
+        {
+            case EquipSlot.Weapon: weapon.itemType = 0; break;
+            case EquipSlot.Head: armorHead.itemType = 0; break;
+            case EquipSlot.Body: armorBody.itemType = 0; break;
+            case EquipSlot.Legs: armorLegs.itemType = 0; break;
+            case EquipSlot.Tool: tool.itemType = 0; break;
+        }
 
         RecalculateStats();
         return true;
@@ -126,10 +135,10 @@ public class Equipment : MonoBehaviour
 }
 
 [System.Serializable]
-public class EquippedItem
+public struct EquippedItem
 {
     public ItemType itemType;
-    public float durability = 100f;
+    public float durability;
 }
 
 public enum EquipSlot

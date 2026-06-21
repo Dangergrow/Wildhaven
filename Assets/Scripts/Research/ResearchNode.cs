@@ -16,10 +16,10 @@ public class ResearchNode
     public int[] resourceAmounts;
     public bool isCompleted;
     public bool isAvailable; // visible in tree
-    public float progress;   // 0 to scienceCost
+    public float _progress;   // 0 to scienceCost
 
     /// <summary>Returns completion percentage (0-1).</summary>
-    public float Progress => scienceCost > 0 ? Mathf.Clamp01(progress / scienceCost) : 0f;
+    public float Progress => scienceCost > 0 ? Mathf.Clamp01(_progress / scienceCost) : 0f;
 }
 
 /// <summary>

@@ -31,6 +31,8 @@ public class MentalState : MonoBehaviour
     {
         _colonist = GetComponent<Colonist>();
         if (_colonist == null) _colonist = gameObject.AddComponent<Colonist>();
+        _day = FindObjectOfType<DayCycle>();
+        _spawner = FindObjectOfType<ColonistSpawner>();
         if (breakTypes == null || breakTypes.Length == 0)
         {
             breakTypes = new MentalBreakType[]

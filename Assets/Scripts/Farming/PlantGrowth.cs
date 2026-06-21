@@ -32,7 +32,7 @@ public class PlantGrowth : MonoBehaviour
             {
                 new CropDef { cropType = CropType.Wheat, growDays = 3f, yieldAmount = 5, yieldItem = ItemType.Wheat, requiresLight = false },
                 new CropDef { cropType = CropType.Potato, growDays = 4f, yieldAmount = 4, yieldItem = ItemType.Potato, requiresLight = false },
-                new CropDef { cropType = CropType.Cannabis, growDays = 6f, yieldAmount = 3, yieldItem = ItemType.HempFlower, requiresLight = true, bonusItem = ItemType.SeedsCannabis, bonusChance = 0.5f },
+                new CropDef { cropType = CropType.Cannabis, growDays = 6f, yieldAmount = 3, yieldItem = ItemType.HempFlower, requiresLight = true, bonusItem = ItemType.SeedsCannabis, bonusChance = 0.5f, hasBonusItem = true },
                 new CropDef { cropType = CropType.MedicalHerb, growDays = 5f, yieldAmount = 3, yieldItem = ItemType.MedicalHerb, requiresLight = false },
                 new CropDef { cropType = CropType.Berry, growDays = 4f, yieldAmount = 6, yieldItem = ItemType.Berries, requiresLight = false },
                 new CropDef { cropType = CropType.Cotton, growDays = 5f, yieldAmount = 4, yieldItem = ItemType.Cotton, requiresLight = false },
@@ -104,7 +104,7 @@ public class PlantGrowth : MonoBehaviour
         amount = def.yieldAmount + _rng.Next(0, 3);
 
         // Bonus seed drop
-        if (def.bonusItem != ItemType.Coal && Random.value < def.bonusChance)
+        if (def.hasBonusItem && Random.value < def.bonusChance)
         {
             // TODO: spawn bonus item as well
         }
@@ -225,6 +225,7 @@ public class CropDef
     public bool requiresLight;
     public ItemType bonusItem;
     public float bonusChance;
+    public bool hasBonusItem;
 }
 
 public enum CropType

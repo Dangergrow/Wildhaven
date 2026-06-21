@@ -13,13 +13,13 @@ public class ResearchEffects : MonoBehaviour
         if (_research == null) return true; // no research = everything unlocked
         return type switch
         {
-            BlockType.StoneBrick => _research.IsResearched("stonecutting"),
-            BlockType.Glass => _research.IsResearched("glassmaking"),
-            BlockType.IronOre => _research.IsResearched("metalworking"),
-            BlockType.GoldOre => _research.IsResearched("metalworking"),
-            BlockType.Obsidian => _research.IsResearched("advanced_stone"),
-            BlockType.Marble => _research.IsResearched("stonecutting"),
-            BlockType.CopperOre => _research.IsResearched("metalworking"),
+            BlockType.StoneBrick => _research.IsResearched("stoneworking"),
+            BlockType.Glass => _research.IsResearched("basic_building"),
+            BlockType.IronOre => _research.IsResearched("metal1"),
+            BlockType.GoldOre => _research.IsResearched("metal1"),
+            BlockType.Obsidian => _research.IsResearched("stoneworking"),
+            BlockType.Marble => _research.IsResearched("stoneworking"),
+            BlockType.CopperOre => _research.IsResearched("metal1"),
             _ => true, // basic blocks always unlocked
         };
     }

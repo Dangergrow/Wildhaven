@@ -6,8 +6,6 @@ using UnityEngine;
 /// </summary>
 public class ColonistGravity : MonoBehaviour
 {
-    public float gravity = 9.8f;
-    public float fallSpeed;
     private GridManager _grid;
     private Vector3 _velocity;
 

@@ -50,6 +50,7 @@ public class FamilySystem : MonoBehaviour
 
         // Create baby
         var baby = SpawnChild(mother, father);
+        if (baby == null) return false;
         _families.Add(new FamilyRecord { parent1 = mother, parent2 = father, child = baby, birthDay = _day.day });
         Debug.Log($"[Family] {mother.colonistName} gave birth to {baby.colonistName}!");
         return true;

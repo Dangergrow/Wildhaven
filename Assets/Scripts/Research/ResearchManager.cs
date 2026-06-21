@@ -68,9 +68,9 @@ public class ResearchManager : MonoBehaviour
             {
                 float applied = Mathf.Min(rp, sciencePoints);
                 sciencePoints -= applied;
-                currentResearch.progress += applied;
+                currentResearch._progress += applied;
 
-                if (currentResearch.progress >= currentResearch.scienceCost)
+                if (currentResearch._progress >= currentResearch.scienceCost)
                     CompleteResearch(currentResearch);
             }
         }

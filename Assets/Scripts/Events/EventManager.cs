@@ -121,7 +121,7 @@ public class EventManager : MonoBehaviour
                 break;
 
             case EventType.Plague:
-                if (_colonistSpawner != null)
+                if (_colonistSpawner == null) break;
                 {
                     foreach (Colonist c in _colonistSpawner.Colonists)
                         if (Random.value < 0.5f) c.TakeDamage(10f);
@@ -138,21 +138,25 @@ public class EventManager : MonoBehaviour
                 break;
 
             case EventType.HeatWave:
+                if (_colonistSpawner == null) break;
                 foreach (Colonist c in _colonistSpawner.Colonists)
                     c.ModifyMood(-10f);
                 break;
 
             case EventType.ColdSnap:
+                if (_colonistSpawner == null) break;
                 foreach (Colonist c in _colonistSpawner.Colonists)
                     c.ModifyMood(-5f);
                 break;
 
             case EventType.PsychicWave:
+                if (_colonistSpawner == null) break;
                 foreach (Colonist c in _colonistSpawner.Colonists)
                     c.ModifyMood(-20f);
                 break;
 
             case EventType.CropBoom:
+                if (_colonistSpawner == null) break;
                 foreach (Colonist c in _colonistSpawner.Colonists)
                     c.ModifyMood(10f);
                 break;

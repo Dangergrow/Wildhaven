@@ -76,8 +76,8 @@ public class WorldMapGenerator : MonoBehaviour
                 }
 
                 // Terrain
-                tile.terrain = (tile.elevation > 0.7f) ? HexTerrain.Hills :
-                               (tile.elevation > 0.85f) ? HexTerrain.Mountains : HexTerrain.Flat;
+                tile.terrain = (tile.elevation > 0.85f) ? HexTerrain.Mountains :
+                               (tile.elevation > 0.7f) ? HexTerrain.Hills : HexTerrain.Flat;
 
                 Tiles[(q, r)] = tile;
             }

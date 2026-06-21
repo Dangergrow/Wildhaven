@@ -18,6 +18,11 @@ public class CraftingStation : MonoBehaviour
     public CraftOrder[] orders; // up to 5
     public int currentOrderIndex = -1;
 
+    void Awake()
+    {
+        orders = new CraftOrder[5];
+    }
+
     private void Update()
     {
         if (!isCrafting && currentOrderIndex >= 0 && currentOrderIndex < orders.Length)
