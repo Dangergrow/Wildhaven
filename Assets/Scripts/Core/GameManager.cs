@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<MedicineSystem>("Medicine");
         EnsureSystem<ColonyServices>("Services");
         EnsureSystem<StabilitySystem>("Stability");
+        EnsureSystem<FireAndSeasons>("FireSeasons");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
