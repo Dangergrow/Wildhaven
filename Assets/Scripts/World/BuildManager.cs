@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class BuildManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class BuildManager : MonoBehaviour
 
     private Vector3Int _placementPos;
     private bool _canPlace;
+    private bool _isDragging;
+    private Vector3Int _dragStart;
+    private HashSet<Vector3Int> _placedThisDrag = new();
 
     void Update()
     {
@@ -41,18 +45,29 @@ public class BuildManager : MonoBehaviour
         for (int i = 0; i < 6; i++) { float d = Vector3.Dot(offs[i], dir); if (d > bestDot) { bestDot = d; best = i; } }
         Vector3Int ap = new(hit.Value.x + offs[best].x, hit.Value.y + offs[best].y, hit.Value.z + offs[best].z);
 
-        if (Mouse.current.leftButton.wasPressedThisFrame
-            && _gridManager.InBounds(ap.x, ap.y, ap.z)
-            && _gridManager.GetBlock(ap.x, ap.y, ap.z) == BlockType.Air)
+        // Drag build: LMB held down = line/area of blocks
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if (Keyboard.current.leftShiftKey.isPressed)
+            _isDragging = true;
+            _dragStart = ap;
+            _placedThisDrag.Clear();
+            PlaceBlock(ap); // first block
+        }
+        if (Mouse.current.leftButton.isPressed && _isDragging && ap != _dragStart)
+        {
+            // Build line between drag start and current position
+            foreach (var pos in Line3D(_dragStart, ap))
             {
-                // Blueprint mode — colonist builds later
-                BlueprintManager bpm = _gridManager.GetComponent<BlueprintManager>();
-                if (bpm == null) bpm = _gridManager.gameObject.AddComponent<BlueprintManager>();
-                bpm.AddBlueprint(ap, _selectedType);
+                if (!_placedThisDrag.Contains(pos))
+                {
+                    PlaceBlock(pos);
+                    _placedThisDrag.Add(pos);
+                }
             }
-            else _gridManager.SetBlock(ap.x, ap.y, ap.z, _selectedType);
+        }
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            _isDragging = false;
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
@@ -60,4 +75,41 @@ public class BuildManager : MonoBehaviour
     }
 
     // OnGUI removed — use CanvasHUD instead
+
+    void PlaceBlock(Vector3Int pos)
+    {
+        if (!_gridManager.InBounds(pos.x, pos.y, pos.z)) return;
+        if (_gridManager.GetBlock(pos.x, pos.y, pos.z) != BlockType.Air) return;
+        if (Keyboard.current.leftShiftKey.isPressed)
+        {
+            BlueprintManager bpm = _gridManager.GetComponent<BlueprintManager>();
+            if (bpm == null) bpm = _gridManager.gameObject.AddComponent<BlueprintManager>();
+            bpm.AddBlueprint(pos, _selectedType);
+        }
+        else _gridManager.SetBlock(pos.x, pos.y, pos.z, _selectedType);
+    }
+
+    /// <summary>Bresenham 3D line between two grid points.</summary>
+    IEnumerable<Vector3Int> Line3D(Vector3Int a, Vector3Int b)
+    {
+        int dx = Mathf.Abs(b.x - a.x), dy = Mathf.Abs(b.y - a.y), dz = Mathf.Abs(b.z - a.z);
+        int sx = a.x < b.x ? 1 : -1, sy = a.y < b.y ? 1 : -1, sz = a.z < b.z ? 1 : -1;
+        int x = a.x, y = a.y, z = a.z;
+        if (dx >= dy && dx >= dz)
+        {
+            int p1 = 2 * dy - dx, p2 = 2 * dz - dx;
+            while (x != b.x) { yield return new(x, y, z); x += sx; if (p1 >= 0) { y += sy; p1 -= 2 * dx; } p1 += 2 * dy; if (p2 >= 0) { z += sz; p2 -= 2 * dx; } p2 += 2 * dz; }
+        }
+        else if (dy >= dx && dy >= dz)
+        {
+            int p1 = 2 * dx - dy, p2 = 2 * dz - dy;
+            while (y != b.y) { yield return new(x, y, z); y += sy; if (p1 >= 0) { x += sx; p1 -= 2 * dy; } p1 += 2 * dx; if (p2 >= 0) { z += sz; p2 -= 2 * dy; } p2 += 2 * dz; }
+        }
+        else
+        {
+            int p1 = 2 * dx - dz, p2 = 2 * dy - dz;
+            while (z != b.z) { yield return new(x, y, z); z += sz; if (p1 >= 0) { x += sx; p1 -= 2 * dz; } p1 += 2 * dx; if (p2 >= 0) { y += sy; p2 -= 2 * dz; } p2 += 2 * dy; }
+        }
+        yield return b;
+    }
 }
