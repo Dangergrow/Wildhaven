@@ -132,7 +132,33 @@ public class MentalState : MonoBehaviour
                 break;
 
             case BreakEffect.Tantrum:
-                // Destroy items
+                // Destroy random nearby blocks
+                var gm = FindObjectOfType<GridManager>();
+                if (gm != null)
+                {
+                    Vector3Int p = gm.WorldToGrid(transform.position);
+                    for (int dx = -2; dx <= 2; dx++)
+                    for (int dz = -2; dz <= 2; dz++)
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        Vector3Int tp = new(p.x + dx, p.y + dy, p.z + dz);
+                        if (gm.InBounds(tp.x, tp.y, tp.z) && gm.GetBlock(tp.x, tp.y, tp.z) != BlockType.Air)
+                            gm.RemoveBlock(tp.x, tp.y, tp.z);
+                    }
+                }
+                _colonist.ModifyMood(-10f); // guilt
+                break;
+
+            case BreakEffect.SadWander:
+                // Force colonist to wander for duration (AI handles via state)
+                _colonist.currentState = ColonistState.Idle;
+                _colonist.ModifyMood(-3f);
+                break;
+
+            case BreakEffect.Hide:
+                // Colonist refuses to work, stays in place
+                _colonist.currentState = ColonistState.Idle;
+                _colonist.comfort += 10f;
                 break;
         }
 
