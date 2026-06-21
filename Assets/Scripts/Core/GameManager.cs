@@ -36,6 +36,20 @@ public class GameManager : MonoBehaviour
             es.AddComponent<UnityEngine.EventSystems.EventSystem>();
             es.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
         }
+
+        // Fix cameras: tag the one with CameraController as MainCamera, disable others
+        var allCams = FindObjectsByType<Camera>(FindObjectsSortMode.None);
+        Camera mainCam = null;
+        foreach (var cam in allCams)
+        {
+            if (cam.GetComponent<CameraController>() != null)
+            {
+                cam.tag = "MainCamera";
+                mainCam = cam;
+            }
+        }
+        if (mainCam == null && allCams.Length > 0)
+            allCams[0].tag = "MainCamera"; // fallback: tag first camera
         EnsureSystem<WorkPanel>("WorkPanel");
         EnsureSystem<ColonistPanel>("ColPanel");
         EnsureSystem<TradeUI>("TradeUI");
