@@ -130,6 +130,8 @@ public class MainMenu : MonoBehaviour
 
     void OnContinue()
     {
+        var gsm = FindFirstObjectByType<GameSaveManager>();
+        if (gsm != null && gsm.HasSave) gsm.LoadGame();
         StartGame();
     }
 
