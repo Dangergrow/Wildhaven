@@ -161,6 +161,26 @@ public class PlantGrowth : MonoBehaviour
     /// </summary>
     public int PlantCount => _plants.Count;
 
+    /// <summary>Plant a seed at grid position.</summary>
+    public bool TryPlant(Vector3Int pos, ItemType seedType)
+    {
+        if (_plants.ContainsKey(pos)) return false;
+        // Check soil — must be dirt or grass below
+        BlockType below = _grid.GetBlock(pos.x, pos.y - 1, pos.z);
+        if (below != BlockType.Dirt && below != BlockType.Grass) return false;
+        if (_grid.GetBlock(pos.x, pos.y, pos.z) != BlockType.Air) return false;
+
+        CropType crop = seedType switch
+        {
+            ItemType.SeedsWheat => CropType.Wheat,
+            ItemType.SeedsPotato => CropType.Potato,
+            ItemType.SeedsCannabis => CropType.Cannabis,
+            _ => CropType.Wheat
+        };
+        _plants[pos] = new PlantData { cropType = crop, growth = 0f };
+        return true;
+    }
+
     /// <summary>Try to harvest mature plant at grid position. Returns true if harvested.</summary>
     public bool TryHarvestAt(Vector3Int pos, Inventory inv)
     {
