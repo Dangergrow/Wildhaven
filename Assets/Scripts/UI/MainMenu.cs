@@ -1,27 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Full main menu: New Game, Continue, Multiplayer, Settings, About, Quit.
-/// In editor: auto-skips to game.
-/// </summary>
+/// <summary>Full main menu: New Game, Continue, Multiplayer, Settings, About, Quit.</summary>
 public class MainMenu : MonoBehaviour
 {
     private Canvas _canvas;
     private ColonistSpawner _spawner;
-    private static bool _firstStart = true;
 
     void Start()
     {
-#if UNITY_EDITOR
-        if (_firstStart)
-        {
-            _firstStart = false;
-            StartGame();
-            return;
-        }
-#endif
-
         _spawner = FindFirstObjectByType<ColonistSpawner>();
 
         var go = new GameObject("__MenuCanvas__");
