@@ -18,6 +18,10 @@ public class ColonistSpawner : MonoBehaviour
 
     void Start()
     {
+        // Auto-start game in editor for testing
+        #if UNITY_EDITOR
+        gameStarted = true;
+        #endif
         Debug.Log("[ColonistSpawner] Starting spawn in 0.5s...");
         Invoke(nameof(DoSpawn), 0.5f);
     }
