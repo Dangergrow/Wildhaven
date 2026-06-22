@@ -176,7 +176,16 @@ public class Colonist : MonoBehaviour
     private void Die()
     {
         currentState = ColonistState.Dead;
-        Debug.Log($"[Colonist] {colonistName} has died.");
+        // Leave a corpse on the ground
+        GameObject corpse = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        corpse.transform.position = transform.position + Vector3.up * 0.3f;
+        corpse.transform.localScale = new Vector3(0.7f, 0.3f, 0.7f);
+        corpse.GetComponent<Renderer>().material.color = new Color(0.15f, 0.05f, 0.05f);
+        corpse.name = $"Corpse_{colonistName}";
+        Destroy(corpse.GetComponent<Collider>());
+        // Corpse decays after 60 seconds (can be buried sooner)
+        Destroy(corpse, 60f);
+        Debug.Log($"[Colonist] {colonistName} has died. Corpse at {transform.position}.");
     }
 
     /// <summary>
