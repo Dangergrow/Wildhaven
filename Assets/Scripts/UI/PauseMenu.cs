@@ -43,6 +43,13 @@ public class PauseMenu : MonoBehaviour
             GameSaveManager sv = FindFirstObjectByType<GameSaveManager>();
             if (sv != null) sv.LoadGame();
         }
+        if (GUILayout.Button("Settings", GUILayout.Height(30)))
+        {
+            GameSettings gs = FindFirstObjectByType<GameSettings>();
+            if (gs != null) gs.Show();
+            _paused = false;
+            if (_day != null) _day.gameSpeed = 1f;
+        }
         if (GUILayout.Button("Main Menu", GUILayout.Height(30)))
         {
             _paused = false;

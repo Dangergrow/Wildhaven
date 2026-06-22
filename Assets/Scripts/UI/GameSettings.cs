@@ -50,13 +50,12 @@ public class GameSettings : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current == null) return;
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && !_visible) { Show(); return; }
-        if (_visible && Keyboard.current.escapeKey.wasPressedThisFrame) Hide();
+        // Only show via PauseMenu button, not Esc directly
+        // Esc is handled by PauseMenu
     }
 
-    void Show() { _visible = true; _canvas.gameObject.SetActive(true); }
-    void Hide() { _visible = false; _canvas.gameObject.SetActive(false); }
+    public void Show() { _visible = true; _canvas.gameObject.SetActive(true); }
+    public void Hide() { _visible = false; _canvas.gameObject.SetActive(false); }
 
     void BuildUI()
     {
