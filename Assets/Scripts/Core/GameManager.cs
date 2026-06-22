@@ -52,7 +52,8 @@ public class GameManager : MonoBehaviour
         EnsureSystem<ReligionSystem>("Religion");
         EnsureSystem<MedicineSystem>("Medicine");
         EnsureSystem<ColonyServices>("Services");
-        EnsureSystem<StabilitySystem>("Stability");
+        // StabilitySystem disabled — collapses entire world (needs fix: only check player-placed blocks)
+        // EnsureSystem<StabilitySystem>("Stability");
         EnsureSystem<FireAndSeasons>("FireSeasons");
         EnsureSystem<RepairSystem>("Repair");
         EnsureSystem<AnimalManager>("Animals");

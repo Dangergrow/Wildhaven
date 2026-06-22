@@ -12,6 +12,8 @@ public class StabilitySystem : MonoBehaviour
 
     void Update()
     {
+        // DISABLED until fixed: only check player-placed blocks, not natural terrain
+        return;
         _checkTimer += Time.unscaledDeltaTime;
         if (_checkTimer < 5f) return;
         _checkTimer = 0f;

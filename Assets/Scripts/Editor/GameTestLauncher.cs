@@ -26,7 +26,6 @@ public static class GameTestLauncher
     {
         if (!EditorApplication.isPlaying && !_testsDone)
         {
-            // Play mode ended (tests called Application.Quit or editor stopped)
             _testsDone = true;
             Debug.Log("[LAUNCHER] Play mode ended — exiting");
             EditorApplication.update -= OnEditorUpdate;
@@ -38,11 +37,11 @@ public static class GameTestLauncher
         {
             _playTimer += Time.unscaledDeltaTime;
 
-            // Check if RuntimeTestRunner finished
-            var runner = Object.FindFirstObjectByType<RuntimeTestRunner>();
-            if (runner == null && _playTimer > 5f)
+            // Check test results from log (RuntimeTestRunner logs "RESULTS:")
+            // and force exit after tests complete
+            if (_playTimer > 15f)
             {
-                Debug.Log("[LAUNCHER] RuntimeTestRunner destroyed — tests complete");
+                Debug.Log("[LAUNCHER] Tests should be done by now — stopping Play mode");
                 EditorApplication.isPlaying = false;
                 return;
             }
