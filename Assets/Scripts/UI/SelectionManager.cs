@@ -57,7 +57,9 @@ public class SelectionManager : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) { Deselect(); return; }
+            bool hitSomething = Physics.Raycast(ray, out RaycastHit hit, 300f);
+            Debug.Log($"[Selection] Ray hit={hitSomething}, obj={hit.collider?.gameObject?.name ?? "none"}");
+            if (!hitSomething || hit.collider == null) { Deselect(); return; }
             Colonist c = hit.collider.GetComponentInParent<Colonist>();
             if (c != null) Select(c); else Deselect();
         }
