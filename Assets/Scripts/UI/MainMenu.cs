@@ -57,10 +57,24 @@ public class MainMenu : MonoBehaviour
 
     void StartNewGame()
     {
-        // Delete saves and start fresh
         DeleteSave();
-        if (_spawner != null) _spawner.gameStarted = true;
-        StartGame();
+        // Use CharacterCreator for full colonist customization
+        var ccGo = new GameObject("__CharacterCreator__");
+        var cc = ccGo.AddComponent<CharacterCreator>();
+        cc.OnComplete = (templates) =>
+        {
+            // Apply templates to spawner before starting
+            var spawner = FindFirstObjectByType<ColonistSpawner>();
+            if (spawner != null)
+            {
+                spawner.templates = templates;
+                spawner.useTemplates = true;
+                spawner.gameStarted = true;
+            }
+            StartGame();
+        };
+        Destroy(_canvas.gameObject);
+        Destroy(this);
     }
 
     void StartGame()

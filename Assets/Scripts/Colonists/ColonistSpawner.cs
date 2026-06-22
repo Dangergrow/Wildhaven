@@ -13,6 +13,8 @@ public class ColonistSpawner : MonoBehaviour
     public string[] femaleNames = { "Anna", "Maria", "Elena" };
     public string[] surnames = { "Petrov", "Ivanov", "Sidorov" };
     public bool gameStarted;
+    public bool useTemplates;
+    public CharacterCreator.ColonistTemplate[] templates;
 
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
 
@@ -26,9 +28,12 @@ public class ColonistSpawner : MonoBehaviour
         Invoke(nameof(DoSpawn), 0.5f);
     }
 
+    private int _spawnIndex;
+
     void DoSpawn()
     {
         if (!gameStarted) return;
+        _spawnIndex = 0;
 
         Debug.Log("[ColonistSpawner] DoSpawn called");
         GridManager grid = FindObjectOfType<GridManager>();
@@ -103,12 +108,40 @@ public class ColonistSpawner : MonoBehaviour
         Colonist c = go.GetComponent<Colonist>();
         if (c == null) { Destroy(go); return null; }
 
-        c.isMale = Random.value > 0.5f;
-        c.colonistName = (c.isMale
-            ? maleNames[Random.Range(0, maleNames.Length)]
-            : femaleNames[Random.Range(0, femaleNames.Length)])
-            + " " + surnames[Random.Range(0, surnames.Length)];
-        c.age = Random.Range(18, 50);
+        // Use template if available
+        if (useTemplates && templates != null && _spawnIndex < templates.Length)
+        {
+            var t = templates[_spawnIndex];
+            c.colonistName = t.colonistName;
+            c.age = t.age;
+            c.isMale = t.isMale;
+            c.perk = t.perk;
+            c.flaw = t.flaw;
+            c.constructionSkill = t.skills[0];
+            c.miningSkill = t.skills[1];
+            c.cookingSkill = t.skills[2];
+            c.intellectualSkill = t.skills[3];
+            c.medicineSkill = t.skills[4];
+            c.meleeSkill = t.skills[5];
+            c.rangedSkill = t.skills[6];
+            c.craftingSkill = t.skills[7];
+            c.farmingSkill = t.skills[8];
+            c.socialSkill = t.skills[9];
+            c.animalHandlingSkill = t.skills[10];
+            c.huntingSkill = t.skills[11];
+            c.tradingSkill = t.skills[12];
+            c.artisticSkill = t.skills[13];
+        }
+        else
+        {
+            c.isMale = Random.value > 0.5f;
+            c.colonistName = (c.isMale
+                ? maleNames[Random.Range(0, maleNames.Length)]
+                : femaleNames[Random.Range(0, femaleNames.Length)])
+                + " " + surnames[Random.Range(0, surnames.Length)];
+            c.age = Random.Range(18, 50);
+        }
+        _spawnIndex++;
         Colonists.Add(c);
         return c;
     }
