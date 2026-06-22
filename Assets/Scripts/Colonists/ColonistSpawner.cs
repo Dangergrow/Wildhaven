@@ -158,7 +158,33 @@ public class ColonistSpawner : MonoBehaviour
         }
         _spawnIndex++;
         Colonists.Add(c);
+
+        // Give starting resources
+        GiveStartingResources(c);
+
         return c;
+    }
+
+    /// <summary>
+    /// Gives each colonist starting food, water, and basic tools.
+    /// Amounts based on the Going Medieval design doc.
+    /// </summary>
+    void GiveStartingResources(Colonist c)
+    {
+        Inventory inv = c.gameObject.GetComponent<Inventory>();
+        if (inv == null) inv = c.gameObject.AddComponent<Inventory>();
+
+        // Food — 3 days worth
+        inv.AddItem(ItemType.RationPack, 5);
+        inv.AddItem(ItemType.Bread, 2);
+        inv.AddItem(ItemType.Berries, 4);
+
+        // Basic tools (spread across colonists)
+        if (_spawnIndex == 1) inv.AddItem(ItemType.StonePickaxe, 1);
+        else if (_spawnIndex == 2) inv.AddItem(ItemType.StoneAxeTool, 1);
+        else inv.AddItem(ItemType.Knife, 1);
+
+        inv.AddItem(ItemType.Bandage, 3);
     }
 
     public void RemoveColonist(Colonist c) => Colonists.Remove(c);

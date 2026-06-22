@@ -13,7 +13,9 @@ public class GameBar : MonoBehaviour
     private Text _modeText, _categoryText, _infoText;
     private List<Button> _tabButtons = new();
     private List<Button> _blockButtons = new();
+    private List<Button> _orderButtons = new();
     private BuildManager _build;
+    private OrderMarkerSystem _orders;
     private SelectionManager _select;
 
     // Architect subcategories
@@ -29,6 +31,8 @@ public class GameBar : MonoBehaviour
     {
         _build = FindObjectOfType<BuildManager>();
         _select = FindObjectOfType<SelectionManager>();
+        _orders = FindObjectOfType<OrderMarkerSystem>();
+        if (_orders == null) { var go = new GameObject("OrderMarkerSystem"); _orders = go.AddComponent<OrderMarkerSystem>(); }
 
         // Canvas anchored to bottom
         var go = new GameObject("GameBarCanvas");
@@ -88,6 +92,8 @@ public class GameBar : MonoBehaviour
         currentMode = m;
         _modeText.text = $"[{m}]  < > change page";
         ClearBlockButtons();
+        ClearOrderButtons();
+        if (_orders != null) _orders.isPlacing = false;
 
         // Highlight active tab
         for (int i = 0; i < _tabButtons.Count; i++)
@@ -105,7 +111,7 @@ public class GameBar : MonoBehaviour
             case Mode.Architect: ShowArchitectBlocks(); _categoryText.text = "[1-9] blocks  [ ] page  Shift+LMB blueprint"; break;
             case Mode.Work: _categoryText.text = "F = prioritize  R = combat  C = cancel"; break;
             case Mode.Zone: _categoryText.text = "Stockpile  Dump  Farm  Room  Hospital  Temple"; break;
-            case Mode.Orders: _categoryText.text = "Chop  Mine  Harvest  Hunt  Haul  Deconstruct"; break;
+            case Mode.Orders: ShowOrderButtons(); _categoryText.text = "LMB place  RMB cancel  [1-6] type"; break;
         }
     }
 
@@ -141,6 +147,42 @@ public class GameBar : MonoBehaviour
     }
 
     void ClearBlockButtons() { foreach (var b in _blockButtons) if (b != null) Destroy(b.gameObject); _blockButtons.Clear(); }
+    void ClearOrderButtons() { foreach (var b in _orderButtons) if (b != null) Destroy(b.gameObject); _orderButtons.Clear(); }
+
+    void ShowOrderButtons()
+    {
+        ClearBlockButtons();
+        ClearOrderButtons();
+        _orders.isPlacing = true;
+        string[] labels = { "Mine", "Chop", "Harvest", "Hunt", "Haul", "Deconstruct" };
+        OrderMarkerSystem.OrderKind[] kinds = { OrderMarkerSystem.OrderKind.Mine, OrderMarkerSystem.OrderKind.Chop, OrderMarkerSystem.OrderKind.Harvest, OrderMarkerSystem.OrderKind.Hunt, OrderMarkerSystem.OrderKind.Haul, OrderMarkerSystem.OrderKind.Deconstruct };
+        for (int i = 0; i < labels.Length; i++)
+        {
+            int idx = i;
+            var btnGo = new GameObject($"Order_{labels[i]}");
+            btnGo.AddComponent<RectTransform>();
+            var btn = btnGo.AddComponent<Button>();
+            btn.transform.SetParent(_canvas.transform);
+            var rt = btn.GetComponent<RectTransform>();
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0);
+            rt.anchoredPosition = new Vector2(-150 + i * 63, 52);
+            rt.sizeDelta = new Vector2(58, 24);
+
+            var txtGo = new GameObject("Label");
+            txtGo.AddComponent<RectTransform>();
+            var txt = txtGo.AddComponent<Text>();
+            txt.transform.SetParent(btn.transform);
+            txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
+            txt.rectTransform.sizeDelta = new Vector2(58, 24);
+            txt.font = UIFont.Get();
+            txt.fontSize = 10; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
+            txt.text = $"{i+1}\n{labels[i]}";
+
+            btn.onClick.AddListener(() => { _orders.selectedKind = kinds[idx]; });
+            _orderButtons.Add(btn);
+        }
+        _orders.selectedKind = OrderMarkerSystem.OrderKind.Mine;
+    }
 
     void CreateTab(string label, float x, int idx, System.Action onClick)
     {

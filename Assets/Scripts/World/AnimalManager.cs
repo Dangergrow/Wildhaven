@@ -8,7 +8,7 @@ public class AnimalManager : MonoBehaviour
     private List<Animal> _animals = new();
     private float _timer;
 
-    public enum AnimalType { Deer, Wolf, Bear, Chicken, Goat, Cow, Sheep, Pig, Horse, Rabbit, Fox, Boar }
+    public enum AnimalType { Deer, Wolf, Bear, Chicken, Goat, Cow, Sheep, Pig, Horse, Rabbit, Fox, Boar, Camel, Mammoth, Llama, Ostrich, Tiger, Crocodile, GiantSpider, Eagle }
     
     [System.Serializable]
     public class Animal
@@ -22,6 +22,31 @@ public class AnimalManager : MonoBehaviour
         public Vector3Int gridPos;
     }
 
+    /// <summary>Visual colors for each animal type.</summary>
+    private static readonly System.Collections.Generic.Dictionary<AnimalType, Color> AnimalColors = new()
+    {
+        {AnimalType.Deer, new Color(0.55f, 0.35f, 0.15f)},
+        {AnimalType.Wolf, new Color(0.3f, 0.3f, 0.3f)},
+        {AnimalType.Bear, new Color(0.25f, 0.15f, 0.05f)},
+        {AnimalType.Chicken, Color.white},
+        {AnimalType.Goat, new Color(0.6f, 0.5f, 0.4f)},
+        {AnimalType.Cow, new Color(0.4f, 0.3f, 0.2f)},
+        {AnimalType.Sheep, new Color(0.9f, 0.9f, 0.85f)},
+        {AnimalType.Pig, new Color(0.95f, 0.75f, 0.8f)},
+        {AnimalType.Horse, new Color(0.35f, 0.2f, 0.1f)},
+        {AnimalType.Rabbit, new Color(0.7f, 0.5f, 0.3f)},
+        {AnimalType.Fox, new Color(0.9f, 0.4f, 0.1f)},
+        {AnimalType.Boar, new Color(0.3f, 0.2f, 0.1f)},
+        {AnimalType.Camel, new Color(0.85f, 0.7f, 0.4f)},
+        {AnimalType.Mammoth, new Color(0.4f, 0.25f, 0.15f)},
+        {AnimalType.Llama, new Color(0.8f, 0.7f, 0.55f)},
+        {AnimalType.Ostrich, new Color(0.2f, 0.2f, 0.2f)},
+        {AnimalType.Tiger, new Color(0.95f, 0.5f, 0.05f)},
+        {AnimalType.Crocodile, new Color(0.15f, 0.4f, 0.15f)},
+        {AnimalType.GiantSpider, new Color(0.1f, 0.05f, 0.05f)},
+        {AnimalType.Eagle, new Color(0.4f, 0.25f, 0.05f)},
+    };
+
     void Awake()
     {
         _grid = GetComponent<GridManager>();
@@ -33,7 +58,9 @@ public class AnimalManager : MonoBehaviour
     {
         if (_grid == null) return;
         var rng = new System.Random(System.DateTime.Now.Millisecond);
-        for (int i = 0; i < 15; i++)
+        // Spawn 25 animals across all types
+        AnimalType[] allTypes = (AnimalType[])System.Enum.GetValues(typeof(AnimalType));
+        for (int i = 0; i < 25; i++)
         {
             int x = rng.Next(5, _grid.Width - 5);
             int z = rng.Next(5, _grid.Depth - 5);
@@ -41,7 +68,8 @@ public class AnimalManager : MonoBehaviour
             {
                 if (_grid.GetBlock(x, y, z) == BlockType.Air && _grid.GetBlock(x, y - 1, z) == BlockType.Grass)
                 {
-                    SpawnAnimal((AnimalType)rng.Next(6), new Vector3Int(x, y, z)); // 6 wild types
+                    AnimalType type = allTypes[rng.Next(allTypes.Length)];
+                    SpawnAnimal(type, new Vector3Int(x, y, z));
                     break;
                 }
             }
@@ -51,8 +79,26 @@ public class AnimalManager : MonoBehaviour
 
     void SpawnAnimal(AnimalType type, Vector3Int pos)
     {
-        var go = new GameObject($"Animal_{type}_{_animals.Count}");
+        var go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        go.name = $"Animal_{type}_{_animals.Count}";
         go.transform.position = _grid.GridToWorld(pos.x, pos.y, pos.z);
+        float size = type switch
+        {
+            AnimalType.Mammoth => 1.8f,
+            AnimalType.Bear => 1.5f,
+            AnimalType.Horse or AnimalType.Camel or AnimalType.Tiger or AnimalType.Ostrich => 1.2f,
+            AnimalType.Cow or AnimalType.Llama or AnimalType.Crocodile => 1.0f,
+            AnimalType.Deer or AnimalType.Wolf or AnimalType.Sheep or AnimalType.Pig or AnimalType.Boar => 0.8f,
+            AnimalType.Goat or AnimalType.Fox or AnimalType.Eagle => 0.6f,
+            AnimalType.Chicken or AnimalType.Rabbit => 0.35f,
+            AnimalType.GiantSpider => 0.4f,
+            _ => 0.7f
+        };
+        go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f) * size;
+        go.transform.rotation = Quaternion.Euler(90, 0, 0);
+        Destroy(go.GetComponent<Collider>());
+        var r = go.GetComponent<Renderer>();
+        if (r != null && AnimalColors.TryGetValue(type, out Color col)) r.material.color = col;
         var animal = new Animal { type = type, gameObject = go, gridPos = pos };
         _animals.Add(animal);
     }
@@ -136,6 +182,15 @@ public class AnimalManager : MonoBehaviour
         AnimalType.Rabbit => (ItemType.RawMeat, 1),
         AnimalType.Fox => (ItemType.RawMeat, 2),
         AnimalType.Boar => (ItemType.RawMeat, 4),
+        AnimalType.Camel => (ItemType.RawMeat, 7),
+        AnimalType.Mammoth => (ItemType.RawMeat, 15),
+        AnimalType.Llama => (ItemType.RawMeat, 5),
+        AnimalType.Ostrich => (ItemType.RawMeat, 4),
+        AnimalType.Tiger => (ItemType.RawMeat, 6),
+        AnimalType.Crocodile => (ItemType.RawMeat, 7),
+        AnimalType.GiantSpider => (ItemType.RawMeat, 1),
+        AnimalType.Eagle => (ItemType.RawMeat, 1),
+        AnimalType.Horse => (ItemType.RawMeat, 8),
         _ => (ItemType.RawMeat, 2),
     };
 }

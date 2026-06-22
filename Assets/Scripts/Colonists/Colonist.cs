@@ -153,6 +153,7 @@ public class Colonist : MonoBehaviour
     public bool TakeDamage(float amount)
     {
         health -= amount;
+        FloatingText.Spawn(transform.position, $"-{Mathf.RoundToInt(amount)}", Color.yellow);
         if (health <= 0f)
         {
             health = 0f;
@@ -168,6 +169,7 @@ public class Colonist : MonoBehaviour
     public void Heal(float amount)
     {
         health = Mathf.Min(health + amount, maxHealth);
+        FloatingText.Spawn(transform.position, $"+{Mathf.RoundToInt(amount)}", Color.green, 1f);
     }
 
     /// <summary>

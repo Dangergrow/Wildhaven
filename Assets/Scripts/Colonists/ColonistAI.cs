@@ -13,10 +13,11 @@ public class ColonistAI : MonoBehaviour
     public Vector3 taskTarget;
     public int[] jobPriorities = new int[14] { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 
-    /// <summary>Player-issued order: Move, Mine, or Attack.</summary>
-    public enum OrderType { None, Move, Mine, Attack }
+    /// <summary>Player-issued order: Move, Mine, Attack, Haul, Prioritize.</summary>
+    public enum OrderType { None, Move, Mine, Attack, Haul, Prioritize }
     public OrderType currentOrder = OrderType.None;
     public Vector3 orderTarget;
+    public Enemy orderEnemy;
 
     private Colonist _colonist;
     private NeedsSystem _needs;
@@ -121,7 +122,7 @@ public class ColonistAI : MonoBehaviour
 
             if (dist < 0.5f)
             {
-                if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
+                if (currentOrder == OrderType.Move || currentOrder == OrderType.Haul || currentOrder == OrderType.Prioritize) { CancelOrder(); return false; }
                 if (currentOrder == OrderType.Mine && _grid != null)
                 {
                     Vector3Int gp = _grid.WorldToGrid(orderTarget);
@@ -149,13 +150,27 @@ public class ColonistAI : MonoBehaviour
 
         // Path finished — execute order
         _path = null;
-        if (currentOrder == OrderType.Move) { CancelOrder(); return false; }
+        if (currentOrder == OrderType.Move || currentOrder == OrderType.Haul || currentOrder == OrderType.Prioritize) { CancelOrder(); return false; }
         if (currentOrder == OrderType.Mine && _grid != null)
         {
             Vector3Int gp = _grid.WorldToGrid(orderTarget);
             if (_grid.InBounds(gp.x, gp.y, gp.z) && _grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
                 _grid.RemoveBlock(gp.x, gp.y, gp.z);
             CancelOrder(); return false;
+        }
+        if (currentOrder == OrderType.Attack && orderEnemy != null)
+        {
+            _colonist.currentState = ColonistState.Fighting;
+            float d = Vector3.Distance(transform.position, orderEnemy.transform.position);
+            if (d < 2f)
+            {
+                float dmg = 5f + (_colonist.meleeSkill * 0.5f);
+                Equipment eq = GetComponent<Equipment>();
+                if (eq != null) dmg += eq.GetAttackBonus();
+                orderEnemy.TakeDamage(dmg, DamageType.Slash);
+            }
+            if (orderEnemy.state == CombatState.Dead) CancelOrder();
+            return true;
         }
         CancelOrder(); return false;
     }

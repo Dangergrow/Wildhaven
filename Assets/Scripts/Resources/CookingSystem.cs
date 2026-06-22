@@ -49,6 +49,22 @@ public class CookingSystem : MonoBehaviour
             new() { name = "Wine", ingredients = new[]{ItemType.Berries}, amounts = new[]{10}, result = ItemType.Wine, resultCount = 1, nutritionValue = 5, moodBonus = 18, cookTime = 15, requiredStation = "Brewery" },
             new() { name = "Cider", ingredients = new[]{ItemType.Berries}, amounts = new[]{5}, result = ItemType.Cider, resultCount = 1, nutritionValue = 3, moodBonus = 10, cookTime = 6, requiredStation = "Brewery" },
             new() { name = "Mead", ingredients = new[]{ItemType.Wheat, ItemType.Berries}, amounts = new[]{5,3}, result = ItemType.Mead, resultCount = 1, nutritionValue = 5, moodBonus = 20, cookTime = 20, requiredStation = "Brewery" },
+            // Additional recipes
+            new() { name = "Steak", ingredients = new[]{ItemType.RawMeat, ItemType.MedicalHerb}, amounts = new[]{2,1}, result = ItemType.CookedMeat, resultCount = 1, nutritionValue = 50, moodBonus = 12, cookTime = 4, requiredStation = "Campfire" },
+            new() { name = "Fish Fillet", ingredients = new[]{ItemType.Fish, ItemType.Bread}, amounts = new[]{2,1}, result = ItemType.CookedMeat, resultCount = 2, nutritionValue = 40, moodBonus = 8, cookTime = 3, requiredStation = "Stove" },
+            new() { name = "Berry Jam", ingredients = new[]{ItemType.Berries}, amounts = new[]{5}, result = ItemType.RationPack, resultCount = 1, nutritionValue = 20, moodBonus = 8, cookTime = 6, requiredStation = "Stove" },
+            new() { name = "Pemmican", ingredients = new[]{ItemType.RawMeat, ItemType.Berries}, amounts = new[]{1,2}, result = ItemType.RationPack, resultCount = 3, nutritionValue = 60, moodBonus = 2, cookTime = 8, requiredStation = "Campfire" },
+            new() { name = "Cannabis Brownie", ingredients = new[]{ItemType.HempDried, ItemType.Wheat}, amounts = new[]{2,3}, result = ItemType.RationPack, resultCount = 2, nutritionValue = 25, moodBonus = 25, cookTime = 8, requiredStation = "Oven" },
+            new() { name = "Oatmeal", ingredients = new[]{ItemType.Wheat, ItemType.Berries}, amounts = new[]{3,1}, result = ItemType.RationPack, resultCount = 2, nutritionValue = 35, moodBonus = 5, cookTime = 3, requiredStation = "Campfire" },
+            new() { name = "Baked Potato", ingredients = new[]{ItemType.Potato}, amounts = new[]{3}, result = ItemType.CookedMeat, resultCount = 1, nutritionValue = 30, moodBonus = 3, cookTime = 4, requiredStation = "Oven" },
+            new() { name = "Sushi", ingredients = new[]{ItemType.Fish, ItemType.Wheat}, amounts = new[]{1,2}, result = ItemType.RationPack, resultCount = 1, nutritionValue = 25, moodBonus = 15, cookTime = 2, requiredStation = "Stove" },
+            new() { name = "Mushroom Tea", ingredients = new[]{ItemType.Mushroom}, amounts = new[]{4}, result = ItemType.RationPack, resultCount = 1, nutritionValue = 15, moodBonus = 10, cookTime = 4, requiredStation = "Brewery" },
+            new() { name = "Fish Stew", ingredients = new[]{ItemType.Fish, ItemType.Potato, ItemType.Mushroom}, amounts = new[]{3,2,1}, result = ItemType.RationPack, resultCount = 3, nutritionValue = 60, moodBonus = 10, cookTime = 9, requiredStation = "Stove" },
+            new() { name = "Mutton Chop", ingredients = new[]{ItemType.RawMeat}, amounts = new[]{3}, result = ItemType.CookedMeat, resultCount = 2, nutritionValue = 55, moodBonus = 8, cookTime = 5, requiredStation = "Campfire" },
+            new() { name = "Roasted Boar", ingredients = new[]{ItemType.RawMeat, ItemType.Potato}, amounts = new[]{3,2}, result = ItemType.CookedMeat, resultCount = 3, nutritionValue = 80, moodBonus = 15, cookTime = 12, requiredStation = "Oven" },
+            new() { name = "Hardtack", ingredients = new[]{ItemType.Wheat}, amounts = new[]{1}, result = ItemType.Bread, resultCount = 2, nutritionValue = 20, moodBonus = 1, cookTime = 2, requiredStation = "Campfire" },
+            new() { name = "Honeyed Berries", ingredients = new[]{ItemType.Berries}, amounts = new[]{3}, result = ItemType.RationPack, resultCount = 1, nutritionValue = 25, moodBonus = 12, cookTime = 2, requiredStation = "Campfire" },
+            new() { name = "Vegetable Soup", ingredients = new[]{ItemType.Potato, ItemType.Mushroom}, amounts = new[]{2,1}, result = ItemType.RationPack, resultCount = 2, nutritionValue = 35, moodBonus = 6, cookTime = 5, requiredStation = "Stove" },
         };
     }
 

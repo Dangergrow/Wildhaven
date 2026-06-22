@@ -19,6 +19,37 @@
 
 ---
 
+---
+
+## ▶ Сессия: 22.06.2026 | ПК: РАБОЧИЙ → ПК: ДОМАШНИЙ
+
+### Что сделано (6 фич)
+
+1. **ПКМ контекстное меню** — SelectionManager: RMB по колонисту в SELECT-режиме показывает меню (Move here / Attack nearest / Pick up / Prioritize / Heal / Deselect). Реализовано через `OrderType.Haul` и `OrderType.Prioritize` в ColonistAI. Attack ищет ближайшего Enemy, Heal лечит +20HP мгновенно.
+   - Файлы: `UI/SelectionManager.cs`, `Colonists/ColonistAI.cs`
+2. **F4 Orders панель** — GameBar: кнопки [1-6] Mine/Chop/Harvest/Hunt/Haul/Deconstruct, ЛКМ ставит цветной куб-маркер. `OrderMarkerSystem` (World/) хранит список заказов, `ColonistAI` выполняет ближайший. Mine=RemoveBlock, Chop=добыча дерева, Harvest=сбор PlantGrowth, Hunt=AnimalManager.Hunt(), Deconstruct=слом блока.
+   - Файлы: `World/OrderMarkerSystem.cs`, `UI/GameBar.cs`
+3. **Стартовые ресурсы** — `ColonistSpawner.GiveStartingResources()`: 5 RationPacks, 2 Bread, 4 Berries, 3 Bandages. Инструменты: 1-й=Pickaxe, 2-й=Axe, 3-й=Knife.
+   - Файл: `Colonists/ColonistSpawner.cs`
+4. **Визуализация урона** — `FloatingText.Spawn()` создаёт TextMesh, летит вверх, затухает 1.5с. Enemy.TakeDamage=красный, Colonist.TakeDamage=жёлтый, Colonist.Heal=зелёный.
+   - Файлы: `UI/FloatingText.cs`, `Combat/Enemy.cs`, `Colonists/Colonist.cs`
+5. **Кулинария** — +16 рецептов (Steak, Fish Fillet, Berry Jam, Pemmican, Cannabis Brownie и др.), всего 31 рецепт.
+   - Файл: `Resources/CookingSystem.cs`
+6. **Животные** — +8 типов (Camel, Mammoth, Llama, Ostrich, Tiger, Crocodile, GiantSpider, Eagle), всего 20. Capsule-модели с уникальными цветами и размерами, 25 при старте.
+   - Файл: `World/AnimalManager.cs`
+
+### Важные изменения в API
+- `ColonistAI.OrderType` расширен: `Haul`, `Prioritize` добавлены
+- `ColonistAI.orderEnemy` — новое поле для Attack-приказов
+- `SelectionManager` использует `GiveOrder()` вместо прямого присвоения полей
+- `GameBar` зависит от `OrderMarkerSystem` (авто-создаётся в Start если нет)
+
+### Файлы созданы
+- `World/OrderMarkerSystem.cs`
+- `UI/FloatingText.cs`
+
+---
+
 ## ▶ Сессия: 19.06.2026 | ПК: РАБОЧИЙ (ФИНАЛ)
 
 ### Что сделано (Этапы 1-7)

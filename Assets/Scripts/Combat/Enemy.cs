@@ -125,6 +125,7 @@ public class Enemy : MonoBehaviour
     {
         float effective = Mathf.Max(1f, amount - armorRating);
         health -= effective;
+        FloatingText.Spawn(transform.position, $"-{Mathf.RoundToInt(effective)}", Color.red);
 
         if (health <= 0f)
         {
