@@ -16,6 +16,12 @@ public class BuildManager : MonoBehaviour
     private Vector3Int _dragStart;
     private HashSet<Vector3Int> _placedThisDrag = new();
 
+    void Awake()
+    {
+        if (_gridManager == null) _gridManager = FindObjectOfType<GridManager>();
+        if (_cam == null) _cam = Camera.main ?? FindObjectOfType<Camera>();
+    }
+
     void Update()
     {
         if (Keyboard.current == null || Mouse.current == null || _gridManager == null || _cam == null) return;
