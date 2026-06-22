@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<BurialSystem>("Burial");
         EnsureSystem<PauseMenu>("PauseMenu");
         EnsureSystem<MapOverlay>("MapOverlay");
+        EnsureSystem<FloorController>("FloorController");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
