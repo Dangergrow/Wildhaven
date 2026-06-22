@@ -8,6 +8,11 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        // Auto-skip menu in editor for testing
+        #if UNITY_EDITOR
+        StartGame();
+        return;
+        #endif
         var go = new GameObject("__MenuCanvas__");
         go.AddComponent<RectTransform>();
         _canvas = go.AddComponent<Canvas>();
