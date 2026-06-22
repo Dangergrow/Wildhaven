@@ -103,7 +103,8 @@ public class GameBar : MonoBehaviour
             _tabButtons[i].colors = c;
         }
 
-        if (_select != null) _select.gameObject.SetActive(m != Mode.Architect);
+        // Don't disable SelectionManager — it needs to run always for B-key toggle
+        if (_select != null) { /* SelectionManager stays active */ }
         if (_build != null) _build.enabled = (m == Mode.Architect);
 
         switch (m)

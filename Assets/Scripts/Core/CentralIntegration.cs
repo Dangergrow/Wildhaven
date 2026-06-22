@@ -23,7 +23,7 @@ public class CentralIntegration : MonoBehaviour
     private TradeUI _tradeUI;
 
     /// <summary>Auto-create on game start — no manual scene setup required.</summary>
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void AutoCreate()
     {
         // Ensure EventSystem for Canvas UI

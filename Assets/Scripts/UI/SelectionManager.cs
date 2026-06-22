@@ -32,6 +32,7 @@ public class SelectionManager : MonoBehaviour
             _buildMode = !_buildMode;
             if (_build != null) _build.enabled = _buildMode;
             if (!_buildMode) Deselect();
+            return;
         }
 
         if (_buildMode) return;
@@ -88,12 +89,12 @@ public class SelectionManager : MonoBehaviour
         _showMenu = false; _menuTarget = null; _menuColonist = null;
     }
 
-    void Select(Colonist c)
+    public void Select(Colonist c)
     {
         selectedColonist = c;
     }
 
-    void Deselect()
+    public void Deselect()
     {
         selectedColonist = null;
     }
