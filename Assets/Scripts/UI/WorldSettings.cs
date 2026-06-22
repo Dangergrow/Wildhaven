@@ -149,7 +149,7 @@ public class WorldSettings : MonoBehaviour
         Txt($"Seed: {_cfg.seed}", 14, 0.15f, new Color(0.4f, 0.4f, 0.4f));
 
         Btn("← BACK", new Vector2(0.2f, 0.05f), () => { _page = 1; ShowPage(); });
-        Btn("START GAME", new Vector2(0.8f, 0.05f), () => { OnComplete?.Invoke(_cfg); Destroy(gameObject); });
+        Btn("START GAME", new Vector2(0.8f, 0.05f), () => { _canvas.gameObject.SetActive(false); OnComplete?.Invoke(_cfg); });
     }
 
     // ═══ HELPERS ═══
