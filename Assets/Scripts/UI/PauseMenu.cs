@@ -1,13 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-/// <summary>
-/// Esc = toggle pause menu overlay. Continue, Save/Load, Settings, Main Menu, Quit.
-/// </summary>
+/// <summary>Esc = toggle pause menu overlay. Continue, Save/Load, Settings, Main Menu, Quit.</summary>
 public class PauseMenu : MonoBehaviour
 {
     private bool _paused;
     private DayCycle _day;
-    private Rect _windowRect = new Rect(Screen.width / 2f - 120, Screen.height / 2f - 100, 240, 200);
+    private Rect _windowRect = new Rect(Screen.width / 2f - 120, Screen.height / 2f - 100, 240, 220);
 
     void Start()
     {
@@ -16,7 +15,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             _paused = !_paused;
             if (_day != null) _day.gameSpeed = _paused ? 0f : 1f;

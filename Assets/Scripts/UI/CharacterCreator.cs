@@ -51,6 +51,7 @@ public class CharacterCreator : MonoBehaviour
         _canvas = go.AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _canvas.sortingOrder = 500;
+        _canvas.transform.SetParent(transform); // attach to CharacterCreator so SetActive works
         go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         go.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1920, 1080);
         go.AddComponent<GraphicRaycaster>();

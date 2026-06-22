@@ -21,6 +21,31 @@
 
 ---
 
+## ▶ Сессия: 22.06.2026 (вечер) | ПК: РАБОЧИЙ
+
+### Исправлено (критичные баги)
+- **MainMenu** — убран авто-старт (#if UNITY_EDITOR), меню всегда первое
+- **WorldSettings** — 3 страницы: планета/размер/сложность+apocalyptic+PvP
+- **CharacterCreator** — канвас привязан к GameObject (SetActive работает), sortingOrder 500
+- **Колонисты** — ResetSpawn() ждёт CharacterCreator (gameStarted=false до шаблонов)
+- **CanvasScaler** — всем канвасам referenceResolution 1920×1080 (фикс смещения мыши)
+- **GameSettings** — добавлен в GameManager.EnsureSystem (не создавался)
+- **PauseMenu** — Esc через InputSystem вместо Legacy Input
+- **Destroy(gameObject)** в кнопках — заменён на SetActive(false)
+- **GridManager.Regenerate()** — пересоздаёт чанки с GameObject'ами (был NRE)
+- **Pathfinder** — переписан: step-up/down, Y-взвешенная эвристика, радиус 5
+- **StabilitySystem** — BFS flood-fill от bedrock, только structural-блоки
+- **Сцена** — починен m_Component массив World (добавлен component 102)
+- **AutoRoof** — отключен (создавал floating Wood крыши)
+- **Library** — удалён и пересобран (битый кеш)
+
+### Результаты тестов
+- EditMode: 8/8 PASS
+- PlayMode: 55/55 PASS
+- 0 ошибок компиляции
+
+---
+
 ## ▶ Сессия: 22.06.2026 | ПК: РАБОЧИЙ → ПК: ДОМАШНИЙ
 
 ### Что сделано (6 фич)
