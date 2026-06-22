@@ -47,6 +47,10 @@ public class CentralIntegration : MonoBehaviour
 
     void Update()
     {
+        // Respect pause
+        if (_dayCycle == null) _dayCycle = FindFirstObjectByType<DayCycle>();
+        if (_dayCycle != null && _dayCycle.IsPaused) return;
+
         _t1 += Time.unscaledDeltaTime; _t5 += Time.unscaledDeltaTime; _t30 += Time.unscaledDeltaTime;
         if (_t1 > 1f) { _t1 = 0f; Tick1s(); }
         if (_t5 > 5f) { _t5 = 0f; Tick5s(); }
