@@ -84,7 +84,7 @@ public class MainMenu : MonoBehaviour
             atxt.rectTransform.sizeDelta = new Vector2(500, 200);
             atxt.font = UIFont.Get(); atxt.fontSize = 20; atxt.alignment = TextAnchor.MiddleCenter;
             atxt.color = Color.white;
-            atxt.text = "WILDHAVEN v0.1\n\nColony Simulator\nUnity 6 URP | C#\n\nBuilt with OpenCode AI Agents\nWork PC + Home PC collaboration\n\nClick anywhere to close";
+            atxt.text = "WILDHAVEN v0.1\n\nColony Simulator | Unity 6 URP | C#\n\nInspired by Going Medieval & RimWorld\nBuilt with OpenCode AI Agents\n\nFeatures:\n• Voxel world 100×32×100\n• 15 biomes, 10+ factions\n• 60+ research nodes, 5 eras\n• 31 cooking recipes, 20 animal types\n• Stability system, electricity, religion\n• Global hex map with caravans\n\nClick anywhere to close";
             var aBtn = aGo.AddComponent<Button>();
             aBtn.onClick.AddListener(() => Destroy(aGo));
             var ac = aBtn.colors; ac.normalColor = Color.clear; ac.highlightedColor = Color.clear; aBtn.colors = ac;
@@ -100,19 +100,20 @@ public class MainMenu : MonoBehaviour
         // Step 1: World Settings
         var wsGo = new GameObject("__WorldSettings__");
         var ws = wsGo.AddComponent<WorldSettings>();
-        ws.OnComplete = (seed, size, difficulty) =>
+        ws.OnComplete = (cfg) =>
         {
-            // Apply world settings and regenerate
             var grid = FindFirstObjectByType<GridManager>();
             if (grid != null)
             {
-                grid.seed = seed;
-                grid.worldWidth = size;
-                grid.worldDepth = size;
+                grid.seed = cfg.seed;
+                grid.worldWidth = cfg.mapSize;
+                grid.worldDepth = cfg.mapSize;
                 grid.Regenerate();
             }
 
-            // Step 2: Character Creator
+            // Apply planet modifiers to game systems
+            ApplyPlanetConfig(cfg);
+
             var ccGo = new GameObject("__CharacterCreator__");
             var cc = ccGo.AddComponent<CharacterCreator>();
             cc.OnComplete = (templates) =>
@@ -138,6 +139,47 @@ public class MainMenu : MonoBehaviour
             saveMgr.LoadGame();
 
         Destroy(this);
+    }
+
+    void ApplyPlanetConfig(WorldSettings.WorldConfig cfg)
+    {
+        // Apply apocalyptic mode
+        if (cfg.apocalyptic)
+        {
+            var grid = FindFirstObjectByType<GridManager>();
+            if (grid != null)
+            {
+                // Convert some surface blocks to ruins/wasteland
+                var rng = new System.Random(cfg.seed);
+                int w = grid.Width, d = grid.Depth;
+                for (int x = 0; x < w; x++)
+                for (int z = 0; z < d; z++)
+                {
+                    for (int y = grid.Height - 1; y > 0; y--)
+                    {
+                        BlockType b = grid.GetBlock(x, y, z);
+                        if (b == BlockType.Grass && rng.Next(100) < 30)
+                            grid.SetBlock(x, y, z, BlockType.Gravel); // dead ground
+                        else if (b == BlockType.Dirt && rng.Next(100) < 15)
+                            grid.SetBlock(x, y, z, BlockType.Coal);   // scorched earth
+                        else if (b != BlockType.Air && b != BlockType.Water && rng.Next(100) < 2)
+                            grid.SetBlock(x, y, z, BlockType.Obsidian); // ruins
+                    }
+                }
+            }
+        }
+
+        // Apply difficulty to RaidManager
+        var raid = FindFirstObjectByType<RaidManager>();
+        if (raid != null)
+        {
+            raid.raidInterval = 120f / cfg.raidFrequency; // base 120s, scaled by frequency
+        }
+
+        // Store planet type for animal/resource generation
+        PlayerPrefs.SetString("PlanetType", cfg.planet.ToString());
+        PlayerPrefs.SetFloat("Difficulty", cfg.difficulty);
+        PlayerPrefs.Save();
     }
 
     void BtnClick(string msg) { Debug.Log($"[Menu] {msg}"); }

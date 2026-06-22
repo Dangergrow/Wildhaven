@@ -58,8 +58,14 @@ public class AnimalManager : MonoBehaviour
     {
         if (_grid == null) return;
         var rng = new System.Random(System.DateTime.Now.Millisecond);
-        // Spawn 25 animals across all types
+        string planetStr = PlayerPrefs.GetString("PlanetType", "Earthlike");
+
+        // Weighted animal types by planet
+        var weights = GetPlanetWeights(planetStr);
         AnimalType[] allTypes = (AnimalType[])System.Enum.GetValues(typeof(AnimalType));
+        int totalWeight = 0;
+        foreach (var w in weights.Values) totalWeight += w;
+
         for (int i = 0; i < 25; i++)
         {
             int x = rng.Next(5, _grid.Width - 5);
@@ -68,13 +74,57 @@ public class AnimalManager : MonoBehaviour
             {
                 if (_grid.GetBlock(x, y, z) == BlockType.Air && _grid.GetBlock(x, y - 1, z) == BlockType.Grass)
                 {
-                    AnimalType type = allTypes[rng.Next(allTypes.Length)];
-                    SpawnAnimal(type, new Vector3Int(x, y, z));
+                    // Weighted random selection
+                    int roll = rng.Next(totalWeight);
+                    AnimalType chosen = AnimalType.Deer;
+                    int cumulative = 0;
+                    foreach (var kvp in weights)
+                    {
+                        cumulative += kvp.Value;
+                        if (roll < cumulative) { chosen = kvp.Key; break; }
+                    }
+                    SpawnAnimal(chosen, new Vector3Int(x, y, z));
                     break;
                 }
             }
         }
-        Debug.Log($"[Animals] Spawned {_animals.Count} wild animals");
+        Debug.Log($"[Animals] Spawned {_animals.Count} wild animals (planet: {planetStr})");
+    }
+
+    Dictionary<AnimalType, int> GetPlanetWeights(string planet)
+    {
+        var w = new Dictionary<AnimalType, int>();
+        // Default weights
+        foreach (AnimalType t in System.Enum.GetValues(typeof(AnimalType)))
+            w[t] = 1;
+
+        switch (planet)
+        {
+            case "DesertWorld":
+                w[AnimalType.Camel] = 8; w[AnimalType.Deer] = 0; w[AnimalType.Bear] = 0;
+                w[AnimalType.Fox] = 4; w[AnimalType.Rabbit] = 4; w[AnimalType.Boar] = 2;
+                break;
+            case "IceWorld":
+                w[AnimalType.Mammoth] = 6; w[AnimalType.Wolf] = 5; w[AnimalType.Fox] = 3;
+                w[AnimalType.Rabbit] = 4; w[AnimalType.Deer] = 3; w[AnimalType.Bear] = 4;
+                w[AnimalType.Camel] = 0; w[AnimalType.Crocodile] = 0; w[AnimalType.Tiger] = 0;
+                break;
+            case "JungleWorld":
+                w[AnimalType.Tiger] = 6; w[AnimalType.Crocodile] = 5; w[AnimalType.GiantSpider] = 4;
+                w[AnimalType.Ostrich] = 4; w[AnimalType.Eagle] = 3; w[AnimalType.Boar] = 3;
+                w[AnimalType.Camel] = 0; w[AnimalType.Mammoth] = 0;
+                break;
+            case "DeadWorld":
+                w[AnimalType.GiantSpider] = 8; w[AnimalType.Wolf] = 4; w[AnimalType.Fox] = 2;
+                w[AnimalType.Rabbit] = 2; w[AnimalType.Eagle] = 3;
+                w[AnimalType.Deer] = 0; w[AnimalType.Chicken] = 0; w[AnimalType.Cow] = 0;
+                break;
+            default: // Earthlike — balanced
+                w[AnimalType.Deer] = 4; w[AnimalType.Rabbit] = 4; w[AnimalType.Wolf] = 2;
+                w[AnimalType.Bear] = 1; w[AnimalType.Fox] = 2; w[AnimalType.Boar] = 2;
+                break;
+        }
+        return w;
     }
 
     void SpawnAnimal(AnimalType type, Vector3Int pos)
