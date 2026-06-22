@@ -281,19 +281,23 @@ public class GridManager : MonoBehaviour
         chunk.mesh.RecalculateBounds();
         chunk.filter.mesh = chunk.mesh;
 
-        if (blockMaterial != null)
+        if (blockMaterial == null)
         {
-            var mats = new List<Material>();
-            for (int i = 0; i < types.Count; i++)
-            {
-                var m = new Material(blockMaterial);
-                m.SetColor("_BaseColor", BlockColor(types[i]));
-                if (_atlas == null) _atlas = CreateAtlas();
-                m.SetTexture("_BaseMap", _atlas);
-                mats.Add(m);
-            }
-            chunk.renderer.materials = mats.ToArray();
+            // Create default unlit material as fallback (prevents pink invisible world)
+            blockMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            if (blockMaterial == null) blockMaterial = new Material(Shader.Find("Unlit/Color"));
         }
+
+        var mats = new List<Material>();
+        for (int i = 0; i < types.Count; i++)
+        {
+            var m = new Material(blockMaterial);
+            m.SetColor("_BaseColor", BlockColor(types[i]));
+            if (_atlas == null) _atlas = CreateAtlas();
+            m.SetTexture("_BaseMap", _atlas);
+            mats.Add(m);
+        }
+        chunk.renderer.materials = mats.ToArray();
     }
 
     #endregion

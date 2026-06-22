@@ -38,6 +38,16 @@ public class GameManager : MonoBehaviour
             camGo.AddComponent<CameraController>();
         }
 
+        // Ensure directional light exists (scene may have it, but create if not)
+        if (FindFirstObjectByType<Light>() == null)
+        {
+            var lightGo = new GameObject("Directional Light");
+            var light = lightGo.AddComponent<Light>();
+            light.type = LightType.Directional;
+            light.intensity = 1.2f;
+            light.transform.rotation = Quaternion.Euler(50, 30, 0);
+        }
+
         EnsureSystem<DayCycle>("DayCycle");
         EnsureSystem<ColonistSpawner>("Spawner");
         EnsureSystem<BuildManager>("BuildManager");

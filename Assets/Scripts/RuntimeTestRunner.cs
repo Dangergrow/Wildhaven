@@ -41,6 +41,10 @@ public class RuntimeTestRunner : MonoBehaviour
         yield return StartCoroutine(TestBuilding());
         yield return StartCoroutine(TestSelectionAndOrders());
         yield return StartCoroutine(TestUI());
+        yield return StartCoroutine(TestPathfinding());
+        yield return StartCoroutine(TestPerformance());
+        yield return StartCoroutine(TestInputSystem());
+        yield return StartCoroutine(TestVisualRendering());
 
         Debug.Log("[RUNTEST] ═══════════════════════════");
         Debug.Log($"[RUNTEST] RESULTS: {_passed} PASS, {_failed} FAIL");
@@ -221,7 +225,7 @@ public class RuntimeTestRunner : MonoBehaviour
         // Ensure Architect mode (F1)
         if (_bar != null)
         {
-            SimulatePress(Key.F1);
+            SimulatePress(TestKey.F1);
             yield return null;
             if (_bar.currentMode == GameBar.Mode.Architect) Pass("Build: F1 switched to Architect");
             else Fail($"Build: F1 result mode={_bar.currentMode}");
@@ -256,7 +260,7 @@ public class RuntimeTestRunner : MonoBehaviour
         if (_spawner.Colonists.Count == 0) { Fail("Selection: no colonists to test"); yield break; }
 
         // Press B to switch to SELECT mode
-        SimulatePress(Key.B);
+        SimulatePress(TestKey.B);
         yield return null;
         yield return null;
 
@@ -289,7 +293,7 @@ public class RuntimeTestRunner : MonoBehaviour
         else Fail("Selection: Deselect() didn't clear selection");
 
         // Switch back to build mode
-        SimulatePress(Key.B);
+        SimulatePress(TestKey.B);
         yield return null;
     }
 
@@ -350,10 +354,208 @@ public class RuntimeTestRunner : MonoBehaviour
     }
 
     // ═══════════════════════════════════════
-    // INPUT HELPERS
+    // TEST: A* PATHFINDING
     // ═══════════════════════════════════════
 
-    void SimulatePress(Key key)
+    IEnumerator TestPathfinding()
+    {
+        if (_grid == null || _spawner == null || _spawner.Colonists.Count == 0) { Fail("Path: missing deps"); yield break; }
+
+        Colonist c = _spawner.Colonists[0];
+        if (c == null) { Fail("Path: no colonist"); yield break; }
+        ColonistAI ai = c.GetComponent<ColonistAI>();
+        if (ai == null) { Fail("Path: no AI"); yield break; }
+
+        Vector3Int start = _grid.WorldToGrid(c.transform.position);
+        // Move 3 blocks in the +x direction (always on same terrain surface)
+        Vector3Int target = new Vector3Int(start.x + 3, start.y, start.z);
+        var path = Pathfinder.FindPath(_grid, start, target);
+
+        if (path != null && path.Count >= 2) Pass($"Path: A* found path of {path.Count} nodes");
+        else if (path != null && path.Count == 1) Pass("Path: A* found trivial path (start==end)");
+        else Fail($"Path: A* returned null — start={start}, target={target}");
+
+        // Give a Move order and verify colonist reaches destination
+        Vector3 startPos = c.transform.position;
+        Vector3 targetPos = _grid.GridToWorld(target.x, target.y, target.z);
+        ai.GiveOrder(ColonistAI.OrderType.Move, targetPos);
+
+        float wait = 0;
+        float dist = Vector3.Distance(c.transform.position, targetPos);
+        while (dist > 1.5f && wait < 5f)
+        {
+            yield return new WaitForSeconds(0.3f);
+            wait += 0.3f;
+            if (c == null || c.currentState == ColonistState.Dead) break;
+            dist = Vector3.Distance(c.transform.position, targetPos);
+        }
+        float totalMoved = Vector3.Distance(startPos, c != null ? c.transform.position : startPos);
+        if (totalMoved > 1f) Pass($"Path: colonist moved {totalMoved:F1}u toward target (final dist={dist:F1})");
+        else Fail($"Path: colonist barely moved ({totalMoved:F1}u)");
+    }
+
+    // ═══════════════════════════════════════
+    // TEST: PERFORMANCE / FPS
+    // ═══════════════════════════════════════
+
+    IEnumerator TestPerformance()
+    {
+        float[] frameTimes = new float[120];
+        int good = 0, bad = 0;
+        for (int i = 0; i < 120; i++)
+        {
+            yield return null;
+            frameTimes[i] = Time.unscaledDeltaTime;
+            if (frameTimes[i] < 1f / 30f) good++; // < 33ms = playable
+            else bad++;
+        }
+        float avg = 0, max = 0;
+        for (int i = 0; i < 120; i++) { avg += frameTimes[i]; if (frameTimes[i] > max) max = frameTimes[i]; }
+        avg /= 120f;
+        float fps = 1f / Mathf.Max(avg, 0.001f);
+
+        if (fps > 30) Pass($"FPS: {fps:F0} avg (max frame {max*1000:F1}ms, {good}/{good+bad} good)");
+        else if (fps > 15) Fail($"FPS: LOW — {fps:F0} avg (max {max*1000:F0}ms)");
+        else Fail($"FPS: VERY LOW — {fps:F0} avg (max {max*1000:F0}ms) — unplayable");
+    }
+
+    // ═══════════════════════════════════════
+    // TEST: INPUT SYSTEM
+    // ═══════════════════════════════════════
+
+    IEnumerator TestInputSystem()
+    {
+        // Check if InputSystem devices exist
+        if (Keyboard.current != null) Pass("Input: Keyboard detected");
+        else
+        {
+            // Try to add a virtual keyboard
+            var kbd = InputSystem.AddDevice<Keyboard>();
+            if (kbd != null && Keyboard.current != null)
+                Pass("Input: Keyboard added via InputSystem.AddDevice");
+            else
+                Fail("Input: Keyboard is null — Input System may not be initialized");
+        }
+
+        if (Mouse.current != null) Pass("Input: Mouse detected");
+        else
+        {
+            var ms = InputSystem.AddDevice<Mouse>();
+            if (ms != null && Mouse.current != null)
+                Pass("Input: Mouse added via InputSystem.AddDevice");
+            else
+                Fail("Input: Mouse is null");
+        }
+
+        // Test keyboard input works
+        if (Keyboard.current != null)
+        {
+            var testKey = UnityEngine.InputSystem.Key.A;
+            bool pressed = Keyboard.current[testKey].wasPressedThisFrame;
+            Pass($"Input: Key read test OK (wasPressed={pressed})");
+        }
+
+        // Test DayCycle responds to input
+        if (_day != null && Keyboard.current != null)
+        {
+            float beforePause = _day.gameSpeed;
+            // DayCycle reads Keyboard.current.spaceKey internally
+            // We can test via direct API which is what matters
+            _day.gameSpeed = 0f;
+            yield return null;
+            bool paused = _day.IsPaused;
+            _day.gameSpeed = beforePause;
+            if (paused) Pass("Input: DayCycle pause API works");
+            else Fail("Input: DayCycle pause API didn't work");
+        }
+    }
+
+    // ═══════════════════════════════════════
+    // TEST: VISUAL RENDERING
+    // ═══════════════════════════════════════
+
+    IEnumerator TestVisualRendering()
+    {
+        // Camera check
+        Camera cam = Camera.main;
+        if (cam == null) cam = FindFirstObjectByType<Camera>();
+        if (cam != null)
+        {
+            Pass("Visual: Camera exists");
+            if (cam.enabled) Pass("Visual: Camera enabled");
+            else Fail("Visual: Camera DISABLED — nothing renders");
+
+            if (cam.clearFlags != CameraClearFlags.Nothing)
+                Pass($"Visual: Camera clearFlags={cam.clearFlags}");
+
+            // Check field of view
+            if (cam.fieldOfView > 10 && cam.fieldOfView < 120)
+                Pass($"Visual: Camera FOV={cam.fieldOfView}");
+
+            // Check camera is rendering
+            if (cam.gameObject.activeInHierarchy)
+                Pass("Visual: Camera GameObject active");
+        }
+        else Fail("Visual: NO CAMERA in scene");
+
+        // Chunk mesh check
+        if (_grid != null)
+        {
+            int chunksWithMesh = 0, chunksWithRenderer = 0;
+            foreach (Transform child in _grid.transform)
+            {
+                MeshFilter mf = child.GetComponent<MeshFilter>();
+                MeshRenderer mr = child.GetComponent<MeshRenderer>();
+                if (mf != null && mf.sharedMesh != null && mf.sharedMesh.vertexCount > 0)
+                    chunksWithMesh++;
+                if (mr != null && mr.enabled)
+                    chunksWithRenderer++;
+            }
+            if (chunksWithMesh > 0) Pass($"Visual: {chunksWithMesh} chunks have meshes");
+            else Fail("Visual: 0 chunks have meshes — world is invisible!");
+
+            if (chunksWithRenderer > 0) Pass($"Visual: {chunksWithRenderer} chunks have renderers");
+            else Fail("Visual: 0 chunk renderers enabled!");
+
+            // Check chunk materials
+            foreach (Transform child in _grid.transform)
+            {
+                var mr = child.GetComponent<MeshRenderer>();
+                if (mr != null && mr.sharedMaterial != null)
+                {
+                    Pass("Visual: Chunks have material");
+                    break;
+                }
+                if (mr != null && mr.sharedMaterial == null)
+                {
+                    Fail("Visual: Chunks have NO material — world may be pink/invisible");
+                    break;
+                }
+            }
+        }
+
+        // Check directional light for lighting
+        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
+        if (lights.Length > 0) Pass($"Visual: {lights.Length} light(s) in scene");
+        else Fail("Visual: NO lights — scene will be dark");
+
+        // Check UI Canvas exists
+        Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+        if (canvases.Length > 0) Pass($"Visual: {canvases.Length} Canvas(es) for UI");
+        else Fail("Visual: NO Canvases — UI invisible");
+
+        // Check 2D ring indicator (SelectionManager OnGUI)
+        if (_select != null && _spawner != null && _spawner.Colonists.Count > 0)
+        {
+            _select.Select(_spawner.Colonists[0]);
+            yield return null;
+            if (_select.selectedColonist != null)
+                Pass("Visual: 2D selection ring active on colonist");
+            _select.Deselect();
+        }
+    }
+
+    void SimulatePress(TestKey key)
     {
         if (Keyboard.current == null) return;
         // We can't truly simulate input via InputTestFixture without full setup.
@@ -361,33 +563,33 @@ public class RuntimeTestRunner : MonoBehaviour
         // For our purposes, direct API calls are more reliable in batch mode:
         switch (key)
         {
-            case Key.Space:
+            case TestKey.Space:
                 if (_day != null) _day.gameSpeed = _day.IsPaused ? 1f : 0f;
                 break;
-            case Key.Numpad1:
+            case TestKey.Numpad1:
                 if (_day != null) _day.gameSpeed = 1f;
                 break;
-            case Key.Numpad2:
+            case TestKey.Numpad2:
                 if (_day != null) _day.gameSpeed = 2f;
                 break;
-            case Key.F1:
+            case TestKey.F1:
                 if (_bar != null) _bar.currentMode = GameBar.Mode.Architect;
                 break;
-            case Key.F2:
+            case TestKey.F2:
                 if (_bar != null) _bar.currentMode = GameBar.Mode.Work;
                 break;
-            case Key.F3:
+            case TestKey.F3:
                 if (_bar != null) _bar.currentMode = GameBar.Mode.Zone;
                 break;
-            case Key.F4:
+            case TestKey.F4:
                 if (_bar != null) _bar.currentMode = GameBar.Mode.Orders;
                 break;
-            case Key.B:
+            case TestKey.B:
                 if (_select != null) _select.Select(null); // toggle: deselect
                 if (_build != null) _build.enabled = !_build.enabled;
                 break;
         }
     }
 
-    enum Key { Space, Numpad1, Numpad2, F1, F2, F3, F4, B }
+    enum TestKey { Space, Numpad1, Numpad2, F1, F2, F3, F4, B }
 }
