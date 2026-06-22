@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
+        EnsureSystem<GameSettings>("GameSettings");
         EnsureSystem<CentralIntegration>("Integration");
 
         // Ensure EventSystem exists for ALL UI

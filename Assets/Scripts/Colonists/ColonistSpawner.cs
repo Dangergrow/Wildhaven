@@ -188,4 +188,15 @@ public class ColonistSpawner : MonoBehaviour
     }
 
     public void RemoveColonist(Colonist c) => Colonists.Remove(c);
+
+    /// <summary>Force re-spawn after world regeneration.</summary>
+    public void ResetSpawn()
+    {
+        _spawnTriggered = false;
+        _spawnIndex = 0;
+        foreach (Colonist c in Colonists)
+            if (c != null) Destroy(c.gameObject);
+        Colonists.Clear();
+        gameStarted = true;
+    }
 }

@@ -50,6 +50,7 @@ public class CharacterCreator : MonoBehaviour
         var go = new GameObject("CharCreatorCanvas");
         _canvas = go.AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        _canvas.sortingOrder = 500;
         go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         go.AddComponent<GraphicRaycaster>();
 

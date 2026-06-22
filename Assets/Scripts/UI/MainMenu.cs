@@ -98,7 +98,10 @@ public class MainMenu : MonoBehaviour
                 grid.Regenerate();
             }
 
-            // Apply planet modifiers to game systems
+            // Reset spawner so colonists appear on new terrain
+            var spawner = FindFirstObjectByType<ColonistSpawner>();
+            if (spawner != null) spawner.ResetSpawn();
+
             ApplyPlanetConfig(cfg);
 
             var ccGo = new GameObject("__CharacterCreator__");
