@@ -43,8 +43,7 @@ public class OrderMarkerSystem : MonoBehaviour
 
     void PlaceOrder(OrderKind kind, Vector3Int pos)
     {
-        // Remove existing order at same position
-        orders.RemoveAll(o => o.gridPos == pos && o.marker != null && DestroyImmediate(o.marker));
+        orders.RemoveAll(o => o.gridPos == pos && o.marker != null && Destroy(o.marker));
 
         Color c = kind switch
         {
@@ -93,14 +92,9 @@ public class OrderMarkerSystem : MonoBehaviour
             case OrderKind.Mine:
                 BlockType b = _grid.GetBlock(order.gridPos.x, order.gridPos.y, order.gridPos.z);
                 if (b != BlockType.Air && b != BlockType.Water)
-                {
                     _grid.RemoveBlock(order.gridPos.x, order.gridPos.y, order.gridPos.z);
-                    BlockDropManager drop = FindFirstObjectByType<BlockDropManager>();
-                    if (drop != null) drop.SpawnDrop(order.gridPos, b);
-                }
                 break;
             case OrderKind.Chop:
-                // Chop nearby wood blocks
                 for (int dx = -1; dx <= 1; dx++)
                 for (int dy = -1; dy <= 1; dy++)
                 for (int dz = -1; dz <= 1; dz++)
@@ -115,17 +109,11 @@ public class OrderMarkerSystem : MonoBehaviour
                 }
                 break;
             case OrderKind.Harvest:
-                PlantGrowth[] plants = FindObjectsOfType<PlantGrowth>();
-                foreach (PlantGrowth p in plants)
+                PlantGrowth pg = FindFirstObjectByType<PlantGrowth>();
+                if (pg != null)
                 {
-                    if (p == null) continue;
-                    Vector3Int pg = _grid.WorldToGrid(p.transform.position);
-                    if (Vector3Int.Distance(pg, order.gridPos) <= 2)
-                    {
-                        Inventory inv = worker != null ? worker.GetComponent<Inventory>() : null;
-                        if (inv != null) inv.AddItem(p.cropType, p.growth >= 1f ? Random.Range(2, 5) : 1);
-                        Destroy(p.gameObject);
-                    }
+                    Inventory inv = worker != null ? worker.GetComponent<Inventory>() : null;
+                    pg.TryHarvestAt(order.gridPos, inv);
                 }
                 break;
             case OrderKind.Hunt:

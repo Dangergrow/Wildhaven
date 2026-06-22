@@ -76,8 +76,15 @@ public class SelectionManager : MonoBehaviour
     void HandleColonistRMB()
     {
         if (selectedColonist == null) return;
+        // Only show menu if RMB is near the selected colonist
+        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        var gridHit = _grid.RaycastGrid(ray);
+        if (gridHit == null) return;
+        Vector3 clickWorld = _grid.GridToWorld(gridHit.Value.x, gridHit.Value.y, gridHit.Value.z);
+        float dist = Vector3.Distance(clickWorld, selectedColonist.transform.position);
+        if (dist > 2f) { Deselect(); return; }
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        float menuH = (selectedColonist.currentState == ColonistState.Downed) ? 100 : 130;
+        float menuH = (selectedColonist.currentState == ColonistState.Incapacitated) ? 100 : 130;
         _showMenu = true;
         _menuRect = new Rect(mousePos.x, Screen.height - mousePos.y, 180, menuH);
         _menuTarget = selectedColonist.gameObject;
@@ -125,7 +132,7 @@ public class SelectionManager : MonoBehaviour
             GUI.Box(new Rect(r.x, r.y, r.width, 24), c.colonistName, GUI.skin.box);
             r.y += 24; float h = 22;
 
-            if (c.currentState != ColonistState.Downed)
+            if (c.currentState != ColonistState.Incapacitated)
             {
                 if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Move here", btn))
                 { OrderMove(); CloseMenu(); }
@@ -145,8 +152,6 @@ public class SelectionManager : MonoBehaviour
             r.y += h;
             if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Deselect", btn))
             { Deselect(); CloseMenu(); }
-
-            _menuRect = new Rect(r.x, r.y, r.width, _menuRect.height);
         }
 
         if (selectedColonist == null || _showMenu) return;
@@ -154,8 +159,6 @@ public class SelectionManager : MonoBehaviour
         GUI.Box(new Rect(Screen.width - 230, Screen.height / 2f - 45, 220, 80),
             $"{ci.colonistName}  Age:{ci.age}\nHP:{ci.health:F0}/{ci.maxHealth:F0}  Mood:{ci.mood:F0}\nHunger:{ci.hunger:F0}  Fatigue:{ci.fatigue:F0}");
     }
-
-    Vector3 _orderWorldPos;
 
     void OrderMove()
     {
@@ -214,18 +217,10 @@ public class SelectionManager : MonoBehaviour
         return best;
     }
 
-    /// <summary>Ground RMB — deselect colonist when clicking on empty ground.</summary>
+    /// <summary>LMB click outside menu closes the menu.</summary>
     void LateUpdate()
     {
         if (_showMenu && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             CloseMenu();
-
-        if (_buildMode) return;
-        if (selectedColonist != null && Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
-        {
-            Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            var gh = _grid.RaycastGrid(ray);
-            if (gh != null && _menuColonist == null) Deselect();
-        }
     }
 }

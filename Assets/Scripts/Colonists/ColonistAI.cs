@@ -129,6 +129,14 @@ public class ColonistAI : MonoBehaviour
                     if (_grid.InBounds(gp.x, gp.y, gp.z) && _grid.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
                         _grid.RemoveBlock(gp.x, gp.y, gp.z);
                 }
+                if (currentOrder == OrderType.Attack && orderEnemy != null)
+                {
+                    float dmg = 5f + (_colonist.meleeSkill * 0.5f);
+                    Equipment eq = GetComponent<Equipment>();
+                    if (eq != null) dmg += eq.GetAttackBonus();
+                    orderEnemy.TakeDamage(dmg * Time.unscaledDeltaTime, DamageType.Slash);
+                    if (orderEnemy.state == CombatState.Dead) { CancelOrder(); return false; }
+                }
                 CancelOrder(); return false;
             }
             if (CanMoveTo(next, 0.1f, true)) transform.position = next;
@@ -164,12 +172,12 @@ public class ColonistAI : MonoBehaviour
             float d = Vector3.Distance(transform.position, orderEnemy.transform.position);
             if (d < 2f)
             {
-                float dmg = 5f + (_colonist.meleeSkill * 0.5f);
+                float dmg = (5f + (_colonist.meleeSkill * 0.5f)) * Time.unscaledDeltaTime;
                 Equipment eq = GetComponent<Equipment>();
-                if (eq != null) dmg += eq.GetAttackBonus();
+                if (eq != null) dmg += eq.GetAttackBonus() * Time.unscaledDeltaTime;
                 orderEnemy.TakeDamage(dmg, DamageType.Slash);
             }
-            if (orderEnemy.state == CombatState.Dead) CancelOrder();
+            if (orderEnemy.state == CombatState.Dead) { CancelOrder(); return false; }
             return true;
         }
         CancelOrder(); return false;
