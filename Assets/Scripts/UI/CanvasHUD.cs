@@ -23,7 +23,6 @@ public class CanvasHUD : MonoBehaviour
     private List<GameObject> _portraitIcons = new();
     private List<string> _notifications = new();
     private Text _notifText;
-    private int _selectedColonistIdx = -1;
 
     void UpdatePortraits()
     {
@@ -222,17 +221,14 @@ public class CanvasHUD : MonoBehaviour
                     }
             }
             _resourceText.text = $"W:{wood} S:{stone} F:{food} M:{metal}  Colonists: {a}/{c}";
-
-            // Floor indicator
-            if (_modeText != null && Camera.main != null)
-            {
-                int floor = Mathf.RoundToInt(Camera.main.transform.position.y);
-                _modeText.text = $"Floor {floor}  [Tab \u2191\u2193]";
-            }
         }
 
-        if (_select != null)
-            _modeText.text = "F1-Architect F2-Work F3-Zone F4-Orders | R-Draft | B-Select | F5 Save";
+        // Floor + controls info combined
+        if (_modeText != null)
+        {
+            int floor = Camera.main != null ? Mathf.RoundToInt(Camera.main.transform.position.y) : 0;
+            _modeText.text = $"Floor {floor} [Tab]  |  F1-F4 modes  |  B-Select  |  Space-Pause  |  F5 Save";
+        }
 
         // Notifications
         if (_notifications.Count > 0)
