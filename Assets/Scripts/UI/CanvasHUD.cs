@@ -194,6 +194,14 @@ public class CanvasHUD : MonoBehaviour
         // Update portraits every 30 frames for performance
         if (Time.frameCount % 30 == 0) UpdatePortraits();
 
+        // Show notifications (auto-fade after 5s)
+        if (_notifications.Count > 0 && Time.frameCount % 60 == 0)
+        {
+            _notifications.RemoveAt(0);
+            if (_notifText != null)
+                _notifText.text = _notifications.Count > 0 ? string.Join("\n", _notifications) : "";
+        }
+
         if (_day != null)
         {
             string spd = _day.IsPaused ? "PAUSED" : $"{_day.gameSpeed}x";
