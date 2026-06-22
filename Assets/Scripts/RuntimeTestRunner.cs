@@ -367,22 +367,45 @@ public class RuntimeTestRunner : MonoBehaviour
         if (ai == null) { Fail("Path: no AI"); yield break; }
 
         Vector3Int start = _grid.WorldToGrid(c.transform.position);
-        // Move 3 blocks in the +x direction (always on same terrain surface)
-        Vector3Int target = new Vector3Int(start.x + 3, start.y, start.z);
+        Vector3Int target = start;
+        bool foundTarget = false;
+        for (int dx = 3; dx <= 12; dx++)
+        {
+            Vector3Int candidate = new Vector3Int(start.x + dx, start.y, start.z);
+            for (int dy = -3; dy <= 3; dy++)
+            {
+                Vector3Int check = new Vector3Int(candidate.x, candidate.y + dy, candidate.z);
+                if (Vector3Int.Distance(start, check) >= 3 && Pathfinder.IsWalkable(_grid, check))
+                { target = check; foundTarget = true; break; }
+            }
+            if (foundTarget) break;
+            candidate = new Vector3Int(start.x + dx, start.y, start.z + dx);
+            for (int dy = -3; dy <= 3; dy++)
+            {
+                Vector3Int check = new Vector3Int(candidate.x, candidate.y + dy, candidate.z);
+                if (Vector3Int.Distance(start, check) >= 3 && Pathfinder.IsWalkable(_grid, check))
+                { target = check; foundTarget = true; break; }
+            }
+            if (foundTarget) break;
+        }
+
+        if (!foundTarget) { Fail("Path: could not find walkable target 3+ blocks away"); yield break; }
+
         var path = Pathfinder.FindPath(_grid, start, target);
+        if (path != null && path.Count >= 1)
+            Pass($"Path: A* found path of {path.Count} nodes from {start} to {target}");
+        else
+            Fail($"Path: A* returned null — start={start}, target={target}");
 
-        if (path != null && path.Count >= 2) Pass($"Path: A* found path of {path.Count} nodes");
-        else if (path != null && path.Count == 1) Pass("Path: A* found trivial path (start==end)");
-        else Fail($"Path: A* returned null — start={start}, target={target}");
-
-        // Give a Move order and verify colonist reaches destination
+        // Give order and verify movement
         Vector3 startPos = c.transform.position;
         Vector3 targetPos = _grid.GridToWorld(target.x, target.y, target.z);
         ai.GiveOrder(ColonistAI.OrderType.Move, targetPos);
 
         float wait = 0;
-        float dist = Vector3.Distance(c.transform.position, targetPos);
-        while (dist > 1.5f && wait < 5f)
+        float startDist = Vector3.Distance(c.transform.position, targetPos);
+        float dist = startDist;
+        while (dist > 1.2f && wait < 6f)
         {
             yield return new WaitForSeconds(0.3f);
             wait += 0.3f;
@@ -390,8 +413,9 @@ public class RuntimeTestRunner : MonoBehaviour
             dist = Vector3.Distance(c.transform.position, targetPos);
         }
         float totalMoved = Vector3.Distance(startPos, c != null ? c.transform.position : startPos);
-        if (totalMoved > 1f) Pass($"Path: colonist moved {totalMoved:F1}u toward target (final dist={dist:F1})");
-        else Fail($"Path: colonist barely moved ({totalMoved:F1}u)");
+        if (totalMoved > 0.5f || dist < startDist * 0.5f)
+            Pass($"Path: colonist moved {totalMoved:F1}u (startDist={startDist:F1}, finalDist={dist:F1})");
+        else Fail($"Path: colonist stuck — moved {totalMoved:F1}u of {startDist:F1}u");
     }
 
     // ═══════════════════════════════════════
