@@ -54,8 +54,36 @@ public class MainMenu : MonoBehaviour
             StartGame();
         });
         Btn("Multiplayer", 0.40f, () => BtnClick("Multiplayer — coming soon"));
-        Btn("Settings", 0.33f, () => BtnClick("Settings — coming soon"));
-        Btn("About", 0.26f, () => BtnClick("Wildhaven v0.1\nColony sim with multiplayer"));
+        Btn("Settings", 0.33f, () => {
+            var gs = FindFirstObjectByType<GameSettings>();
+            if (gs != null) gs.Show();
+            else Debug.Log("[Menu] GameSettings not found — is GameManager running?");
+        });
+        Btn("About", 0.26f, () => {
+            var aGo = new GameObject("AboutPanel");
+            aGo.AddComponent<RectTransform>();
+            var aCanvas = aGo.AddComponent<Canvas>();
+            aCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            aCanvas.sortingOrder = 2000;
+            aGo.AddComponent<CanvasScaler>();
+            aGo.AddComponent<GraphicRaycaster>();
+            var abg = new GameObject("Bg"); abg.AddComponent<RectTransform>();
+            var abgImg = abg.AddComponent<Image>();
+            abgImg.rectTransform.SetParent(aCanvas.transform, false);
+            abgImg.rectTransform.anchorMin = Vector2.zero; abgImg.rectTransform.anchorMax = Vector2.one;
+            abgImg.color = new Color(0.05f, 0.05f, 0.08f, 0.95f);
+            var at = new GameObject("T"); at.AddComponent<RectTransform>();
+            var atxt = at.AddComponent<Text>();
+            atxt.rectTransform.SetParent(aCanvas.transform, false);
+            atxt.rectTransform.anchorMin = atxt.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            atxt.rectTransform.sizeDelta = new Vector2(500, 200);
+            atxt.font = UIFont.Get(); atxt.fontSize = 20; atxt.alignment = TextAnchor.MiddleCenter;
+            atxt.color = Color.white;
+            atxt.text = "WILDHAVEN v0.1\n\nColony Simulator\nUnity 6 URP | C#\n\nBuilt with OpenCode AI Agents\nWork PC + Home PC collaboration\n\nClick anywhere to close";
+            var aBtn = aGo.AddComponent<Button>();
+            aBtn.onClick.AddListener(() => Destroy(aGo));
+            var ac = aBtn.colors; ac.normalColor = Color.clear; ac.highlightedColor = Color.clear; aBtn.colors = ac;
+        });
         Btn("Quit", 0.19f, () => Application.Quit());
     }
 

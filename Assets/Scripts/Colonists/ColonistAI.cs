@@ -327,8 +327,20 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.fatigue > 70f) { TransitionTo(ColonistState.Sleeping); return; }
         if (_colonist.recreation < 15f && _colonist.currentState != ColonistState.Working) { TransitionTo(ColonistState.Recreation); return; }
         if (HasWork()) TransitionTo(ColonistState.Working);
-        else if (_colonist.hunger > 30f && _colonist.fatigue < 70f) TryAutoWork(); // do something useful
+        else if (_colonist.hunger > 30f && _colonist.fatigue < 70f) { TryBuildBlueprint(); TryAutoWork(); }
         else TransitionTo(ColonistState.Idle);
+    }
+
+    /// <summary>Attempts to build the nearest blueprint within range.</summary>
+    void TryBuildBlueprint()
+    {
+        BlueprintManager bpm = _grid.GetComponent<BlueprintManager>();
+        if (bpm == null) return;
+        if (bpm.TryBuildNext(transform.position, out Vector3Int buildPos))
+        {
+            _colonist.currentState = ColonistState.Working;
+            currentTask = ColonistTask.Build;
+        }
     }
 
     private float _workCooldown;
