@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<PauseMenu>("PauseMenu");
         EnsureSystem<MapOverlay>("MapOverlay");
         EnsureSystem<FloorController>("FloorController");
+        EnsureSystem<ZoneDesignator>("ZoneDesignator");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
