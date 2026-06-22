@@ -32,7 +32,7 @@ public class GameBar : MonoBehaviour
         _build = FindObjectOfType<BuildManager>();
         _select = FindObjectOfType<SelectionManager>();
         _orders = FindObjectOfType<OrderMarkerSystem>();
-        if (_orders == null) { var go = new GameObject("OrderMarkerSystem"); _orders = go.AddComponent<OrderMarkerSystem>(); }
+        if (_orders == null) { var ordersGo = new GameObject("OrderMarkerSystem"); _orders = ordersGo.AddComponent<OrderMarkerSystem>(); }
 
         // Canvas anchored to bottom
         var go = new GameObject("GameBarCanvas");

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
 /// <summary>F4 Orders mode: place order markers on the grid for colonists to execute.</summary>
@@ -43,7 +44,12 @@ public class OrderMarkerSystem : MonoBehaviour
 
     void PlaceOrder(OrderKind kind, Vector3Int pos)
     {
-        orders.RemoveAll(o => o.gridPos == pos && o.marker != null && Destroy(o.marker));
+        // Remove existing orders at this position
+        for (int i = orders.Count - 1; i >= 0; i--)
+        {
+            Order o = orders[i];
+            if (o.gridPos == pos && o.marker != null) { Destroy(o.marker); orders.RemoveAt(i); }
+        }
 
         Color c = kind switch
         {
