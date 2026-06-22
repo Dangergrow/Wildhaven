@@ -144,7 +144,10 @@ public class GridManager : MonoBehaviour
     void DirtyChunkAt(int x, int y, int z)
     {
         int cx = x / CHUNK, cy = y / CHUNK, cz = z / CHUNK;
-        if (cx < _cx && cy < _cy && cz < _cz) _chunks[cx, cy, cz].dirty = true;
+        if (_chunks == null) return;
+        if (cx >= _cx || cy >= _cy || cz >= _cz) return;
+        var chunk = _chunks[cx, cy, cz];
+        if (chunk != null) chunk.dirty = true;
     }
 
     void RebuildDirtyChunks()
@@ -167,6 +170,7 @@ public class GridManager : MonoBehaviour
     void BuildChunkMesh(int cx, int cy, int cz)
     {
         var chunk = _chunks[cx, cy, cz];
+        if (chunk == null || chunk.mesh == null) return;
         chunk.mesh.Clear();
         chunk.dirty = false;
 
@@ -417,6 +421,22 @@ public class GridManager : MonoBehaviour
         _cz = (worldDepth + CHUNK - 1) / CHUNK;
         _chunks = new Chunk[_cx, _cy, _cz];
         _grid = new GridCell[worldWidth, worldHeight, worldDepth];
+
+        // Recreate chunk GameObjects (must exist before BuildAllChunks)
+        for (int cx = 0; cx < _cx; cx++)
+        for (int cy = 0; cy < _cy; cy++)
+        for (int cz = 0; cz < _cz; cz++)
+        {
+            var c = new Chunk();
+            c.go = new GameObject($"Chunk_{cx}_{cy}_{cz}");
+            c.go.transform.SetParent(transform);
+            c.go.transform.localPosition = Vector3.zero;
+            c.filter = c.go.AddComponent<MeshFilter>();
+            c.renderer = c.go.AddComponent<MeshRenderer>();
+            c.mesh = new Mesh { name = $"ChunkMesh_{cx}_{cy}_{cz}", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
+            _chunks[cx, cy, cz] = c;
+        }
+
         GenerateTerrain();
         BuildAllChunks();
     }
