@@ -23,6 +23,52 @@ public class CanvasHUD : MonoBehaviour
     private List<GameObject> _portraitIcons = new();
     private List<string> _notifications = new();
     private Text _notifText;
+    private int _selectedColonistIdx = -1;
+
+    void UpdatePortraits()
+    {
+        if (_spawner == null) { _spawner = FindFirstObjectByType<ColonistSpawner>(); if (_spawner == null) return; }
+
+        // Clear old portraits
+        foreach (var p in _portraitIcons) if (p != null) Destroy(p);
+        _portraitIcons.Clear();
+
+        // Draw colonist portraits at top center
+        float startX = 0.35f;
+        for (int i = 0; i < _spawner.Colonists.Count; i++)
+        {
+            Colonist c = _spawner.Colonists[i];
+            if (c == null) continue;
+
+            var go = new GameObject($"Portrait_{i}");
+            go.AddComponent<RectTransform>();
+            var img = go.AddComponent<Image>();
+            img.rectTransform.SetParent(_canvas.transform);
+            img.rectTransform.anchorMin = img.rectTransform.anchorMax = new Vector2(startX + i * 0.1f, 0.89f);
+            img.rectTransform.sizeDelta = new Vector2(50, 50);
+
+            // Color based on state
+            img.color = c.currentState switch
+            {
+                ColonistState.Idle => Color.gray,
+                ColonistState.Working => Color.green,
+                ColonistState.Eating => Color.yellow,
+                ColonistState.Sleeping => Color.blue,
+                ColonistState.Fighting => Color.red,
+                _ => Color.white,
+            };
+
+            // Health bar on portrait
+            var hpBar = new GameObject("HP");
+            hpBar.AddComponent<RectTransform>();
+            var hpImg = hpBar.AddComponent<Image>();
+            hpImg.rectTransform.SetParent(go.transform);
+            hpImg.rectTransform.anchorMin = new Vector2(0, 0); hpImg.rectTransform.anchorMax = new Vector2(c.health / c.maxHealth, 0.15f);
+            hpImg.color = Color.red;
+
+            _portraitIcons.Add(go);
+        }
+    }
 
     void Start()
     {
@@ -134,6 +180,9 @@ public class CanvasHUD : MonoBehaviour
 
     void Update()
     {
+        // Update portraits every 30 frames for performance
+        if (Time.frameCount % 30 == 0) UpdatePortraits();
+
         if (_day != null)
         {
             string spd = _day.IsPaused ? "PAUSED" : $"{_day.gameSpeed}x";
