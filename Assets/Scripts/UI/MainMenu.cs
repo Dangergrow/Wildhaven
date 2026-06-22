@@ -17,6 +17,7 @@ public class MainMenu : MonoBehaviour
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _canvas.sortingOrder = 999;
         go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        go.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1920, 1080);
         go.AddComponent<GraphicRaycaster>();
 
         if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)

@@ -90,6 +90,7 @@ public class CanvasHUD : MonoBehaviour
         _canvas = new GameObject("HUDCanvas").AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        _canvas.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1920, 1080);
         _canvas.gameObject.AddComponent<GraphicRaycaster>();
 
         _timeText = MakeText("Time", _canvas.transform, new Vector2(0.5f, 0.97f), 20, TextAnchor.UpperCenter);

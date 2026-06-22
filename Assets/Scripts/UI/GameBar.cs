@@ -39,6 +39,7 @@ public class GameBar : MonoBehaviour
         _canvas = go.AddComponent<Canvas>();
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        go.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1920, 1080);
         go.AddComponent<GraphicRaycaster>();
 
         // Bottom bar background

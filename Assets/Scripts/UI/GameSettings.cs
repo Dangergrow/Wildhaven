@@ -22,6 +22,7 @@ public class GameSettings : MonoBehaviour
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _canvas.sortingOrder = 200;
         go.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        go.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1920, 1080);
         go.AddComponent<GraphicRaycaster>();
         _canvas.gameObject.SetActive(false);
         BuildUI();

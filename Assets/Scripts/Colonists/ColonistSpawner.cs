@@ -197,6 +197,6 @@ public class ColonistSpawner : MonoBehaviour
         foreach (Colonist c in Colonists)
             if (c != null) Destroy(c.gameObject);
         Colonists.Clear();
-        gameStarted = true;
+        gameStarted = false;
     }
 }
