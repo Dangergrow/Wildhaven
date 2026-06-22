@@ -26,6 +26,14 @@ public class CentralIntegration : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void AutoCreate()
     {
+        // Ensure EventSystem for Canvas UI
+        if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+        {
+            var es = new GameObject("EventSystem");
+            es.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            es.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        }
+
         var go = new GameObject("__CentralIntegration__");
         go.AddComponent<CentralIntegration>();
         DontDestroyOnLoad(go);
