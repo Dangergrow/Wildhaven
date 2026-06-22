@@ -59,7 +59,10 @@ public class GameBar : MonoBehaviour
 
         SetMode(Mode.Architect);
 
-        _canvas.gameObject.SetActive(false);
+        // Show bar — hidden until game starts
+        #if UNITY_EDITOR
+        _canvas.gameObject.SetActive(true);
+        #endif
     }
 
     void Update()
