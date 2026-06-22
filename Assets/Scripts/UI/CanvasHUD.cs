@@ -86,7 +86,7 @@ public class CanvasHUD : MonoBehaviour
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(110, 20);
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.font = UIFont.Get();
         txt.fontSize = 11; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
         txt.text = _catNames[idx];
 
@@ -119,7 +119,7 @@ public class CanvasHUD : MonoBehaviour
             txt.transform.SetParent(go.transform);
             txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
             txt.rectTransform.sizeDelta = new Vector2(100, 22);
-            txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            txt.font = UIFont.Get();
             txt.fontSize = 10; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
             txt.text = $"{bt}";
             _blockBtns[i] = txt;
@@ -187,7 +187,7 @@ public class CanvasHUD : MonoBehaviour
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(500, 30);
         t.rectTransform.anchoredPosition = Vector2.zero;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIFont.Get();
         t.fontSize = size; t.alignment = align; t.color = Color.white; return t;
     }
 }

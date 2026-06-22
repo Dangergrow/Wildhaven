@@ -92,7 +92,7 @@ public class GameSettings : MonoBehaviour
         t.transform.SetParent(_canvas.transform);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(300, 35);
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIFont.Get();
         t.fontSize = size; t.alignment = TextAnchor.MiddleCenter; t.color = Color.white; t.text = msg;
     }
 
@@ -110,7 +110,7 @@ public class GameSettings : MonoBehaviour
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(80, 30);
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.font = UIFont.Get();
         txt.fontSize = 14; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white; txt.text = label;
         btn.onClick.AddListener(() => onClick());
     }

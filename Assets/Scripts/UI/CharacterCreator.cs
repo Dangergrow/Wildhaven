@@ -194,7 +194,7 @@ public class CharacterCreator : MonoBehaviour
         t.transform.SetParent(_canvas.transform);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.sizeDelta = new Vector2(300, 30);
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIFont.Get();
         t.fontSize = size; t.alignment = align; t.color = Color.white; return t;
     }
 
@@ -212,7 +212,7 @@ public class CharacterCreator : MonoBehaviour
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(90, 26);
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.font = UIFont.Get();
         txt.fontSize = 11; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white; txt.text = label;
         btn.onClick.AddListener(() => onClick());
     }

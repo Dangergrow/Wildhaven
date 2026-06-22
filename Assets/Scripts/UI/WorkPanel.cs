@@ -66,7 +66,7 @@ public class WorkPanel : MonoBehaviour
         title.transform.SetParent(_canvas.transform);
         title.rectTransform.anchorMin = title.rectTransform.anchorMax = new Vector2(0.5f, 0.95f);
         title.rectTransform.sizeDelta = new Vector2(400, 30);
-        title.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        title.font = UIFont.Get();
         title.fontSize = 22; title.alignment = TextAnchor.MiddleCenter; title.color = Color.white;
         title.text = "Work Priorities (F2 to close)";
 
@@ -81,7 +81,7 @@ public class WorkPanel : MonoBehaviour
             label.transform.SetParent(_canvas.transform);
             label.rectTransform.anchorMin = label.rectTransform.anchorMax = new Vector2(0.1f, y);
             label.rectTransform.sizeDelta = new Vector2(120, 20);
-            label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            label.font = UIFont.Get();
             label.fontSize = 13; label.alignment = TextAnchor.MiddleLeft; label.color = Color.white;
             label.text = _jobNames[i];
 
@@ -123,7 +123,7 @@ public class WorkPanel : MonoBehaviour
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = size;
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.font = UIFont.Get();
         txt.fontSize = 12; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white; txt.text = label;
         btn.onClick.AddListener(() => onClick());
     }

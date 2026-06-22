@@ -132,7 +132,7 @@ public class GameBar : MonoBehaviour
             txt.transform.SetParent(btn.transform);
             txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
             txt.rectTransform.sizeDelta = new Vector2(44, 24);
-            txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            txt.font = UIFont.Get();
             txt.fontSize = 9; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white;
             txt.text = $"{i+1}\n{bt}";
 
@@ -160,7 +160,7 @@ public class GameBar : MonoBehaviour
         txt.transform.SetParent(btn.transform);
         txt.rectTransform.anchorMin = txt.rectTransform.anchorMax = Vector2.one * 0.5f;
         txt.rectTransform.sizeDelta = new Vector2(130, 28);
-        txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        txt.font = UIFont.Get();
         txt.fontSize = 12; txt.alignment = TextAnchor.MiddleCenter; txt.color = Color.white; txt.text = label;
 
         btn.onClick.AddListener(() => onClick());
@@ -176,7 +176,7 @@ public class GameBar : MonoBehaviour
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = anchor;
         t.rectTransform.pivot = anchor; t.rectTransform.sizeDelta = new Vector2(500, 20);
         t.rectTransform.anchoredPosition = Vector2.zero;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIFont.Get();
         t.fontSize = size; t.alignment = align; t.color = Color.white; return t;
     }
 

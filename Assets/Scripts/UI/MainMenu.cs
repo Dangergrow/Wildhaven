@@ -79,6 +79,11 @@ public class MainMenu : MonoBehaviour
 
     void StartGame()
     {
+        // Try to load existing save
+        var saveMgr = FindFirstObjectByType<GameSaveManager>();
+        if (saveMgr != null && System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "game.sav")))
+            saveMgr.LoadGame();
+
         Destroy(_canvas.gameObject);
         Destroy(this);
     }
@@ -100,7 +105,7 @@ public class MainMenu : MonoBehaviour
         t.rectTransform.SetParent(_canvas.transform, false);
         t.rectTransform.anchorMin = t.rectTransform.anchorMax = new Vector2(0.5f, y);
         t.rectTransform.sizeDelta = new Vector2(400, 50);
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIFont.Get();
         t.fontSize = size; t.alignment = TextAnchor.MiddleCenter; t.color = c; t.text = msg;
     }
 
@@ -121,7 +126,7 @@ public class MainMenu : MonoBehaviour
         var lt = lg.AddComponent<Text>();
         lt.rectTransform.SetParent(go.transform, false);
         lt.rectTransform.anchorMin = Vector2.zero; lt.rectTransform.anchorMax = Vector2.one;
-        lt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        lt.font = UIFont.Get();
         lt.fontSize = 22; lt.alignment = TextAnchor.MiddleCenter; lt.color = Color.white; lt.text = label;
         btn.onClick.AddListener(() => onClick());
     }
