@@ -327,20 +327,85 @@ public class ColonistAI : MonoBehaviour
         if (_colonist.fatigue > 70f) { TransitionTo(ColonistState.Sleeping); return; }
         if (_colonist.recreation < 15f && _colonist.currentState != ColonistState.Working) { TransitionTo(ColonistState.Recreation); return; }
         if (HasWork()) TransitionTo(ColonistState.Working);
-        else if (_colonist.hunger > 30f && _colonist.fatigue < 70f) { TryBuildBlueprint(); TryAutoWork(); }
+        else if (_colonist.hunger > 30f && _colonist.fatigue < 70f)
+        {
+            if (TryBuildBlueprint()) return;
+            if (TryHaulItems()) return;
+            TryAutoWork();
+        }
         else TransitionTo(ColonistState.Idle);
     }
 
     /// <summary>Attempts to build the nearest blueprint within range.</summary>
-    void TryBuildBlueprint()
+    bool TryBuildBlueprint()
     {
         BlueprintManager bpm = _grid.GetComponent<BlueprintManager>();
-        if (bpm == null) return;
+        if (bpm == null) return false;
         if (bpm.TryBuildNext(transform.position, out Vector3Int buildPos))
         {
             _colonist.currentState = ColonistState.Working;
             currentTask = ColonistTask.Build;
+            return true;
         }
+        return false;
+    }
+
+    /// <summary>Hauls items to nearest stockpile zone.</summary>
+    bool TryHaulItems()
+    {
+        Inventory inv = GetComponent<Inventory>();
+        if (inv == null) return false;
+
+        // Find nearest stockpile zone
+        ZoneMarker[] zones = FindObjectsOfType<ZoneMarker>();
+        ZoneMarker nearestStockpile = null;
+        float minDist = 10f;
+        foreach (ZoneMarker z in zones)
+        {
+            if (z.zoneType != ZoneMarker.ZoneType.Stockpile) continue;
+            float d = Vector3.Distance(transform.position, z.transform.position);
+            if (d < minDist) { minDist = d; nearestStockpile = z; }
+        }
+
+        // If near stockpile, drop items
+        if (nearestStockpile != null && minDist < 2f)
+        {
+            // Drop all items
+            foreach (InventorySlot slot in inv.Slots)
+            {
+                if (!slot.IsEmpty)
+                {
+                    SpawnDroppedItem(slot.itemType, slot.amount);
+                    slot.Clear();
+                }
+            }
+            _colonist.currentState = ColonistState.Working;
+            currentTask = ColonistTask.Haul;
+            return true;
+        }
+
+        // If has items and stockpile exists, move toward it
+        if (nearestStockpile != null && inv.Slots.FindAll(s => !s.IsEmpty).Count > 0)
+        {
+            Vector3 dir = (nearestStockpile.transform.position - transform.position).normalized;
+            transform.position = Vector3.MoveTowards(transform.position, nearestStockpile.transform.position, _speed * 0.3f * Time.deltaTime);
+            _colonist.currentState = ColonistState.Working;
+            currentTask = ColonistTask.Haul;
+            return true;
+        }
+
+        return false;
+    }
+
+    void SpawnDroppedItem(ItemType type, int amount)
+    {
+        GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        go.transform.position = transform.position + Vector3.up * 0.3f;
+        go.transform.localScale = Vector3.one * 0.2f;
+        go.GetComponent<Renderer>().material.color = Color.yellow;
+        WorldItem wi = go.AddComponent<WorldItem>();
+        wi.itemType = type;
+        wi.amount = amount;
     }
 
     private float _workCooldown;
