@@ -9,13 +9,18 @@ public class MainMenu : MonoBehaviour
 {
     private Canvas _canvas;
     private ColonistSpawner _spawner;
+    private static bool _firstStart = true;
 
     void Start()
     {
-        #if UNITY_EDITOR
-        StartGame();
-        return;
-        #endif
+#if UNITY_EDITOR
+        if (_firstStart)
+        {
+            _firstStart = false;
+            StartGame();
+            return;
+        }
+#endif
 
         _spawner = FindFirstObjectByType<ColonistSpawner>();
 
@@ -122,18 +127,16 @@ public class MainMenu : MonoBehaviour
                 StartGame();
             };
         };
-
-        Destroy(this);
     }
 
     void StartGame()
     {
-        // Try to load existing save
+        if (_canvas != null) Destroy(_canvas.gameObject);
+
         var saveMgr = FindFirstObjectByType<GameSaveManager>();
         if (saveMgr != null && System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "game.sav")))
             saveMgr.LoadGame();
 
-        Destroy(_canvas.gameObject);
         Destroy(this);
     }
 

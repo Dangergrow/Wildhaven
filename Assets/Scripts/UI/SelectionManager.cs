@@ -9,7 +9,6 @@ using System.Collections.Generic;
 public class SelectionManager : MonoBehaviour
 {
     public Colonist selectedColonist;
-    public GameObject ring;
     private BuildManager _build;
     private ColonistSpawner _spawner;
     private Camera _cam;
@@ -22,15 +21,6 @@ public class SelectionManager : MonoBehaviour
         _spawner = FindObjectOfType<ColonistSpawner>();
         _grid = FindObjectOfType<GridManager>();
         _cam = Camera.main ?? FindObjectOfType<Camera>();
-        if (ring == null)
-        {
-            ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            ring.name = "Ring";
-            ring.transform.localScale = new Vector3(1.5f, 0.05f, 1.5f);
-            ring.GetComponent<Renderer>().material.color = Color.green;
-            Destroy(ring.GetComponent<Collider>());
-            ring.SetActive(false);
-        }
     }
 
     void Update()
@@ -68,9 +58,6 @@ public class SelectionManager : MonoBehaviour
             if (d < bestDist) { bestDist = d; best = c; }
         }
         selectedColonist = best;
-        ring.SetActive(best != null);
-        if (best != null) { ring.transform.position = best.transform.position + Vector3.up * 0.9f; ring.transform.SetParent(best.transform); }
-        else ring.transform.SetParent(null);
     }
 
     void HandleColonistRMB()
@@ -104,16 +91,11 @@ public class SelectionManager : MonoBehaviour
     void Select(Colonist c)
     {
         selectedColonist = c;
-        ring.SetActive(true);
-        ring.transform.position = c.transform.position + Vector3.up * 0.9f;
-        ring.transform.SetParent(c.transform);
     }
 
     void Deselect()
     {
         selectedColonist = null;
-        ring.SetActive(false);
-        ring.transform.SetParent(null);
     }
 
     void OnGUI()
@@ -156,6 +138,17 @@ public class SelectionManager : MonoBehaviour
 
         if (selectedColonist == null || _showMenu) return;
         Colonist ci = selectedColonist;
+        if (ci == null) return;
+        // 2D ring indicator at colonist screen position (no terrain occlusion)
+        Vector3 sp = _cam.WorldToScreenPoint(ci.transform.position + Vector3.up * 0.9f);
+        if (sp.z > 0)
+        {
+            float ringR = 12f;
+            GUI.color = Color.green;
+            GUI.Label(new Rect(sp.x - ringR, Screen.height - sp.y - ringR, ringR * 2, ringR * 2),
+                "O", new GUIStyle(GUI.skin.label) { fontSize = 28, alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold });
+            GUI.color = Color.white;
+        }
         GUI.Box(new Rect(Screen.width - 230, Screen.height / 2f - 45, 220, 80),
             $"{ci.colonistName}  Age:{ci.age}\nHP:{ci.health:F0}/{ci.maxHealth:F0}  Mood:{ci.mood:F0}\nHunger:{ci.hunger:F0}  Fatigue:{ci.fatigue:F0}");
     }
