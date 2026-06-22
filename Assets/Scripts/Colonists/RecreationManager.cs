@@ -135,8 +135,14 @@ public class RecreationManager : MonoBehaviour
     /// </summary>
     private bool IsObjectAvailable(string objectName)
     {
-        // TODO: check world for built recreation objects
-        return true; // placeholder — will check BuildManager-registered objects
+        // Check if colony has any Room zone (indicates built infrastructure)
+        ZoneMarker[] zones = FindObjectsByType<ZoneMarker>(FindObjectsSortMode.None);
+        foreach (ZoneMarker z in zones)
+        {
+            if (z != null && z.zoneType == ZoneMarker.ZoneType.Room)
+                return true;
+        }
+        return false;
     }
 
     /// <summary>

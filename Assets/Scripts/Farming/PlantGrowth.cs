@@ -103,10 +103,10 @@ public class PlantGrowth : MonoBehaviour
         item = def.yieldItem;
         amount = def.yieldAmount + _rng.Next(0, 3);
 
-        // Bonus seed drop
+        // Bonus seed drop — adds extra yield
         if (def.hasBonusItem && Random.value < def.bonusChance)
         {
-            // TODO: spawn bonus item as well
+            amount += 1 + _rng.Next(0, 2); // +1-2 bonus items
         }
 
         _plants.Remove(pos);
@@ -198,7 +198,12 @@ public class PlantGrowth : MonoBehaviour
         {
             if (def.cropType == plant.cropType)
             {
-                if (inv != null) inv.AddItem(def.yieldItem, def.yieldAmount);
+                if (inv != null)
+                {
+                    inv.AddItem(def.yieldItem, def.yieldAmount);
+                    if (def.hasBonusItem && Random.value < def.bonusChance)
+                        inv.AddItem(def.bonusItem, 1);
+                }
                 _plants.Remove(pos);
                 return true;
             }
