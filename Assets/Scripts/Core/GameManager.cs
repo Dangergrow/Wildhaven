@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<AnimalManager>("Animals");
         EnsureSystem<PrisonerSystem>("Prisoners");
         EnsureSystem<BurialSystem>("Burial");
+        EnsureSystem<PauseMenu>("PauseMenu");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");

@@ -1,18 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>Simple menu overlay. Does NOT pause or disable anything.</summary>
+/// <summary>
+/// Full main menu: New Game, Continue, Multiplayer, Settings, About, Quit.
+/// In editor: auto-skips to game.
+/// </summary>
 public class MainMenu : MonoBehaviour
 {
     private Canvas _canvas;
+    private ColonistSpawner _spawner;
 
     void Start()
     {
-        // Auto-skip menu in editor for testing
         #if UNITY_EDITOR
         StartGame();
         return;
         #endif
+
+        _spawner = FindFirstObjectByType<ColonistSpawner>();
+
         var go = new GameObject("__MenuCanvas__");
         go.AddComponent<RectTransform>();
         _canvas = go.AddComponent<Canvas>();
@@ -34,26 +40,43 @@ public class MainMenu : MonoBehaviour
         bg.rectTransform.SetParent(_canvas.transform, false);
         bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
         bg.rectTransform.offsetMin = bg.rectTransform.offsetMax = Vector2.zero;
-        bg.color = new Color(0.03f, 0.03f, 0.06f, 0.9f);
+        bg.color = new Color(0.03f, 0.03f, 0.06f, 0.95f);
 
-        Txt("WILDHAVEN", 46, 0.75f, Color.white);
-        Txt("Colony Simulator", 18, 0.69f, new Color(0.6f, 0.6f, 0.6f));
+        // Title
+        Txt("WILDHAVEN", 48, 0.78f, Color.white);
+        Txt("Colony Simulator", 18, 0.72f, new Color(0.6f, 0.6f, 0.6f));
 
-        Btn("New Game", 0.55f, () => { DeleteSave(); StartGame(); });
-        Btn("Continue", 0.45f, () => StartGame());
-        Btn("Quit", 0.35f, () => Application.Quit());
+        // Buttons
+        Btn("New Game", 0.56f, () => StartNewGame());
+        Btn("Continue", 0.47f, () => StartGame());
+        Btn("Multiplayer", 0.40f, () => BtnClick("Multiplayer — coming soon"));
+        Btn("Settings", 0.33f, () => BtnClick("Settings — coming soon"));
+        Btn("About", 0.26f, () => BtnClick("Wildhaven v0.1\nColony sim with multiplayer"));
+        Btn("Quit", 0.19f, () => Application.Quit());
     }
 
-    void DeleteSave()
+    void StartNewGame()
     {
-        var p = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
-        if (System.IO.File.Exists(p)) System.IO.File.Delete(p);
+        // Delete saves and start fresh
+        DeleteSave();
+        if (_spawner != null) _spawner.gameStarted = true;
+        StartGame();
     }
 
     void StartGame()
     {
         Destroy(_canvas.gameObject);
         Destroy(this);
+    }
+
+    void BtnClick(string msg) { Debug.Log($"[Menu] {msg}"); }
+
+    void DeleteSave()
+    {
+        var p = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
+        if (System.IO.File.Exists(p)) System.IO.File.Delete(p);
+        p = System.IO.Path.Combine(Application.persistentDataPath, "world.sav");
+        if (System.IO.File.Exists(p)) System.IO.File.Delete(p);
     }
 
     void Txt(string msg, int size, float y, Color c)
@@ -73,7 +96,7 @@ public class MainMenu : MonoBehaviour
         go.AddComponent<Image>().rectTransform.SetParent(_canvas.transform, false);
         var rt = go.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(0.5f, y);
-        rt.sizeDelta = new Vector2(220, 50);
+        rt.sizeDelta = new Vector2(250, 45);
         var btn = go.AddComponent<Button>();
         var c = btn.colors;
         c.normalColor = new Color(0.15f, 0.15f, 0.2f, 1f);
@@ -86,7 +109,6 @@ public class MainMenu : MonoBehaviour
         lt.rectTransform.anchorMin = Vector2.zero; lt.rectTransform.anchorMax = Vector2.one;
         lt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         lt.fontSize = 22; lt.alignment = TextAnchor.MiddleCenter; lt.color = Color.white; lt.text = label;
-
         btn.onClick.AddListener(() => onClick());
     }
 }
