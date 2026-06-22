@@ -64,6 +64,9 @@ public class CanvasHUD : MonoBehaviour
         ShowArchBlocks();
 
         _canvas.gameObject.SetActive(false);
+        #if UNITY_EDITOR
+        _canvas.gameObject.SetActive(true); // show HUD directly in editor
+        #endif
     }
 
     void AddCatTab(Transform parent, int idx)
