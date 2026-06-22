@@ -29,44 +29,55 @@ public class CanvasHUD : MonoBehaviour
     {
         if (_spawner == null) { _spawner = FindFirstObjectByType<ColonistSpawner>(); if (_spawner == null) return; }
 
-        // Clear old portraits
-        foreach (var p in _portraitIcons) if (p != null) Destroy(p);
-        _portraitIcons.Clear();
+        // Create portraits once, then update
+        if (_portraitIcons.Count == 0)
+        {
+            float startX = 0.35f;
+            for (int i = 0; i < _spawner.Colonists.Count; i++)
+            {
+                var go = new GameObject($"Portrait_{i}");
+                go.AddComponent<RectTransform>();
+                var img = go.AddComponent<Image>();
+                img.rectTransform.SetParent(_canvas.transform);
+                img.rectTransform.anchorMin = img.rectTransform.anchorMax = new Vector2(startX + i * 0.1f, 0.89f);
+                img.rectTransform.sizeDelta = new Vector2(50, 50);
+                img.color = Color.gray;
 
-        // Draw colonist portraits at top center
-        float startX = 0.35f;
-        for (int i = 0; i < _spawner.Colonists.Count; i++)
+                var hpBar = new GameObject("HP");
+                hpBar.AddComponent<RectTransform>();
+                var hpImg = hpBar.AddComponent<Image>();
+                hpImg.rectTransform.SetParent(go.transform);
+                hpImg.rectTransform.anchorMin = new Vector2(0, 0);
+                hpImg.rectTransform.anchorMax = new Vector2(1, 0.15f);
+                hpImg.color = Color.red;
+
+                _portraitIcons.Add(go);
+            }
+        }
+
+        // Update portrait colors
+        for (int i = 0; i < _spawner.Colonists.Count && i < _portraitIcons.Count; i++)
         {
             Colonist c = _spawner.Colonists[i];
             if (c == null) continue;
-
-            var go = new GameObject($"Portrait_{i}");
-            go.AddComponent<RectTransform>();
-            var img = go.AddComponent<Image>();
-            img.rectTransform.SetParent(_canvas.transform);
-            img.rectTransform.anchorMin = img.rectTransform.anchorMax = new Vector2(startX + i * 0.1f, 0.89f);
-            img.rectTransform.sizeDelta = new Vector2(50, 50);
-
-            // Color based on state
+            var img = _portraitIcons[i].GetComponent<Image>();
             img.color = c.currentState switch
             {
-                ColonistState.Idle => Color.gray,
-                ColonistState.Working => Color.green,
-                ColonistState.Eating => Color.yellow,
-                ColonistState.Sleeping => Color.blue,
+                ColonistState.Working => new Color(0.2f, 0.7f, 0.2f),
+                ColonistState.Eating => new Color(0.8f, 0.8f, 0.2f),
+                ColonistState.Sleeping => new Color(0.2f, 0.2f, 0.7f),
                 ColonistState.Fighting => Color.red,
-                _ => Color.white,
+                ColonistState.Dead => Color.black,
+                _ => new Color(0.5f, 0.5f, 0.5f),
             };
 
-            // Health bar on portrait
-            var hpBar = new GameObject("HP");
-            hpBar.AddComponent<RectTransform>();
-            var hpImg = hpBar.AddComponent<Image>();
-            hpImg.rectTransform.SetParent(go.transform);
-            hpImg.rectTransform.anchorMin = new Vector2(0, 0); hpImg.rectTransform.anchorMax = new Vector2(c.health / c.maxHealth, 0.15f);
-            hpImg.color = Color.red;
-
-            _portraitIcons.Add(go);
+            // Update health bar width
+            var hpBar = _portraitIcons[i].transform.Find("HP");
+            if (hpBar != null)
+            {
+                var hpImg = hpBar.GetComponent<Image>();
+                hpImg.rectTransform.anchorMax = new Vector2(c.health / c.maxHealth, 0.15f);
+            }
         }
     }
 
@@ -206,6 +217,13 @@ public class CanvasHUD : MonoBehaviour
                     }
             }
             _resourceText.text = $"W:{wood} S:{stone} F:{food} M:{metal}  Colonists: {a}/{c}";
+
+            // Floor indicator
+            if (_modeText != null && Camera.main != null)
+            {
+                int floor = Mathf.RoundToInt(Camera.main.transform.position.y);
+                _modeText.text = $"Floor {floor}  [Tab \u2191\u2193]";
+            }
         }
 
         if (_select != null)
