@@ -3,30 +3,25 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
 /// <summary>
-/// B = toggle build/select mode.
-/// In select mode: LMB = select colonist under cursor via Physics.Raycast.
+/// B = toggle build (green) / select (cyan) mode.
+/// Select mode: LMB selects nearest colonist to cursor.
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
     public Colonist selectedColonist;
     public GameObject ring;
     private BuildManager _build;
+    private ColonistSpawner _spawner;
     private Camera _cam;
+    private GridManager _grid;
     private bool _buildMode = true;
-    // Context menu state
-    private bool _showMenu;
-    private GameObject _menuTarget;
-    private bool _isDragging;
-    private Vector2 _dragStart;
-    private List<Colonist> _selectedColonists = new();
-
-    // Context menu state already declared above
 
     void Start()
     {
         _build = FindObjectOfType<BuildManager>();
-        _cam = Camera.main;
-        if (_cam == null) _cam = FindObjectOfType<Camera>();
+        _spawner = FindObjectOfType<ColonistSpawner>();
+        _grid = FindObjectOfType<GridManager>();
+        _cam = Camera.main ?? FindObjectOfType<Camera>();
         if (ring == null)
         {
             ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -42,7 +37,6 @@ public class SelectionManager : MonoBehaviour
     {
         if (Keyboard.current == null || Mouse.current == null) return;
 
-        // Toggle mode
         if (Keyboard.current.bKey.wasPressedThisFrame)
         {
             _buildMode = !_buildMode;
@@ -51,67 +45,43 @@ public class SelectionManager : MonoBehaviour
         }
 
         if (_buildMode) return;
-        if (_cam == null) return;
+        if (_cam == null || _grid == null || _spawner == null) return;
 
-        // LMB — select colonist
         if (Mouse.current.leftButton.wasPressedThisFrame)
+            HandleSelect();
+    }
+
+    void HandleSelect()
+    {
+        // Use grid raycast (same as BuildManager — reliable)
+        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        var gridHit = _grid.RaycastGrid(ray);
+        if (gridHit == null) { Deselect(); return; }
+
+        Vector3 clickWorld = _grid.GridToWorld(gridHit.Value.x, gridHit.Value.y, gridHit.Value.z);
+
+        // Find nearest colonist within 2.5 blocks
+        Colonist best = null;
+        float bestDist = 2.5f;
+        foreach (Colonist c in _spawner.Colonists)
         {
-            Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            bool hitSomething = Physics.Raycast(ray, out RaycastHit hit, 300f);
-            Debug.Log($"[Selection] Ray hit={hitSomething}, obj={hit.collider?.gameObject?.name ?? "none"}");
-            if (!hitSomething || hit.collider == null) { Deselect(); return; }
-            Colonist c = hit.collider.GetComponentInParent<Colonist>();
-            if (c != null) Select(c); else Deselect();
+            if (c == null || c.currentState == ColonistState.Dead) continue;
+            float d = Vector3.Distance(clickWorld, c.transform.position);
+            if (d < bestDist) { bestDist = d; best = c; }
         }
 
-        // RMB — direct order: ground = move, block = mine
-        HandleColonistRMB(); // context menu on selected colonist
-        if (Mouse.current.rightButton.wasPressedThisFrame && selectedColonist != null && !_showMenu)
+        selectedColonist = best;
+        ring.SetActive(best != null);
+        if (best != null)
         {
-            var ai = selectedColonist.GetComponent<ColonistAI>();
-            if (ai == null) return;
-
-            // Check if clicking on an enemy — attack order
-            Ray ray2 = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray2, out RaycastHit hitE, 300f))
-            {
-                Enemy enemy = hitE.collider.GetComponentInParent<Enemy>();
-                if (enemy != null)
-                {
-                    ai.GiveOrder(ColonistAI.OrderType.Attack, enemy.transform.position);
-                    return;
-                }
-            }
-
-            Vector3 worldPos = GetMouseWorldPosition();
-            GridManager gm = FindObjectOfType<GridManager>();
-            if (gm != null)
-            {
-                Vector3Int gp = gm.WorldToGrid(worldPos);
-                if (gm.InBounds(gp.x, gp.y, gp.z) && gm.GetBlock(gp.x, gp.y, gp.z) != BlockType.Air)
-                    ai.GiveOrder(ColonistAI.OrderType.Mine, worldPos);
-                else if (gm.InBounds(gp.x, gp.y, gp.z))
-                {
-                    // Find walkable air cell above the clicked column
-                    for (int sy = gp.y; sy < gm.Height; sy++)
-                    {
-                        if (gm.GetBlock(gp.x, sy, gp.z) == BlockType.Air
-                            && gm.GetBlock(gp.x, sy - 1, gp.z) != BlockType.Air
-                            && gm.GetBlock(gp.x, sy - 1, gp.z) != BlockType.Water)
-                        {
-                            Vector3 moveTarget = gm.GridToWorld(gp.x, sy, gp.z);
-                            ai.GiveOrder(ColonistAI.OrderType.Move, moveTarget);
-                            break;
-                        }
-                    }
-                }
-            }
+            ring.transform.position = best.transform.position + Vector3.up * 0.9f;
+            ring.transform.SetParent(best.transform);
         }
+        else ring.transform.SetParent(null);
     }
 
     void Select(Colonist c)
     {
-        if (selectedColonist == c) return;
         selectedColonist = c;
         ring.SetActive(true);
         ring.transform.position = c.transform.position + Vector3.up * 0.9f;
@@ -127,51 +97,13 @@ public class SelectionManager : MonoBehaviour
 
     void OnGUI()
     {
-        var s = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold };
+        GUIStyle s = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold };
         s.normal.textColor = _buildMode ? Color.green : Color.cyan;
         GUI.Label(new Rect(Screen.width - 130, 5, 125, 24), _buildMode ? "BUILD [B]" : "SELECT [B]", s);
 
-        if (selectedColonist != null)
-        {
-            Colonist c = selectedColonist;
-            GUI.Box(new Rect(Screen.width - 230, Screen.height / 2 - 45, 220, 100),
-                $"{c.colonistName}\nHP:{c.health:F0}/{c.maxHealth:F0} Mood:{c.mood:F0}\nHunger:{c.hunger:F0} Sleep:{c.fatigue:F0}\nState:{c.currentState}");
-
-            // Right-click context menu on selected colonist
-            if (_showMenu && _menuTarget == c.gameObject)
-            {
-                Vector2 mp = Event.current.mousePosition;
-                Rect r = new Rect(mp.x, Screen.height - mp.y, 120, 66);
-                GUI.Box(r, "");
-                if (GUI.Button(new Rect(r.x + 4, r.y + 4, 112, 18), "Prioritize Work"))
-                { c.currentState = ColonistState.Working; _showMenu = false; }
-                if (GUI.Button(new Rect(r.x + 4, r.y + 26, 112, 18), "Force Rest"))
-                { c.currentState = ColonistState.Sleeping; _showMenu = false; }
-                if (GUI.Button(new Rect(r.x + 4, r.y + 48, 112, 18), "Draft (Combat)"))
-                { c.currentState = ColonistState.Fighting; _showMenu = false; }
-            }
-        }
-    }
-
-    // RMB on colonist opens context menu
-    void HandleColonistRMB()
-    {
-        if (!Mouse.current.rightButton.wasPressedThisFrame) return;
-        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (!Physics.Raycast(ray, out RaycastHit hit, 300f)) return;
-        Colonist c = hit.collider.GetComponentInParent<Colonist>();
-        if (c != null && c == selectedColonist) { _showMenu = true; _menuTarget = c.gameObject; }
-        else _showMenu = false;
-    }
-
-    Vector3 GetMouseWorldPosition()
-    {
-        GridManager gm = FindObjectOfType<GridManager>();
-        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        var hit = gm != null ? gm.RaycastGrid(ray) : null;
-        if (hit != null) return gm.GridToWorld(hit.Value.x, hit.Value.y, hit.Value.z);
-        Plane p = new Plane(Vector3.up, Vector3.zero);
-        if (p.Raycast(ray, out float d)) return ray.GetPoint(d);
-        return ray.origin + ray.direction * 50f;
+        if (selectedColonist == null) return;
+        Colonist c = selectedColonist;
+        GUI.Box(new Rect(Screen.width - 230, Screen.height / 2f - 45, 220, 80),
+            $"{c.colonistName}  Age:{c.age}\nHP:{c.health:F0}/{c.maxHealth:F0}  Mood:{c.mood:F0}\nHunger:{c.hunger:F0}  Fatigue:{c.fatigue:F0}");
     }
 }
