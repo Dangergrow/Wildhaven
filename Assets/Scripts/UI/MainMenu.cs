@@ -48,7 +48,11 @@ public class MainMenu : MonoBehaviour
 
         // Buttons
         Btn("New Game", 0.56f, () => StartNewGame());
-        Btn("Continue", 0.47f, () => StartGame());
+        Btn("Continue", 0.47f, () => {
+            if (!System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "game.sav")))
+            { Debug.Log("[Menu] No save file found"); return; }
+            StartGame();
+        });
         Btn("Multiplayer", 0.40f, () => BtnClick("Multiplayer — coming soon"));
         Btn("Settings", 0.33f, () => BtnClick("Settings — coming soon"));
         Btn("About", 0.26f, () => BtnClick("Wildhaven v0.1\nColony sim with multiplayer"));
