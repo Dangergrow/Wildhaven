@@ -1,155 +1,89 @@
-# Wildhaven — ТЕКУЩЕЕ СОСТОЯНИЕ ПРОЕКТА
+# Wildhaven — СОСТОЯНИЕ ПРОЕКТА (ЧЕСТНОЕ)
 
-> Последнее обновление: 19.06.2026 | РАБОЧИЙ ПК
+> 19.06.2026 | РАБОЧИЙ ПК | Для новой сессии — прочитай это ПЕРВЫМ
 
-## Что это за проект
+## Что это
+Colony sim (Going Medieval графика + RimWorld механики) на Unity 6 URP. ~90 C# скриптов.
 
-**Wildhaven** — колони-сим в духе Going Medieval с глобальной картой как в RimWorld. Мультиплеер до 3 игроков через Steam (Spacewar). Unity 6 (6000.5.0f1), URP, C#.
+## Быстрый старт (как запустить и увидеть игру)
+1. Открыть `SampleScene.unity`
+2. Play → авто-старт в редакторе (меню и создание персонажа пропускаются)
+3. Увидишь: воксельный мир 100×32×100, 3 красных колониста, HUD сверху, GameBar снизу
 
-## Как запустить
+## Что РЕАЛЬНО проверено (видел своими глазами пользователь)
+- ✅ Мир генерируется (горы, вода, снег)
+- ✅ Стройка: 1-9 выбор блока, ЛКМ поставить, ПКМ сломать, Shift+ПКМ=3×3
+- ✅ Камера: WASD, Q/E, зум, MMB, Home, Tab/Shift+Tab этажи
+- ✅ Колонисты: 3 красные капсулы на земле, ходят, не проваливаются
+- ✅ HUD: время, ресурсы, портреты колонистов с цветом по состоянию
+- ✅ GameBar (нижняя панель): F1-F4 переключение режимов, кнопки блоков
+- ✅ Дроп: при разрушении блока вылетает цветной кубик, летит к колонисту
+- ✅ Пауза (Space), скорость (Num1-3), день/ночь
+- ✅ Сохранение F5 / загрузка F9
+- ✅ Карта (M): показывает hex-сетку с биомами
+- ✅ Esc: меню паузы с Continue/Save/Load/Settings/MainMenu/Quit
+- ✅ Settings: громкость музыки/SFX, качество графики, фулскрин
+- ✅ B: переключение BUILD/SELECT режима
+- ✅ Выделение колониста: B→SELECT→ЛКМ (грид-метод, без физики)
 
-1. Открыть Unity Hub → проект `C:\Users\Vladimir Kamashev\Desktop\12\Wildhaven`
-2. Открыть сцену `Assets/Scenes/SampleScene.unity`
-3. Play — игра запустится сразу (меню и создание персонажа авто-пропускаются в редакторе)
+## Что НЕ проверено (только код читал)
+- ❓ WorkPanel (F2) — код есть, приоритеты 1-4, но не проверял в игре
+- ❓ ПКМ-приказы колонистам — код есть, но не проверял
+- ❓ CharacterCreator — код есть, но в редакторе пропускается
+- ❓ WorldSettings — код есть, но в редакторе пропускается
+- ❓ MainMenu (6 кнопок) — код есть, но в редакторе пропускается
+- ❓ GameSettings — код есть, проверено только из PauseMenu
+- ❓ Pathfinder (A*) — код есть, не используется для движения
+- ❓ ZoneMarker — код есть, не проверял визуализацию зон
+- ❓ BlueprintManager — код есть, Shift+ЛКМ ставит blueprint
+- ❓ Все 30+ систем от ДОМАШНЕГО — скомпилированы, но геймплей не проверен
 
-## Архитектура
+## Архитектура (как всё связано)
+1. `CentralIntegration` — [RuntimeInitializeOnLoadMethod] создаёт себя, управляет всеми системами
+2. `GameManager` — авто-создаёт 30+ компонентов через EnsureSystem<T>()
+3. `GridManager` на GameObject "World" — воксельный мир, чанки 16×16×16
+4. `DayCycle` — время, пауза, скорость (Space, Num1-3)
+5. `ColonistSpawner` — спавнит 3 колонистов (в редакторе gameStarted=true авто)
+6. `CanvasHUD` — создаёт Canvas с временем, ресурсами, портретами
+7. `GameBar` — нижняя панель F1-F4 с кнопками блоков
+8. `SelectionManager` — B переключает BUILD/SELECT, выделение через грид-рейкаст
+9. `BuildManager` — стройка (1-9, ЛКМ/ПКМ, Shift+ПКМ=3×3, drag=линия)
+10. `PauseMenu` — Esc меню (OnGUI)
+11. `GameSettings` — настройки звука/графики (Canvas)
+12. `MapOverlay` — карта мира (M, OnGUI)
+13. `FloorController` — Tab/Shift+Tab переключение этажей
 
-### Ядро (авто-запуск)
-- **`CentralIntegration.cs`** (`Assets/Scripts/Core/`) — `[RuntimeInitializeOnLoadMethod]` создаёт себя автоматически. Оркестрирует все системы с тиками 1с/5с/30с.
-- **`GameManager.cs`** — авто-создаёт 30+ систем через `EnsureSystem<T>()`. Не требует ручной настройки сцены.
-- **`GridManager.cs`** — воксельный мир 100×32×100, чанки 16×16×16, greedy mesh. На GameObject "World" в сцене.
+## Управление (полный список)
+- WASD/стрелки = камера | Q/E = поворот 45° | Колёсико = зум | MMB = свободный поворот | Home = сброс
+- Tab = этаж вверх | Shift+Tab = этаж вниз
+- 1-9 = выбор блока | Shift+1-9 = продвинутые блоки | ЛКМ = поставить | ЛКМ+drag = линия
+- ПКМ = сломать | Shift+ПКМ = сломать 3×3 | Shift+ЛКМ = blueprint
+- F1=Architect | F2=Work | F3=Zone | F4=Orders | [ / ] = страницы блоков
+- Space = пауза | Num1/2/3 = скорость | B = BUILD/SELECT
+- M = карта | Esc = меню паузы | F5 = сохранить | F9 = загрузить
 
-### Системы (все в `Assets/Scripts/`)
+## Поток новой игры (в билде)
+MainMenu → WorldSettings(seed/размер/сложность) → CharacterCreator(3 колониста) → Игра
 
-| Папка | Ключевые файлы | Статус |
-|---|---|---|
-| **World/** | GridManager, BuildManager, BlockDatabase | ✅ Работает |
-| **Colonists/** | Colonist, ColonistAI, NeedsSystem, ColonistSpawner, DayCycle, ColonistGravity, WaterInteraction, MentalState, ColonistSchedule, Pathfinder | ✅ Ядро работает, Pathfinder есть но не интегрирован |
-| **Resources/** | ItemType (70+), ItemData, Inventory, RecipeData, CraftingStation, BlockDropManager, Equipment, CookingSystem, EconomyManager, FoodSpoilage, ItemQuality | ✅ Работает |
-| **Combat/** | Enemy, RaidManager, Trap, CombatEnums | ✅ Работает |
-| **WorldMap/** | WorldMapGenerator, HexTile, MapData, Caravan, FactionManager | ✅ Генерация работает, караваны есть, UI карты через MapOverlay (M) |
-| **Events/** | EventManager, QuestManager, EventDef | ✅ События тикают |
-| **Research/** | ResearchManager (60+ нод), ResearchNode, ResearchEffects | ✅ Работает |
-| **Farming/** | PlantGrowth (8 культур) | ✅ Работает |
-| **Social/** | SocialSystem, FamilySystem, ReligionSystem | ✅ Ядро работает |
-| **UI/** | CanvasHUD, GameBar, MainMenu, PauseMenu, SelectionManager, CharacterCreator, WorldSettings, GameSettings, MapOverlay, ColonistPanel, WorkPanel, TradeUI, UIFont | ✅ Ядро работает |
-| **Core/** | CentralIntegration, GameManager, ColonyServices | ✅ Работает |
-| **Camera/** | CameraController, FloorController | ✅ Работает |
+## Проблемы (известные)
+1. Выделение колонистов — грид-метод, может не срабатывать на расстоянии
+2. Портреты колонистов — обновляются, но создаются асинхронно, может быть задержка
+3. CentralIntegration не проверяет IsPaused — исправлено
+4. Старые .sav файлы нужно удалять при смене версии
+5. Префаб Colonist.prefab — если GUID сломался, спавнер создаёт колониста программно
 
-### Префабы
-- **`Assets/Colonist.prefab`** — префаб колониста. Компоненты: Colonist, ColonistAI, NeedsSystem, ColonistGravity, WaterInteraction, BuildBlocker, MentalState, Inventory (добавляются авто при спавне если отсутствуют)
-- **Важно**: CapsuleCollider добавляется в `ColonistSpawner.SpawnColonist()` программно
+## Что нужно сделать (приоритет)
+1. **Проверить WorkPanel (F2)** — работают ли приоритеты
+2. **Проверить ПКМ-приказы** — идут ли колонисты по приказу
+3. **Проверить весь поток новой игры** (в билде, не в редакторе)
+4. **Интегрировать Pathfinder** для обхода препятствий
+5. **Проверить зоны** (Stockpile/Dump/Farm)
+6. **Ассеты**: модели (Mixamo), текстуры (Kenney.nl), звуки
 
-### Сцена
-- **World** — GameObject с GridManager, MeshFilter, MeshRenderer, MeshCollider
-- **Directional Light** — тег MainCamera (исправлен домашним ПК)
-- Всё остальное создаётся автоматически через CentralIntegration/GameManager
-
-## Управление (полное)
-
-### Камера
-- WASD / стрелки — движение
-- Q / E — поворот на 45°
-- Колёсико — зум
-- MMB (зажать) — свободный поворот
-- Home — сброс камеры
-- **Tab** — вверх на этаж
-- **Shift+Tab** — вниз на этаж
-
-### Стройка
-- **1-9** — выбор блока
-- **Shift+1-9** — продвинутые блоки (мрамор, обсидиан и т.д.)
-- **ЛКМ** — поставить блок
-- **ЛКМ + drag** — линия/область блоков
-- **ПКМ** — сломать блок
-- **Shift+ПКМ** — сломать область 3×3
-- **Shift+ЛКМ** — blueprint (план без ресурсов)
-- **F1** — Architect
-- **F2** — Work
-- **F3** — Zone
-- **F4** — Orders
-- **[ / ]** — переключение страниц блоков
-
-### Игра
-- **Space** — пауза
-- **Num1/2/3** — скорость 1x/2x/4x
-- **B** — переключение стройка/выбор (BUILD/SELECT)
-- **M** — карта мира
-- **Esc** — меню паузы (Continue, Save, Load, Settings, Main Menu, Quit)
-- **F5** — сохранить
-- **F9** — загрузить
-
-### Выделение
-- **B** (режим SELECT) → **ЛКМ** по колонисту → зелёное кольцо + инфо-панель
-
-## Поток новой игры (в билде, не в редакторе)
-
-1. **MainMenu** — 6 кнопок (New Game, Continue, Multiplayer, Settings, About, Quit)
-2. **WorldSettings** — выбор seed, размера карты (50/100/200), сложности
-3. **CharacterCreator** — 3 колониста: имена, навыки (30 очков), перки, недостатки, внешность
-4. **Игра** — мир генерируется заново с указанными параметрами, колонисты спавнятся с шаблонов
-
-## Сохранения
-
-- **GameSaveManager** — `game.sav` (полное: мир + колонисты + инвентарь + исследования + время)
-- Старый формат: `world.sav` (F5/F9 через GridManager)
-- Путь: `%APPDATA%/LocalLow/DefaultCompany/Wildhaven/`
-
-## Что РАБОТАЕТ (проверено)
-
-- Генерация мира (Perlin noise, вода, горы, снег)
-- Стройка/разрушение блоков
-- Спавн 3 колонистов
-- Колонисты: ходят, добывают блоки, едят из инвентаря, имеют потребности,重力, вода
-- AABB-коллизия (не ходят сквозь стены, не падают с обрывов)
-- День/ночь, смена сезонов
-- Пауза, скорость времени
-- Дроп предметов (физика: подпрыгивают, падают, летят к колонисту)
-- Инвентарь колонистов
-- Все UI-панели (меню, HUD, портреты, нижняя панель, настройки, карта)
-- Сохранение/загрузка
-- Выделение колонистов (грид-метод)
-- Этажи (Tab/Shift+Tab)
-- Враги (спавн, AI, атака)
-- События (тики каждый 60с)
-- Тех-древо (60+ исследований)
-- Фермерство (рост культур)
-- Экономика (копейки, цены)
-
-## Что НЕ РАБОТАЕТ / ЗАГЛУШКИ
-
-- **Pathfinder (A*)** — код есть, но не используется для движения (колонисты ходят по прямой)
-- **TradeUI** — скрипт есть, но торговля не вызывается (нужен NPC-караван)
-- **WorkPanel (F2)** — показывает заглушку, приоритеты не редактируются
-- **StructureClipboard (Ctrl+C/V)** — скрипт есть, не подключен к BuildManager
-- **Кнопки Multiplayer/Settings/About в главном меню** — показывают "coming soon"
-- **Выбор причёски/тела в CharacterCreator** — кнопки есть, но визуально не меняют модель (нет ассетов)
-- **Визуальный рост растений** — логика есть, модели нет
-- **RoomQuality, TemperatureLight** — логика есть, не визуализирована
-
-## Что НУЖНО СДЕЛАТЬ (по приоритету)
-
-### Критическое
-1. **Выделение колонистов** — работает через грид, но иногда неточно. Нужно доработать радиус поиска или добавить Physics.Raycast как запасной вариант.
-2. **Pathfinding** — интегрировать Pathfinder.cs в ColonistAI для нормального обхода препятствий
-
-### Важное
-3. **WorkPanel (F2)** — сделать функциональным: перетаскивание приоритетов, сохранение
-4. **TradeUI** — вызывать при событии "торговый караван"
-5. **Ассеты** — модели (Mixamo), текстуры (Kenney.nl), звуки (Freesound)
-
-### Желательное
-6. **Главное меню для билда** — кнопки Multiplayer, Settings, About должны что-то делать
-7. **Анимации** — Mixamo + Blend Trees
-8. **Мультиплеер** — Mirror + Steamworks (Spacewar)
-9. **Визуализация комнат, температуры, качества**
-
-## Ключевые файлы для быстрого старта
-
-Если ты новый AI в этом проекте — прочитай эти файлы по порядку:
-1. `HANDSHAKE.md` — история сессий, что сделано
-2. `SETUP.md` — полный гейм-дизайн документ
-3. `.docs/DEVELOPER_GUIDE.md` — архитектура от ДОМАШНЕГО ПК
-4. `PLAYER_GUIDE.md` — руководство игрока
+## Ключевые файлы (читай в этом порядке)
+1. `PROJECT_STATUS.md` ← этот файл
+2. `HANDSHAKE.md` — история сессий WORK↔HOME
+3. `SETUP.md` — полный гейм-дизайн
+4. `.docs/DEVELOPER_GUIDE.md` — архитектура от HOME
 5. `Assets/Scripts/Core/CentralIntegration.cs` — точка входа
 6. `Assets/Scripts/Core/GameManager.cs` — авто-создание систем
