@@ -120,10 +120,7 @@ public class CanvasHUD : MonoBehaviour
 
         ShowArchBlocks();
 
-        _canvas.gameObject.SetActive(false);
-        #if UNITY_EDITOR
-        _canvas.gameObject.SetActive(true); // show HUD directly in editor
-        #endif
+        // Always visible — MainMenu canvas (sortingOrder 999) sits on top
     }
 
     void AddCatTab(Transform parent, int idx)

@@ -58,11 +58,7 @@ public class GameBar : MonoBehaviour
         _infoText = MakeText("Info", _canvas.transform, new Vector2(0.99f, 0.06f), 11, TextAnchor.LowerRight);
 
         SetMode(Mode.Architect);
-
-        // Show bar — hidden until game starts
-        #if UNITY_EDITOR
-        _canvas.gameObject.SetActive(true);
-        #endif
+        // Always visible — MainMenu sits on top with higher sort order
     }
 
     void Update()
