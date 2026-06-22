@@ -17,10 +17,10 @@ public class ColonistSpawner : MonoBehaviour
     public CharacterCreator.ColonistTemplate[] templates;
 
     public List<Colonist> Colonists { get; private set; } = new List<Colonist>();
+    private bool _spawnTriggered;
 
     void Start()
     {
-        // Auto-start game in editor for testing
         #if UNITY_EDITOR
         gameStarted = true;
         #endif
@@ -28,10 +28,20 @@ public class ColonistSpawner : MonoBehaviour
         Invoke(nameof(DoSpawn), 0.5f);
     }
 
+    void Update()
+    {
+        if (gameStarted && !_spawnTriggered)
+        {
+            DoSpawn();
+            _spawnTriggered = true;
+        }
+    }
+
     private int _spawnIndex;
 
     void DoSpawn()
     {
+        _spawnTriggered = true;
         if (!gameStarted) return;
 
         // Destroy old colonists
