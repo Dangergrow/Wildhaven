@@ -52,9 +52,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<ReligionSystem>("Religion");
         EnsureSystem<MedicineSystem>("Medicine");
         EnsureSystem<ColonyServices>("Services");
-        // StabilitySystem: algorithm needs tuning — BFS marks too many blocks unsupported.
-        // Disabled until proper fix (only Wood/WoodPlanks/StoneBrick above natural terrain).
-        // EnsureSystem<StabilitySystem>("Stability");
+        EnsureSystem<StabilitySystem>("Stability");
         EnsureSystem<FireAndSeasons>("FireSeasons");
         EnsureSystem<RepairSystem>("Repair");
         EnsureSystem<AnimalManager>("Animals");

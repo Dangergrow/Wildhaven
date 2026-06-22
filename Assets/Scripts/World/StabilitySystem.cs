@@ -1,14 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>Structural integrity: unsupported player-placed blocks collapse.</summary>
+/// <summary>Structural integrity: BFS flood-fill from bedrock. Unsupported structural blocks collapse.</summary>
 public class StabilitySystem : MonoBehaviour
 {
     private GridManager _grid;
     private float _checkTimer;
-    private HashSet<Vector3Int> _supported = new();
 
-    /// <summary>Block types that need structural support (player-placed). Natural terrain is exempt.</summary>
     private static readonly HashSet<BlockType> StructuralBlocks = new()
     {
         BlockType.Wood, BlockType.WoodPlanks, BlockType.StoneBrick, BlockType.Glass,
@@ -17,14 +15,21 @@ public class StabilitySystem : MonoBehaviour
     };
 
     bool IsStructural(BlockType t) => StructuralBlocks.Contains(t);
-    bool IsNatural(BlockType t) => t == BlockType.Grass || t == BlockType.Stone ||
-        t == BlockType.Sand || t == BlockType.Gravel || t == BlockType.Water || t == BlockType.Snow ||
-        t == BlockType.Bedrock;
 
-    void Awake() { _grid = GetComponent<GridManager>(); if (_grid == null) _grid = FindFirstObjectByType<GridManager>(); }
+    // 6-directional neighbors
+    static readonly Vector3Int[] Dirs = {
+        new(0,1,0), new(0,-1,0), new(1,0,0), new(-1,0,0), new(0,0,1), new(0,0,-1)
+    };
+
+    void Awake()
+    {
+        _grid = GetComponent<GridManager>();
+        if (_grid == null) _grid = FindFirstObjectByType<GridManager>();
+    }
 
     void Update()
     {
+        if (_grid == null) return;
         _checkTimer += Time.unscaledDeltaTime;
         if (_checkTimer < 5f) return;
         _checkTimer = 0f;
@@ -33,66 +38,55 @@ public class StabilitySystem : MonoBehaviour
 
     void CheckStability()
     {
-        if (_grid == null) return;
-        _supported.Clear();
+        int w = _grid.Width, h = _grid.Height, d = _grid.Depth;
 
-        // Mark bedrock + natural terrain as always supported
-        for (int x = 0; x < _grid.Width; x++)
-        for (int z = 0; z < _grid.Depth; z++)
+        // HashSet for O(1) visited check
+        var visited = new HashSet<Vector3Int>();
+        var queue = new Queue<Vector3Int>();
+
+        // Seed: all bedrock blocks (y=0) that are solid
+        for (int x = 0; x < w; x++)
+        for (int z = 0; z < d; z++)
         {
-            for (int y = 0; y < _grid.Height; y++)
+            if (_grid.GetBlock(x, 0, z) != BlockType.Air)
             {
-                BlockType b = _grid.GetBlock(x, y, z);
-                if (b == BlockType.Air) continue;
-                if (y == 0 || IsNatural(b))
-                    _supported.Add(new(x, y, z));
-                else if (IsStructural(b))
-                    break; // stop at first structural block in column
-                else break; // unknown type — treat as natural barrier
+                var p = new Vector3Int(x, 0, z);
+                visited.Add(p);
+                queue.Enqueue(p);
             }
         }
 
-        // BFS: expand support upward through structural blocks
-        bool changed = true;
-        while (changed)
+        // BFS flood-fill: explore all connected solid blocks
+        while (queue.Count > 0)
         {
-            changed = false;
-            for (int x = 0; x < _grid.Width; x++)
-            for (int y = 1; y < _grid.Height; y++)
-            for (int z = 0; z < _grid.Depth; z++)
+            Vector3Int cur = queue.Dequeue();
+            foreach (Vector3Int dOff in Dirs)
             {
-                Vector3Int p = new(x, y, z);
-                if (_supported.Contains(p)) continue;
-                BlockType b = _grid.GetBlock(x, y, z);
-                if (b == BlockType.Air) continue;
-                if (!IsStructural(b)) { _supported.Add(p); continue; } // natural blocks are always supported
-                if (HasSupport(x, y, z)) { _supported.Add(p); changed = true; }
+                int nx = cur.x + dOff.x, ny = cur.y + dOff.y, nz = cur.z + dOff.z;
+                if ((uint)nx >= w || (uint)ny >= h || (uint)nz >= d) continue;
+                if (_grid.GetBlock(nx, ny, nz) == BlockType.Air) continue;
+                var np = new Vector3Int(nx, ny, nz);
+                if (visited.Add(np))
+                    queue.Enqueue(np);
             }
         }
 
-        // Collapse unsupported structural blocks
+        // Collapse: structural blocks NOT reached by BFS are unsupported
         int collapsed = 0;
-        for (int x = 0; x < _grid.Width; x++)
-        for (int y = 0; y < _grid.Height; y++)
-        for (int z = 0; z < _grid.Depth; z++)
+        for (int x = 0; x < w; x++)
+        for (int y = 0; y < h; y++)
+        for (int z = 0; z < d; z++)
         {
-            if (_grid.GetBlock(x, y, z) == BlockType.Air) continue;
-            if (!IsStructural(_grid.GetBlock(x, y, z))) continue;
-            if (!_supported.Contains(new(x, y, z)))
+            BlockType b = _grid.GetBlock(x, y, z);
+            if (b == BlockType.Air || !IsStructural(b)) continue;
+            if (!visited.Contains(new Vector3Int(x, y, z)))
             {
                 _grid.RemoveBlock(x, y, z);
                 collapsed++;
             }
         }
-        if (collapsed > 0) Debug.Log($"[Stability] {collapsed} player-placed blocks collapsed!");
-    }
 
-    bool HasSupport(int x, int y, int z)
-    {
-        // Check 4 horizontal neighbors + below
-        Vector3Int[] check = { new(x-1,y,z), new(x+1,y,z), new(x,y-1,z), new(x,y,z-1), new(x,y,z+1) };
-        foreach (var c in check)
-            if (_supported.Contains(c)) return true;
-        return false;
+        if (collapsed > 0)
+            Debug.Log($"[Stability] {collapsed} unsupported blocks collapsed");
     }
 }

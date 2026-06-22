@@ -78,7 +78,7 @@ public class CentralIntegration : MonoBehaviour
         if (_gridManager == null) _gridManager = FindFirstObjectByType<GridManager>();
         if (_colonistSpawner == null) return;
 
-        if (_colonyServices != null) { _colonyServices.AutoHeal(); _colonyServices.AutoRoof(); }
+        if (_colonyServices != null) { _colonyServices.AutoHeal(); /* AutoRoof disabled — conflicts with StabilitySystem */ }
 
         foreach (var c in _colonistSpawner.Colonists)
         {
