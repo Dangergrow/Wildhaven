@@ -33,6 +33,11 @@ public class ColonistSpawner : MonoBehaviour
     void DoSpawn()
     {
         if (!gameStarted) return;
+
+        // Destroy old colonists
+        foreach (Colonist c in Colonists)
+            if (c != null) Destroy(c.gameObject);
+        Colonists.Clear();
         _spawnIndex = 0;
 
         Debug.Log("[ColonistSpawner] DoSpawn called");
