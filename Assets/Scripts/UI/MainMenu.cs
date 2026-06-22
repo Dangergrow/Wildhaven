@@ -58,22 +58,38 @@ public class MainMenu : MonoBehaviour
     void StartNewGame()
     {
         DeleteSave();
-        // Use CharacterCreator for full colonist customization
-        var ccGo = new GameObject("__CharacterCreator__");
-        var cc = ccGo.AddComponent<CharacterCreator>();
-        cc.OnComplete = (templates) =>
-        {
-            // Apply templates to spawner before starting
-            var spawner = FindFirstObjectByType<ColonistSpawner>();
-            if (spawner != null)
-            {
-                spawner.templates = templates;
-                spawner.useTemplates = true;
-                spawner.gameStarted = true;
-            }
-            StartGame();
-        };
         Destroy(_canvas.gameObject);
+
+        // Step 1: World Settings
+        var wsGo = new GameObject("__WorldSettings__");
+        var ws = wsGo.AddComponent<WorldSettings>();
+        ws.OnComplete = (seed, size, difficulty) =>
+        {
+            // Apply world settings to GridManager
+            var grid = FindFirstObjectByType<GridManager>();
+            if (grid != null)
+            {
+                grid.seed = seed;
+                grid.worldWidth = size;
+                grid.worldDepth = size;
+            }
+
+            // Step 2: Character Creator
+            var ccGo = new GameObject("__CharacterCreator__");
+            var cc = ccGo.AddComponent<CharacterCreator>();
+            cc.OnComplete = (templates) =>
+            {
+                var spawner = FindFirstObjectByType<ColonistSpawner>();
+                if (spawner != null)
+                {
+                    spawner.templates = templates;
+                    spawner.useTemplates = true;
+                    spawner.gameStarted = true;
+                }
+                StartGame();
+            };
+        };
+
         Destroy(this);
     }
 
