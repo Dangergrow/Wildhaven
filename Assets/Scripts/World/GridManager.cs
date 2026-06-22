@@ -403,6 +403,33 @@ public class GridManager : MonoBehaviour
 
     #region Save/Load
 
+    /// <summary>Regenerates terrain with current settings.</summary>
+    public void Regenerate()
+    {
+        Debug.Log($"[GridManager] Regenerating world {worldWidth}x{worldHeight}x{worldDepth} seed={seed}");
+        DestroyAllChunks();
+        _cx = (worldWidth + CHUNK - 1) / CHUNK;
+        _cy = (worldHeight + CHUNK - 1) / CHUNK;
+        _cz = (worldDepth + CHUNK - 1) / CHUNK;
+        _chunks = new Chunk[_cx, _cy, _cz];
+        _grid = new GridCell[worldWidth, worldHeight, worldDepth];
+        GenerateTerrain();
+        BuildAllChunks();
+    }
+
+    void DestroyAllChunks()
+    {
+        if (_chunks == null) return;
+        for (int x = 0; x < _chunks.GetLength(0); x++)
+            for (int y = 0; y < _chunks.GetLength(1); y++)
+                for (int z = 0; z < _chunks.GetLength(2); z++)
+                    if (_chunks[x, y, z]?.go != null)
+                        Destroy(_chunks[x, y, z].go);
+        if (Application.isPlaying)
+            foreach (Transform t in transform)
+                Destroy(t.gameObject);
+    }
+
     string SavePath => System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
     public bool HasSave => System.IO.File.Exists(SavePath);
 

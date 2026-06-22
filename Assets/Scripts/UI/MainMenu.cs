@@ -65,13 +65,14 @@ public class MainMenu : MonoBehaviour
         var ws = wsGo.AddComponent<WorldSettings>();
         ws.OnComplete = (seed, size, difficulty) =>
         {
-            // Apply world settings to GridManager
+            // Apply world settings and regenerate
             var grid = FindFirstObjectByType<GridManager>();
             if (grid != null)
             {
                 grid.seed = seed;
                 grid.worldWidth = size;
                 grid.worldDepth = size;
+                grid.Regenerate();
             }
 
             // Step 2: Character Creator
