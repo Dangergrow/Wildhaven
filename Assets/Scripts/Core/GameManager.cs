@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         EnsureSystem<PrisonerSystem>("Prisoners");
         EnsureSystem<BurialSystem>("Burial");
         EnsureSystem<PauseMenu>("PauseMenu");
+        EnsureSystem<MapOverlay>("MapOverlay");
 
         // Add UI panels
         EnsureSystem<GameBar>("GameBar");
