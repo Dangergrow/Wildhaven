@@ -117,23 +117,23 @@ public class SelectionManager : MonoBehaviour
 
             if (c.currentState != ColonistState.Incapacitated)
             {
-                if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Move here", btn))
+                if (GUI.Button(new Rect(r.x, r.y, r.width, h), L10n.Get("ctx_move"), btn))
                 { OrderMove(); CloseMenu(); }
                 r.y += h;
-                if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Attack nearest", btn))
+                if (GUI.Button(new Rect(r.x, r.y, r.width, h), L10n.Get("ctx_attack"), btn))
                 { OrderAttack(); CloseMenu(); }
                 r.y += h;
-                if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Pick up", btn))
+                if (GUI.Button(new Rect(r.x, r.y, r.width, h), L10n.Get("ctx_pickup"), btn))
                 { OrderPickup(); CloseMenu(); }
                 r.y += h;
-                if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Prioritize work", btn))
+                if (GUI.Button(new Rect(r.x, r.y, r.width, h), L10n.Get("ctx_prioritize"), btn))
                 { OrderPrioritize(); CloseMenu(); }
                 r.y += h;
             }
-            if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Heal", btn))
+            if (GUI.Button(new Rect(r.x, r.y, r.width, h), L10n.Get("ctx_heal"), btn))
             { OrderHeal(); CloseMenu(); }
             r.y += h;
-            if (GUI.Button(new Rect(r.x, r.y, r.width, h), "Deselect", btn))
+            if (GUI.Button(new Rect(r.x, r.y, r.width, h), L10n.Get("ctx_deselect"), btn))
             { Deselect(); CloseMenu(); }
         }
 

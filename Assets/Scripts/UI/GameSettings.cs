@@ -39,37 +39,33 @@ public class GameSettings : MonoBehaviour
         bg.rectTransform.anchorMin = Vector2.zero; bg.rectTransform.anchorMax = Vector2.one;
         bg.color = new Color(0.05f, 0.05f, 0.08f, 0.95f);
 
-        Txt("SETTINGS", new Vector2(0.5f, 0.92f), 30);
+        Txt(L10n.Get("set_title"), new Vector2(0.5f, 0.92f), 30);
 
-        // Audio
-        Txt("AUDIO", new Vector2(0.5f, 0.83f), 22);
-        AddRow("Music:", new Vector2(0.5f, 0.77f), () => musicVolume = Mathf.Max(0, musicVolume - 0.1f), () => musicVolume = Mathf.Min(1, musicVolume + 0.1f), $"{musicVolume:F1}");
-        AddRow("SFX:", new Vector2(0.5f, 0.71f), () => sfxVolume = Mathf.Max(0, sfxVolume - 0.1f), () => sfxVolume = Mathf.Min(1, sfxVolume + 0.1f), $"{sfxVolume:F1}");
+        Txt(L10n.Get("set_audio"), new Vector2(0.5f, 0.83f), 22);
+        AddRow(L10n.Get("set_music") + ":", new Vector2(0.5f, 0.77f), () => musicVolume = Mathf.Max(0, musicVolume - 0.1f), () => musicVolume = Mathf.Min(1, musicVolume + 0.1f), $"{musicVolume:F1}");
+        AddRow(L10n.Get("set_sfx") + ":", new Vector2(0.5f, 0.71f), () => sfxVolume = Mathf.Max(0, sfxVolume - 0.1f), () => sfxVolume = Mathf.Min(1, sfxVolume + 0.1f), $"{sfxVolume:F1}");
 
-        // Video
-        Txt("VIDEO", new Vector2(0.5f, 0.63f), 22);
-        AddRow("Quality:", new Vector2(0.5f, 0.57f), () => { qualityLevel = Mathf.Max(0, qualityLevel - 1); QualitySettings.SetQualityLevel(qualityLevel); },
+        Txt(L10n.Get("set_video"), new Vector2(0.5f, 0.63f), 22);
+        AddRow(L10n.Get("set_quality") + ":", new Vector2(0.5f, 0.57f), () => { qualityLevel = Mathf.Max(0, qualityLevel - 1); QualitySettings.SetQualityLevel(qualityLevel); },
             () => { qualityLevel = Mathf.Min(2, qualityLevel + 1); QualitySettings.SetQualityLevel(qualityLevel); },
             qualityLevel == 0 ? "Low" : qualityLevel == 1 ? "Med" : "High");
-        AddRow("Fullscreen:", new Vector2(0.5f, 0.51f), null, null, fullscreen ? "ON" : "OFF");
+        AddRow(L10n.Get("set_fullscreen") + ":", new Vector2(0.5f, 0.51f), null, null, fullscreen ? "ON" : "OFF");
         Btn("Toggle", new Vector2(0.38f, 0.51f), () => { fullscreen = !fullscreen; Screen.fullScreen = fullscreen; });
-        AddRow("FPS Cap:", new Vector2(0.5f, 0.45f),
+        AddRow(L10n.Get("set_fps") + ":", new Vector2(0.5f, 0.45f),
             () => { fpsCap = fpsCap == 120 ? 60 : fpsCap == 60 ? 30 : fpsCap == 30 ? 0 : 120; Application.targetFrameRate = fpsCap; },
             () => { fpsCap = fpsCap == 0 ? 30 : fpsCap == 30 ? 60 : fpsCap == 60 ? 120 : 0; Application.targetFrameRate = fpsCap; },
             fpsCap == 0 ? "Unlimited" : fpsCap.ToString());
 
-        // Language
-        Txt("LANGUAGE", new Vector2(0.5f, 0.37f), 22);
-        string[] langs = { "ENG", "RUS" };
-        AddRow("Language:", new Vector2(0.5f, 0.31f),
-            () => languageIndex = (languageIndex + langs.Length - 1) % langs.Length,
-            () => languageIndex = (languageIndex + 1) % langs.Length,
+        Txt(L10n.Get("set_lang"), new Vector2(0.5f, 0.37f), 22);
+        string[] langs = { "ENG", "РУС" };
+        AddRow(L10n.Get("set_langval") + ":", new Vector2(0.5f, 0.31f),
+            () => { languageIndex = (languageIndex + langs.Length - 1) % langs.Length; L10n.SetLanguage(languageIndex); },
+            () => { languageIndex = (languageIndex + 1) % langs.Length; L10n.SetLanguage(languageIndex); },
             langs[languageIndex]);
 
-        // Keybinds
-        Btn("KEY BINDINGS", new Vector2(0.5f, 0.22f), () => showKeybinds = !showKeybinds);
+        Btn(L10n.Get("set_keybinds"), new Vector2(0.5f, 0.22f), () => showKeybinds = !showKeybinds);
 
-        Btn("CLOSE", new Vector2(0.5f, 0.10f), Hide);
+        Btn(L10n.Get("set_close"), new Vector2(0.5f, 0.10f), Hide);
     }
 
     void Txt(string msg, Vector2 anchor, int size)

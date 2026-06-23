@@ -31,31 +31,30 @@ public class PauseMenu : MonoBehaviour
     void DrawPauseWindow(int id)
     {
         GUILayout.Space(10);
-        if (GUILayout.Button("Continue", GUILayout.Height(30))) { _paused = false; if (_day != null) _day.gameSpeed = 1f; }
-        if (GUILayout.Button("Save Game", GUILayout.Height(30)))
+        if (GUILayout.Button(L10n.Get("pause_continue"), GUILayout.Height(30))) { _paused = false; if (_day != null) _day.gameSpeed = 1f; }
+        if (GUILayout.Button(L10n.Get("pause_save"), GUILayout.Height(30)))
         {
             GameSaveManager sv = FindFirstObjectByType<GameSaveManager>();
             if (sv != null) sv.SaveGame();
         }
-        if (GUILayout.Button("Load Game", GUILayout.Height(30)))
+        if (GUILayout.Button(L10n.Get("pause_load"), GUILayout.Height(30)))
         {
             GameSaveManager sv = FindFirstObjectByType<GameSaveManager>();
             if (sv != null) sv.LoadGame();
         }
-        if (GUILayout.Button("Settings", GUILayout.Height(30)))
+        if (GUILayout.Button(L10n.Get("pause_settings"), GUILayout.Height(30)))
         {
             GameSettings gs = FindFirstObjectByType<GameSettings>();
             if (gs != null) gs.Show();
             _paused = false;
             if (_day != null) _day.gameSpeed = 1f;
         }
-        if (GUILayout.Button("Main Menu", GUILayout.Height(30)))
+        if (GUILayout.Button(L10n.Get("pause_menu"), GUILayout.Height(30)))
         {
             _paused = false;
             if (_day != null) _day.gameSpeed = 1f;
-            // Reload scene
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
-        if (GUILayout.Button("Quit", GUILayout.Height(30))) Application.Quit();
+        if (GUILayout.Button(L10n.Get("pause_quit"), GUILayout.Height(30))) Application.Quit();
     }
 }

@@ -36,23 +36,23 @@ public class MainMenu : MonoBehaviour
         bg.color = new Color(0.03f, 0.03f, 0.06f, 0.95f);
 
         // Title
-        Txt("WILDHAVEN", 48, 0.78f, Color.white);
-        Txt("Colony Simulator", 18, 0.72f, new Color(0.6f, 0.6f, 0.6f));
+        Txt(L10n.Get("menu_title"), 48, 0.78f, Color.white);
+        Txt(L10n.Get("menu_subtitle"), 18, 0.72f, new Color(0.6f, 0.6f, 0.6f));
 
         // Buttons
-        Btn("New Game", 0.56f, () => StartNewGame());
-        Btn("Continue", 0.47f, () => {
+        Btn(L10n.Get("menu_newgame"), 0.56f, () => StartNewGame());
+        Btn(L10n.Get("menu_continue"), 0.47f, () => {
             if (!System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "game.sav")))
             { Debug.Log("[Menu] No save file found"); return; }
             StartGame();
         });
-        Btn("Multiplayer", 0.40f, () => BtnClick("Multiplayer — coming soon"));
-        Btn("Settings", 0.33f, () => {
+        Btn(L10n.Get("menu_multi"), 0.40f, () => BtnClick("Multiplayer — coming soon"));
+        Btn(L10n.Get("menu_settings"), 0.33f, () => {
             var gs = FindFirstObjectByType<GameSettings>();
             if (gs != null) gs.Show();
             else Debug.Log("[Menu] GameSettings not found — is GameManager running?");
         });
-        Btn("About", 0.26f, () => {
+        Btn(L10n.Get("menu_about"), 0.26f, () => {
             var aGo = new GameObject("AboutPanel");
             aGo.AddComponent<RectTransform>();
             var aCanvas = aGo.AddComponent<Canvas>();
@@ -72,7 +72,7 @@ public class MainMenu : MonoBehaviour
             atxt.rectTransform.sizeDelta = new Vector2(500, 200);
             atxt.font = UIFont.Get(); atxt.fontSize = 20; atxt.alignment = TextAnchor.MiddleCenter;
             atxt.color = Color.white;
-            atxt.text = "WILDHAVEN v0.1\n\nColony Simulator | Unity 6 URP | C#\n\nInspired by Going Medieval & RimWorld\nBuilt with OpenCode AI Agents\n\nFeatures:\n• Voxel world 100×32×100\n• 15 biomes, 10+ factions\n• 60+ research nodes, 5 eras\n• 31 cooking recipes, 20 animal types\n• Stability system, electricity, religion\n• Global hex map with caravans\n\nClick anywhere to close";
+            atxt.text = L10n.Get("about_text");
             var aBtn = aGo.AddComponent<Button>();
             aBtn.onClick.AddListener(() => Destroy(aGo));
             var ac = aBtn.colors; ac.normalColor = Color.clear; ac.highlightedColor = Color.clear; aBtn.colors = ac;
