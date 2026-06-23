@@ -11,7 +11,6 @@ public static class UIFont
     {
         if (_font != null) return _font;
 
-        // Try multiple built-in font names (varies by Unity version)
         string[] names = { "LegacyRuntime.ttf", "Arial.ttf", "LiberationSans.ttf" };
         foreach (string name in names)
         {
@@ -19,8 +18,15 @@ public static class UIFont
             if (_font != null) return _font;
         }
 
-        // Fallback: create from system font
-        _font = Font.CreateDynamicFontFromOSFont("Arial", 14);
+        // Fallback: try multiple system fonts at readable size
+        string[] osFonts = { "Calibri", "Segoe UI", "Arial", "Tahoma" };
+        foreach (string f in osFonts)
+        {
+            _font = Font.CreateDynamicFontFromOSFont(f, 16);
+            if (_font != null) return _font;
+        }
+
+        _font = Font.CreateDynamicFontFromOSFont("Arial", 16);
         return _font;
     }
 }

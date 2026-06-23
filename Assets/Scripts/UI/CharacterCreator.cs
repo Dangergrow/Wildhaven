@@ -99,7 +99,7 @@ public class CharacterCreator : MonoBehaviour
 
         // Random + Done
         AddButton("Random Colonist", new Vector2(0.5f, 0.25f), Randomize);
-        AddButton("START GAME", new Vector2(0.5f, 0.15f), () => { gameObject.SetActive(false); OnComplete?.Invoke(colonists); });
+        AddButton("START GAME", new Vector2(0.5f, 0.15f), () => { _canvas.enabled = false; OnComplete?.Invoke(colonists); Destroy(gameObject, 0.1f); });
 
         SelectColonist(0);
     }
