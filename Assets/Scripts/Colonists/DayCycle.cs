@@ -26,7 +26,7 @@ public class DayCycle : MonoBehaviour
     [Header("Speed")]
     [Tooltip("Game speed multiplier")]
     [Range(0f, 4f)]
-    public float gameSpeed = 0f;
+    public float gameSpeed = 1f;
 
     [Tooltip("Real seconds per game minute at 1x speed")]
     public float secondsPerMinute = 1f;

@@ -51,8 +51,6 @@ public class PauseMenu : MonoBehaviour
         }
         if (GUILayout.Button(L10n.Get("pause_menu"), GUILayout.Height(30)))
         {
-            _paused = false;
-            if (_day != null) _day.gameSpeed = 1f;
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         if (GUILayout.Button(L10n.Get("pause_quit"), GUILayout.Height(30))) Application.Quit();

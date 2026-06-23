@@ -28,8 +28,17 @@ public class GameSettings : MonoBehaviour
         BuildUI();
     }
 
-    public void Show() { _canvas.gameObject.SetActive(true); }
-    public void Hide() { _canvas.gameObject.SetActive(false); }
+    public void Show()
+    {
+        _canvas.gameObject.SetActive(true);
+        // Bring to front
+        _canvas.sortingOrder = 9999;
+    }
+    public void Hide()
+    {
+        _canvas.gameObject.SetActive(false);
+        _canvas.sortingOrder = 2000;
+    }
 
     void BuildUI()
     {
