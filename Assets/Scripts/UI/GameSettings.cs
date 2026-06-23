@@ -31,13 +31,14 @@ public class GameSettings : MonoBehaviour
     public void Show()
     {
         _canvas.gameObject.SetActive(true);
-        // Bring to front
-        _canvas.sortingOrder = 9999;
+        var menu = FindFirstObjectByType<MainMenu>();
+        if (menu != null) menu.SetCanvasVisible(false);
     }
     public void Hide()
     {
         _canvas.gameObject.SetActive(false);
-        _canvas.sortingOrder = 2000;
+        var menu = FindFirstObjectByType<MainMenu>();
+        if (menu != null) menu.SetCanvasVisible(true);
     }
 
     void BuildUI()

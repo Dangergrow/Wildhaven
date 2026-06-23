@@ -175,6 +175,8 @@ public class MainMenu : MonoBehaviour
 
     void BtnClick(string msg) { Debug.Log($"[Menu] {msg}"); }
 
+    public void SetCanvasVisible(bool v) { if (_canvas != null) _canvas.gameObject.SetActive(v); }
+
     void DeleteSave()
     {
         var p = System.IO.Path.Combine(Application.persistentDataPath, "game.sav");
